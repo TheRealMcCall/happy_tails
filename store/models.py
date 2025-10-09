@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from cloudinary.models import CloudinaryField
 
@@ -125,3 +126,39 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return self.alt_text or f"Image #{self.pk}"
+
+
+class ProductReview(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+        )
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='reviews'
+        )
+    rating = models.PositiveSmallIntegerField(
+        choices=[(i, i) for i in range(1, 6)]
+        )
+    comment = models.TextField(
+        blank=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.rating}★ by {self.user.username}"
+
+
+class Wishlist(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='wishlist')
+    products = models.ManyToManyField(
+        'Product',
+        blank=True,
+        related_name='wishlisted_by')
+
+    def __str__(self):
+        return f"{self.user.username}'s Wishlist"
