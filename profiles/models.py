@@ -16,6 +16,9 @@ class Address(models.Model):
     last_name = models.CharField(
         max_length=30
         )
+    email = models.EmailField(
+        blank=True
+        )
     first_line = models.CharField(
         max_length=80
         )

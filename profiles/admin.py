@@ -10,5 +10,5 @@ class AddressAdmin(admin.ModelAdmin):
                     "city",
                     "postcode",
                     "country",
-                    "default_address"
+                    "email"
                     )
