@@ -3,10 +3,9 @@ from django.db import models
 from profiles.models import Address
 from store.models import Variant
 
-# Create your models here.
-
 
 class Order(models.Model):
+    """Order Model"""
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
@@ -45,6 +44,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    """Order Item Model"""
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
