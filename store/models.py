@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from cloudinary.models import CloudinaryField
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -47,6 +48,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("store:product_detail", args=[self.slug])
 
 
 class Variant(models.Model):
