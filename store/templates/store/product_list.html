@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Products</h1>
+<ul>
+    {% for p in products %}
+    <li>
+        <a href="#">{{ p.name }}</a>
+        {% if p.category %}<small> ({{ p.category.name }})</small>{% endif %}
+    </li>
+    {% empty %}
+    <li>No products yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
