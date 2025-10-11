@@ -1,14 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Basket</h1>
-{% if items %}
-<ul>
-    {% for i in items %}
-    <li>{{ i.qty }} × {{ i.name }} — £{{ i.line }}</li>
-    {% endfor %}
-</ul>
-<p><strong>Total:</strong> £{{ total }}</p>
-{% else %}
-<p>Empty.</p>
-{% endif %}
+<div class="container my-4">
+    <h1>Basket</h1>
+
+    {% if items %}
+    <table class="table align-middle mt-3">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th class="text-center">Qty</th>
+                <th class="text-end">Unit</th>
+                <th class="text-end">Line</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+            <tr>
+                <td>{{ i.name }}</td>
+                <td class="text-center">{{ i.qty }}</td>
+                <td class="text-end">£{{ i.unit }}</td>
+                <td class="text-end">£{{ i.line }}</td>
+                <td class="text-end">
+                    <form method="post" action="{% url 'basket:remove' i.variant_id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-sm btn-outline-danger" type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" class="text-end">Total</th>
+                <th class="text-end">£{{ total }}</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+    {% else %}
+    <p>Your basket is empty.</p>
+    {% endif %}
+</div>
 {% endblock %}
