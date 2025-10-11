@@ -5,6 +5,7 @@ from django.db import models
 
 
 class Profile(models.Model):
+    """Model to extend user information of a User."""
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -51,14 +52,17 @@ class Profile(models.Model):
         )
 
     class Meta:
+        """This orders profiles by associated username for clarity in admin."""
         ordering = ["user__username"]
 
     def __str__(self):
+        """Makes admin easier to read."""
         username = getattr(self.user, "username", None) or getattr(self.user, "email", "")
         return f"Profile for {username}"
 
 
 class Address(models.Model):
+    """Model for user billing and delivery address."""
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -92,5 +96,6 @@ class Address(models.Model):
         )
 
     def __str__(self):
+        """Makes admin easier to read."""
         parts = [self.label, self.first_line, self.city, self.postcode]
         return ", ".join([p for p in parts if p])
