@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Basket</h1>
+{% if items %}
+<ul>
+    {% for i in items %}
+    <li>{{ i.qty }} × {{ i.name }} — £{{ i.line }}</li>
+    {% endfor %}
+</ul>
+<p><strong>Total:</strong> £{{ total }}</p>
+{% else %}
+<p>Empty.</p>
+{% endif %}
+{% endblock %}

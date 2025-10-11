@@ -14,18 +14,23 @@
     {% endif %}
 
     <div class="mt-3" style="max-width:420px;">
-        <label for="variant" class="form-label">Choose a variant</label>
-        <select id="variant" class="form-select mb-3">
-            {% for v in product.variants.all %}
-            {% with qty=v.stock.quantity|default:0 %}
-            <option value="{{ v.id }}">
-                {{ v.size|default:"—" }} / {{ v.colour|default:"—" }} — £{{ v.price }} ({{ qty }} left)
-            </option>
-            {% endwith %}
-            {% endfor %}
-        </select>
 
-        <button class="btn btn-primary" disabled>Add to Basket</button>
+        <form action="{% url 'basket:add_to_basket' %}" method="post">
+            {% csrf_token %}
+            <label for="variant" class="form-label">Choose a variant</label>
+            <select id="variant" name="variant_id" class="form-select mb-3">
+                {% for v in product.variants.all %}
+                {% with qty=v.stock.quantity|default:0 %}
+                <option value="{{ v.id }}">
+                    {{ v.size|default:"—" }} / {{ v.colour|default:"—" }} — £{{ v.price }} ({{ qty }} left)
+                </option>
+                {% endwith %}
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn btn-primary">Add to Basket</button>
+        </form>
+
     </div>
 </div>
 {% endblock %}
