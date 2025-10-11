@@ -21,6 +21,19 @@ def add_to_basket(request):
     return redirect("basket:view_basket")
 
 
+def remove_from_basket(request, variant_id):
+    """Remove a variant line entirely from the basket."""
+    if request.method != "POST":
+        return redirect("basket:view_basket")
+
+    basket = _basket(request)
+    key = str(variant_id)
+    if key in basket:
+        basket.pop(key)
+        request.session.modified = True
+    return redirect("basket:view_basket")
+
+
 def view_basket(request):
     """Display the contents of the basket with item totals and grand total."""
     basket = _basket(request)
@@ -41,6 +54,7 @@ def view_basket(request):
         total += line_total
 
         items.append({
+            "variant_id": variant.id,
             "name": str(variant),
             "qty": qty,
             "unit": variant.price,
