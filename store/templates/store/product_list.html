@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Products</h1>
-<ul>
-    {% for p in products %}
-    <li>
-        <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
-        {% if p.category %}<small> ({{ p.category.name }})</small>{% endif %}
-    </li>
-    {% empty %}
-    <li>No products yet.</li>
-    {% endfor %}
-</ul>
+<div class="container my-4">
+    <h1 class="mb-4">Products</h1>
+
+    <div class="row g-4">
+        {% for p in products %}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card h-100">
+                <img src="" class="card-img-top" alt="{{ p.name }}">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ p.name }}</h5>
+                    <a href="{{ p.get_absolute_url }}" class="btn btn-primary mt-auto">View</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No products yet.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
