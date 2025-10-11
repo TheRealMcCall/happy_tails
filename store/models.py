@@ -52,6 +52,10 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("store:product_detail", args=[self.slug])
 
+    def get_product_image(self):
+        """ Return the image for the product. """
+        return self.image or self.images.first()
+
 
 class Variant(models.Model):
     product = models.ForeignKey(
