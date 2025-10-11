@@ -1,34 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
-    <a href="{% url 'store:product_list' %}" class="text-muted small">← Back</a>
-    <h1>{{ product.name }}</h1>
+<div class="container my-4">
+    <h1 class="mt-2">{{ product.name }}</h1>
 
-    {% if product.image %}
-    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:300px;">
+    {% with photo=product.get_product_image %}
+    {% if photo %}
+    <img src="{{ photo.image.url }}" alt="{{ product.name }}" style="max-width:300px;">
+    {% endif %}
+    {% endwith %}
+
+    {% if product.description %}
+    <p class="mt-3">{{ product.description }}</p>
     {% endif %}
 
-    <p>{{ product.description }}</p>
-    <p><strong>Price:</strong> £{{ product.price }}</p>
+    <div class="mt-3" style="max-width:420px;">
+        <label for="variant" class="form-label">Choose a variant</label>
+        <select id="variant" class="form-select mb-3">
+            {% for v in product.variants.all %}
+            {% with qty=v.stock.quantity|default:0 %}
+            <option value="{{ v.id }}">
+                {{ v.size|default:"—" }} / {{ v.colour|default:"—" }} — £{{ v.price }} ({{ qty }} left)
+            </option>
+            {% endwith %}
+            {% endfor %}
+        </select>
 
-    {% if product.variants.exists %}
-    <h3>Variants</h3>
-    <ul>
-        {% for v in product.variants.all %}
-        {% with qty=v.stock.quantity|default:0 %}
-        <li>
-            {{ v.size|default:"—" }} / {{ v.colour|default:"—" }} — £{{ v.price }}
-            {% if v.is_available and qty|add:0 > 0 %}
-            <span>(In stock)</span>
-            {% else %}
-            <span>(Out of stock)</span>
-            {% endif %}
-        </li>
-        {% endwith %}
-        {% empty %}
-        <li>No variants available.</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+        <button class="btn btn-primary" disabled>Add to Basket</button>
+    </div>
 </div>
 {% endblock %}

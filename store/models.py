@@ -38,6 +38,9 @@ class Product(models.Model):
     name = models.CharField(
         max_length=160
         )
+    description = models.TextField(
+        blank=True
+        )
     slug = models.SlugField(
         max_length=180,
         unique=True
