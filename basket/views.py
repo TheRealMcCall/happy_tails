@@ -10,12 +10,16 @@ def _basket(request):
 def add_to_basket(request):
     """Add a variant to the session basket and redirect to the basket view."""
     v_id = request.POST.get("variant_id")
-
     if not v_id:
         return redirect("store:product_list")
 
+    try:
+        quantity = max(1, int(request.POST.get("qty", "1")))
+    except ValueError:
+        quantity = 1
+
     basket = _basket(request)
-    basket[v_id] = basket.get(v_id, 0) + 1
+    basket[v_id] = basket.get(v_id, 0) + quantity
     request.session.modified = True
 
     return redirect("basket:view_basket")
@@ -63,3 +67,39 @@ def view_basket(request):
 
     context = {"items": items, "total": total}
     return render(request, "basket/view_basket.html", context)
+
+
+def update_quantity(request):
+
+    if request.method != "POST":
+        return redirect("basket:view_basket")
+
+    basket = _basket(request)
+
+    try:
+        v_id = str(int(request.POST.get("variant_id", "0")))
+        qty = int(request.POST.get("qty", "1"))
+    except ValueError:
+        return redirect("basket:view_basket")
+
+    if v_id not in basket:
+        return redirect("basket:view_basket")
+
+    if qty <= 0:
+        basket.pop(v_id, None)
+        request.session.modified = True
+        return redirect("basket:view_basket")
+
+    try:
+        v = Variant.objects.select_related("stock").get(id=int(v_id))
+        available = getattr(getattr(v, "stock", None), "quantity", None)
+        if isinstance(available, int):
+            qty = min(qty, max(0, available))
+    except Variant.DoesNotExist:
+        basket.pop(v_id, None)
+        request.session.modified = True
+        return redirect("basket:view_basket")
+
+    basket[v_id] = qty
+    request.session.modified = True
+    return redirect("basket:view_basket")
