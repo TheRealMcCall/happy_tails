@@ -9,7 +9,7 @@
             <tr>
                 <th>Item</th>
                 <th class="text-center">Qty</th>
-                <th class="text-end">Unit</th>
+                <th class="text-end">Unit Price</th>
                 <th class="text-end">Total</th>
             </tr>
         </thead>
@@ -18,8 +18,8 @@
             <tr>
                 <td>{{ i.name }}</td>
                 <td class="text-center">{{ i.qty }}</td>
-                <<td class="text-end">£{% firstof i.unit_price i.unit %}</td>
-                    <td class="text-end">£{% firstof i.line_total i.line %}</td>
+                <td class="text-end">£{% firstof i.unit_price i.unit %}</td>
+                <td class="text-end">£{% firstof i.line_total i.line %}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -35,10 +35,44 @@
         </tfoot>
     </table>
 
+    <h3 class="mt-4">Addresses</h3>
+    {% if addresses %}
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Billing address</label>
+            <select class="form-select">
+                {% for a in addresses %}
+                <option value="{{ a.id }}" {% if billing_default and a.id == billing_default.id %}selected{% endif %}>
+                    {{ a.label|default:a.first_line }}, {{ a.city }} {{ a.postcode }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Delivery address</label>
+            <select class="form-select">
+                {% for a in addresses %}
+                <option value="{{ a.id }}" {% if delivery_default and a.id == delivery_default.id %}selected{% endif %}>
+                    {{ a.label|default:a.first_line }}, {{ a.city }} {{ a.postcode }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
     <div class="d-flex justify-content-between mt-3">
         <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}">Back to Basket</a>
         <button class="btn btn-success">Place Order</button>
     </div>
+    {% else %}
+    <div class="alert alert-info mt-3">
+        You don’t have any saved addresses yet.
+    </div>
+    <div class="d-flex justify-content-between mt-3">
+        <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}">Back to Basket</a>
+        <button class="btn btn-success" disabled>Place Order (needs an address)</button>
+    </div>
+    {% endif %}
     {% else %}
     <p>Your basket is empty.</p>
     {% endif %}
