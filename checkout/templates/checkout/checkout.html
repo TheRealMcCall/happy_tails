@@ -37,44 +37,49 @@
 
     <h3 class="mt-4">Addresses</h3>
     {% if addresses %}
-    <div class="row g-3">
-        <div class="col-md-6">
-            <label class="form-label">Billing address</label>
-            <select class="form-select">
-                {% for a in addresses %}
-                <option value="{{ a.id }}" {% if billing_default and a.id == billing_default.id %}selected{% endif %}>
-                    {{ a.label|default:a.first_line }}, {{ a.city }} {{ a.postcode }}
-                </option>
-                {% endfor %}
-            </select>
+    <form method="post" action="{% url 'checkout:create' %}">{% csrf_token %}
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Billing address</label>
+                <select class="form-select" name="billing_address_id" required>
+                    {% for a in addresses %}
+                    <option value="{{ a.id }}"
+                        {% if billing_default and a.id == billing_default.id %}selected{% endif %}>
+                        {{ a.label|default:a.first_line }}, {{ a.city }} {{ a.postcode }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Delivery address</label>
+                <select class="form-select" name="delivery_address_id" required>
+                    {% for a in addresses %}
+                    <option value="{{ a.id }}"
+                        {% if delivery_default and a.id == delivery_default.id %}selected{% endif %}>
+                        {{ a.label|default:a.first_line }}, {{ a.city }} {{ a.postcode }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-        <div class="col-md-6">
-            <label class="form-label">Delivery address</label>
-            <select class="form-select">
-                {% for a in addresses %}
-                <option value="{{ a.id }}" {% if delivery_default and a.id == delivery_default.id %}selected{% endif %}>
-                    {{ a.label|default:a.first_line }}, {{ a.city }} {{ a.postcode }}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
 
-    <div class="d-flex justify-content-between mt-3">
-        <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}">Back to Basket</a>
-        <button class="btn btn-success">Place Order</button>
-    </div>
-    {% else %}
-    <div class="alert alert-info mt-3">
-        You don’t have any saved addresses yet.
-    </div>
-    <div class="d-flex justify-content-between mt-3">
-        <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}">Back to Basket</a>
-        <button class="btn btn-success" disabled>Place Order (needs an address)</button>
-    </div>
-    {% endif %}
-    {% else %}
-    <p>Your basket is empty.</p>
-    {% endif %}
+        <div class="d-flex justify-content-between mt-3">
+            <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}">Back to Basket</a>
+            <button class="btn btn-success">Place Order</button>
+        </div>
+        {% else %}
+        <div class="alert alert-info mt-3">
+            You don’t have any saved addresses yet.
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}">Back to Basket</a>
+            <button class="btn btn-success" type="submit">Place Order</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+{% else %}
+<p>Your basket is empty.</p>
+{% endif %}
 </div>
 {% endblock %}

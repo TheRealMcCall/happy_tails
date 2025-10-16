@@ -1,8 +1,10 @@
 from decimal import Decimal
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from profiles.models import Address
 from store.models import Variant
+import uuid
+from .models import Order, OrderItem
 
 
 def _basket(request):
@@ -15,22 +17,28 @@ def checkout_view(request):
     if not basket:
         return redirect("basket:view_basket")
 
-    ids = [int(k) for k in basket.keys()]
-    variants = {v.id: v for v in Variant.objects.filter(id__in=ids).select_related("product")}
+    variant_ids = [int(k) for k in basket.keys()]
+    variants = {
+        variant.id: variant
+        for variant in Variant.objects.filter(
+            id__in=variant_ids
+            ).select_related("product")
+    }
     items = []
-    sub_total = Decimal("0.00")
+    subtotal = Decimal("0.00")
 
-    for v_id_str, qty in basket.items():
-        v = variants.get(int(v_id_str))
-        if not v:
+    for variant_id_str, quantity in basket.items():
+        variant = variants.get(int(variant_id_str))
+        if not variant:
             continue
-        line = v.price * qty
-        sub_total += line
+        line = variant.price * quantity
+        subtotal += line
         items.append({
-            "variant_id": v.id,
-            "name": f"{v.product.name} — {(getattr(v, 'name', '') or '').strip()}",
-            "qty": qty,
-            "unit_price": v.price,
+            "variant_id": variant.id,
+            "name": f"{variant.product.name} - "
+                    f"{(getattr(variant, 'name', '') or '').strip()}",
+            "qty": quantity,
+            "unit_price": variant.price,
             "line_total": line,
         })
 
@@ -38,8 +46,12 @@ def checkout_view(request):
     profile = getattr(
         request.user, "profile", None
         )
-    billing_default = getattr(profile, "billing_address", None) if profile else None
-    delivery_default = getattr(profile, "delivery_address", None) if profile else None
+    billing_default = (
+         getattr(profile, "billing_address", None) if profile else None
+        )
+    delivery_default = (
+        getattr(profile, "delivery_address", None) if profile else None
+        )
 
     if not billing_default:
         billing_default = addresses.first()
@@ -48,10 +60,74 @@ def checkout_view(request):
 
     context = {
         "items": items,
-        "sub_total": sub_total,
-        "total": sub_total,
+        "sub_total": subtotal,
+        "total": subtotal,
         "addresses": addresses,
         "billing_default": billing_default,
         "delivery_default": delivery_default,
     }
     return render(request, "checkout/checkout.html", context)
+
+
+@login_required
+def create_order(request):
+    """Create an order from the current basket and clear the basket."""
+    if request.method != "POST":
+        return redirect("checkout:start")
+
+    basket = request.session.get("basket", {})
+    if not basket:
+        return redirect("basket:view_basket")
+
+    billing_id = request.POST.get("billing_address_id")
+    delivery_id = request.POST.get("delivery_address_id")
+    if not billing_id or not delivery_id:
+        return redirect("checkout:start")
+
+    billing = get_object_or_404(Address, id=billing_id, user=request.user)
+    delivery = get_object_or_404(Address, id=delivery_id, user=request.user)
+
+    variant_ids = [int(k) for k in basket.keys()]
+    variants = Variant.objects.filter(
+        id__in=variant_ids
+        ).select_related("product")
+
+    subtotal = Decimal("0.00")
+    for variant in variants:
+        quantity = int(basket[str(variant.id)])
+        subtotal += variant.price * quantity
+
+    order = Order.objects.create(
+        user=request.user,
+        billing_address=billing,
+        delivery_address=delivery,
+        sub_total=subtotal,
+        total=subtotal,
+        email=request.user.email or "",
+        order_number=str(uuid.uuid4()).split("-")[0].upper(),
+    )
+
+    for variant in variants:
+        quantity = int(basket[str(variant.id)])
+        OrderItem.objects.create(
+            order=order,
+            variant=variant,
+            quantity=quantity,
+            unit_price=variant.price,
+        )
+
+    request.session["basket"] = {}
+    request.session.modified = True
+
+    return redirect("checkout:success", order_number=order.order_number)
+
+
+@login_required
+def success(request, order_number):
+    order = get_object_or_404(
+        Order,
+        order_number=order_number,
+        user=request.user
+        )
+
+    return render(request, "checkout/success.html", {"order": order})
