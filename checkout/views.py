@@ -2,9 +2,10 @@ from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from profiles.models import Address
-from store.models import Variant
+from store.models import Variant, Stock
 import uuid
 from .models import Order, OrderItem
+from django.db import transaction
 
 
 def _basket(request):
@@ -70,6 +71,7 @@ def checkout_view(request):
 
 
 @login_required
+@transaction.atomic
 def create_order(request):
     """Create an order from the current basket and clear the basket."""
     if request.method != "POST":
@@ -88,9 +90,12 @@ def create_order(request):
     delivery = get_object_or_404(Address, id=delivery_id, user=request.user)
 
     variant_ids = [int(k) for k in basket.keys()]
-    variants = Variant.objects.filter(
-        id__in=variant_ids
-        ).select_related("product")
+    variants = (
+        Variant.objects
+        .select_for_update()
+        .filter(id__in=variant_ids)
+        .select_related("product",)
+        )
 
     subtotal = Decimal("0.00")
     for variant in variants:
@@ -115,6 +120,18 @@ def create_order(request):
             quantity=quantity,
             unit_price=variant.price,
         )
+
+        stock, _ = Stock.objects.select_for_update().get_or_create(
+            variant=variant,
+            defaults={"quantity": 0},
+            )
+        if stock.quantity < quantity:
+            raise ValueError(
+                f"Insufficient stock for {variant} "
+                f"(have {stock.quantity}, need {quantity})"
+                )
+        stock.quantity -= quantity
+        stock.save(update_fields=["quantity"])
 
     request.session["basket"] = {}
     request.session.modified = True
