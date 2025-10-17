@@ -2,10 +2,14 @@ from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from profiles.models import Address
-from store.models import Variant, Stock
+from store.models import Variant
 import uuid
+import stripe
 from .models import Order, OrderItem
-from django.db import transaction
+from django.conf import settings
+from django.urls import reverse
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 def _basket(request):
@@ -44,14 +48,20 @@ def checkout_view(request):
         })
 
     addresses = Address.objects.filter(user=request.user).order_by("id")
-    profile = getattr(
+    user_profile = getattr(
         request.user, "profile", None
         )
     billing_default = (
-         getattr(profile, "billing_address", None) if profile else None
+         getattr(
+            user_profile,
+            "billing_address",
+            None) if user_profile else None
         )
     delivery_default = (
-        getattr(profile, "delivery_address", None) if profile else None
+        getattr(
+            user_profile,
+            "delivery_address",
+            None) if user_profile else None
         )
 
     if not billing_default:
@@ -71,9 +81,8 @@ def checkout_view(request):
 
 
 @login_required
-@transaction.atomic
 def create_order(request):
-    """Create an order from the current basket and clear the basket."""
+    """Start Stripe Checkout for the current basket."""
     if request.method != "POST":
         return redirect("checkout:start")
 
@@ -90,12 +99,91 @@ def create_order(request):
     delivery = get_object_or_404(Address, id=delivery_id, user=request.user)
 
     variant_ids = [int(k) for k in basket.keys()]
+    variants = Variant.objects.filter(
+        id__in=variant_ids
+        ).select_related("product")
+
+    line_items = []
+    for variant in variants:
+        quantity = int(basket[str(variant.id)])
+        unit_amount = int(variant.price * 100)
+        line_items.append({
+            "price_data": {
+                "currency": "gbp",
+                "unit_amount": unit_amount,
+                "product_data": {"name": f"{variant.product.name}".strip()},
+            },
+            "quantity": quantity,
+        })
+
+    request.session["checkout_addresses"] = {
+        "billing_id": billing.id,
+        "delivery_id": delivery.id,
+    }
+    request.session.modified = True
+
+    success_url = request.build_absolute_uri(
+        reverse("checkout:success")
+    ) + "?session_id={CHECKOUT_SESSION_ID}"
+    cancel_url = request.build_absolute_uri(reverse("checkout:start"))
+
+    order_number = str(uuid.uuid4()).split("-")[0].upper()
+    request.session["pending_order_number"] = order_number
+    request.session.modified = True
+
+    session = stripe.checkout.Session.create(
+        mode="payment",
+        line_items=line_items,
+        success_url=success_url,
+        cancel_url=cancel_url,
+        client_reference_id=order_number,
+        metadata={"user_id": str(
+            request.user.id
+            ), "order_number": order_number},
+        payment_intent_data={"metadata": {"order_number": order_number}},
+        )
+    return redirect(session.url, permanent=False)
+
+
+@login_required
+def success(request):
+    session_id = request.GET.get("session_id")
+
+    if not session_id:
+        return redirect("checkout:start")
+
+    try:
+        sess = stripe.checkout.Session.retrieve(session_id)
+    except Exception:
+        return redirect("checkout:start")
+
+    order_number = (
+        request.session.pop("pending_order_number", None)
+        or getattr(sess, "client_reference_id", None)
+        or (getattr(sess, "metadata", {}) or {}).get("order_number")
+        )
+
+    if getattr(sess, "payment_status", "") != "paid":
+        return redirect("checkout:start")
+
+    basket = request.session.get("basket", {})
+    if not basket:
+        return redirect("store:product_list")
+
+    address_ids = request.session.get("checkout_addresses") or {}
+    billing = get_object_or_404(
+        Address, id=address_ids.get
+        ("billing_id"), user=request.user)
+    delivery = get_object_or_404(
+        Address, id=address_ids.get
+        ("delivery_id"), user=request.user)
+
+    variant_ids = [int(k) for k in basket.keys()]
     variants = (
         Variant.objects
-        .select_for_update()
+        .select_related("product")
         .filter(id__in=variant_ids)
-        .select_related("product",)
-        )
+    )
 
     subtotal = Decimal("0.00")
     for variant in variants:
@@ -109,7 +197,7 @@ def create_order(request):
         sub_total=subtotal,
         total=subtotal,
         email=request.user.email or "",
-        order_number=str(uuid.uuid4()).split("-")[0].upper(),
+        order_number=order_number or str(uuid.uuid4()).split("-")[0].upper(),
     )
 
     for variant in variants:
@@ -121,30 +209,8 @@ def create_order(request):
             unit_price=variant.price,
         )
 
-        stock, _ = Stock.objects.select_for_update().get_or_create(
-            variant=variant,
-            defaults={"quantity": 0},
-            )
-        if stock.quantity < quantity:
-            raise ValueError(
-                f"Insufficient stock for {variant} "
-                f"(have {stock.quantity}, need {quantity})"
-                )
-        stock.quantity -= quantity
-        stock.save(update_fields=["quantity"])
-
     request.session["basket"] = {}
+    request.session.pop("checkout_addresses", None)
     request.session.modified = True
-
-    return redirect("checkout:success", order_number=order.order_number)
-
-
-@login_required
-def success(request, order_number):
-    order = get_object_or_404(
-        Order,
-        order_number=order_number,
-        user=request.user
-        )
 
     return render(request, "checkout/success.html", {"order": order})

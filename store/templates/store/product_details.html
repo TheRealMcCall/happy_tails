@@ -22,7 +22,7 @@
                 {% for v in product.variants.all %}
                 {% with qty=v.stock.quantity|default:0 %}
                 <option value="{{ v.id }}">
-                    {{ v.size|default:"—" }} / {{ v.colour|default:"—" }} — £{{ v.price }} ({{ qty }} left)
+                    {{ v.size|default:"" }} / {{ v.colour|default:"" }} £{{ v.price }} ({{ qty }} left)
                 </option>
                 {% endwith %}
                 {% endfor %}
