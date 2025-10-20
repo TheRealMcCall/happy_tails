@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+    <h1>My Orders</h1>
+    {% if orders %}
+    <table class="table align-middle mt-3">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Date</th>
+                <th class="text-end">Total</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for o in orders %}
+            <tr>
+                <td>{{ o.order_number }}</td>
+                <td>{{ o.created_at|default:o.id }}</td>
+                <td class="text-end">£{{ o.total }}</td>
+                <td>{% if o.paid %}<span class="text-success">Paid</span>{% else %}Pending{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You don’t have any orders yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

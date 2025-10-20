@@ -198,6 +198,8 @@ def success(request):
         total=subtotal,
         email=request.user.email or "",
         order_number=order_number or str(uuid.uuid4()).split("-")[0].upper(),
+        paid=True,
+        stripe_session_id=getattr(sess, "id", "")
     )
 
     for variant in variants:
@@ -214,3 +216,9 @@ def success(request):
     request.session.modified = True
 
     return render(request, "checkout/success.html", {"order": order})
+
+
+@login_required
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user).order_by("-id")
+    return render(request, "checkout/my_orders.html", {"orders": orders})
