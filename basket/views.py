@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.shortcuts import render, redirect
 from store.models import Variant
+from django.contrib import messages
 
 
 def _basket(request):
@@ -20,6 +21,7 @@ def add_to_basket(request):
 
     basket = _basket(request)
     basket[v_id] = basket.get(v_id, 0) + quantity
+    messages.success(request, "Added to basket.")
     request.session.modified = True
 
     return redirect("basket:view_basket")
