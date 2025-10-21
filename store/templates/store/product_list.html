@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container my-4">
-    <h1 class="mb-4">
+    <h2 class="mb-4">
         {% if active_category %}{{ active_category.name }}{% else %}Products{% endif %}
-    </h1>
+    </h2>
 
     <form method="get" action="" class="row g-2 mb-3">
         <div class="col-9 col-md-10">

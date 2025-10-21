@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container my-4">
-    <h1 class="mt-2">{{ product.name }}</h1>
+    <h2 class="mt-2">{{ product.name }}</h2>
 
     {% with photo=product.get_product_image %}
     {% if photo %}
