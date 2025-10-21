@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def home(request):
@@ -53,3 +54,23 @@ def product_detail(request, slug):
     )
 
     return render(request, 'store/product_details.html', {'product': product})
+
+
+def superuser_required(view_func):
+    return login_required(
+        user_passes_test(lambda u: u.is_superuser)(view_func)
+    )
+
+
+@superuser_required
+def manage_dashboard(request):
+    """Render the superuser dashboard for managing products."""
+
+    products = (
+        Product.objects
+        .select_related("category")
+        .order_by("name")
+    )
+
+    context = {"products": products}
+    return render(request, "store/manage/dashboard.html", context)

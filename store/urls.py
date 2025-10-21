@@ -27,4 +27,10 @@ urlpatterns = [
         views.product_detail,
         name="product_detail"
         ),
+
+    path(
+        "manage/catalog/",
+        views.manage_dashboard,
+        name="manage_dashboard"
+        ),
 ]

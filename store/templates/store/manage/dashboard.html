@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-3">Catalog</h2>
+
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in products %}
+                <tr>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.category }}</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-secondary" href="">Edit</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-muted">No products yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
