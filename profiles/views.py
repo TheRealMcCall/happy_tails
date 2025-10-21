@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Profile, Address
 from .forms import ProfileForm, AddressForm
+from checkout.models import Order
 
 
 @login_required
@@ -9,10 +10,16 @@ def profile(request):
     """Render the profile page."""
     profile = get_object_or_404(Profile, user=request.user)
     addresses = Address.objects.filter(user=request.user).order_by("id")
+    recent_orders = (
+        Order.objects.filter(user=request.user)
+        .order_by("-created_at", "-id")[:5]
+    )
     return render(
         request,
         "profiles/profile.html",
-        {"profile": profile, "addresses": addresses},
+        {"profile": profile,
+         "addresses": addresses,
+         "recent_orders": recent_orders},
     )
 
 

@@ -43,4 +43,45 @@
         </div>
     </div>
 </div>
+
+<div class="mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">Recent orders</h3>
+    </div>
+
+    {% if recent_orders %}
+    <table class="table align-middle mt-3">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Date</th>
+                <th class="text-end">Total</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for o in recent_orders %}
+            <tr>
+                <td>{{ o.order_number }}</td>
+                <td>{{ o.created_at|date:"j M Y, H:i" }}</td>
+                <td class="text-end">£{{ o.total }}</td>
+                <td>
+                    {% if o.paid %}
+                    <span class="text-success">Paid</span>
+                    {% else %}
+                    Pending
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="mt-2">You don’t have any orders yet.</p>
+    {% endif %}
+</div>
+<a class="btn btn-sm btn-outline-primary" href="{% url 'checkout:my_orders' %}">
+    View all orders
+</a>
+
 {% endblock %}
