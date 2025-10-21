@@ -33,4 +33,16 @@ urlpatterns = [
         views.manage_dashboard,
         name="manage_dashboard"
         ),
+    path(
+        "manage/products/new/",
+        views.product_create, name="product_create"
+        ),
+    path(
+        "manage/products/<int:pk>/edit/",
+        views.product_edit, name="product_edit"
+        ),
+    path(
+        "manage/products/<int:pk>/delete/",
+        views.product_delete, name="product_delete"
+        ),
 ]

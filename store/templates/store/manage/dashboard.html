@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container my-4">
-    <h2 class="mb-3">Catalog</h2>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Product Catalog</h2>
+        <a class="btn btn-primary" href="{% url 'store:product_create' %}">Add product</a>
+    </div>
 
     <div class="table-responsive">
         <table class="table align-middle">
@@ -9,7 +13,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Category</th>
-                    <th class="text-end">Actions</th>
+                    <th class="text-end">Modify</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,8 +21,9 @@
                 <tr>
                     <td>{{ p.name }}</td>
                     <td>{{ p.category }}</td>
-                    <td class="text-end">
-                        <a class="btn btn-sm btn-outline-secondary" href="">Edit</a>
+                    <td class="text-end d-flex gap-2 justify-content-end">
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'store:product_edit' p.id %}">Edit</a>
+                        <a class="btn btn-sm btn-outline-danger" href="{% url 'store:product_delete' p.id %}">Delete</a>
                     </td>
                 </tr>
                 {% empty %}

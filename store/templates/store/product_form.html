@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-3">
+        {% if is_create %}Add product{% else %}Edit: {{ product.name }}{% endif %}
+    </h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        <div>
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+            {% for err in field.errors %}
+            <div class="text-danger small">{{ err }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="submit">{% if is_create %}Create{% else %}Save
+                changes{% endif %}</button>
+            <button class="btn btn-outline-secondary" href="{% url 'store:manage_dashboard' %}">Cancel</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

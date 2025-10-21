@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from .forms import ProductForm
 
 
 def home(request):
@@ -74,3 +76,56 @@ def manage_dashboard(request):
 
     context = {"products": products}
     return render(request, "store/manage/dashboard.html", context)
+
+
+@superuser_required
+def product_create(request):
+    """Create a product."""
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save()
+            messages.success(request, f'Created “{product.name}”.')
+            return redirect("store:manage_dashboard")
+    else:
+        form = ProductForm()
+    return render(
+        request,
+        "store/product_form.html",
+        {"form": form, "is_create": True},
+    )
+
+
+@superuser_required
+def product_edit(request, pk):
+    """Edit an existing product."""
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Updated “{product.name}”.')
+            return redirect("store:manage_dashboard")
+    else:
+        form = ProductForm(instance=product)
+    return render(
+        request,
+        "store/product_form.html",
+        {"form": form, "product": product, "is_create": False},
+    )
+
+
+@superuser_required
+def product_delete(request, pk):
+    """Delete a product after confirmation."""
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == "POST":
+        name = product.name
+        product.delete()
+        messages.success(request, f'Deleted “{name}”.')
+        return redirect("store:manage_dashboard")
+    return render(
+        request,
+        "store/manage/product_delete.html",
+        {"product": product},
+    )
