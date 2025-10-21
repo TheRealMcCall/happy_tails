@@ -1,23 +1,24 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Profile, Address
-from .forms import ProfileForm
+from .forms import ProfileForm, AddressForm
 
 
 @login_required
 def profile(request):
-    """Render the profile page"""
-    prof = get_object_or_404(Profile, user=request.user)
+    """Render the profile page."""
+    profile = get_object_or_404(Profile, user=request.user)
     addresses = Address.objects.filter(user=request.user).order_by("id")
     return render(
         request,
         "profiles/profile.html",
-        {"profile": prof, "addresses": addresses},
+        {"profile": profile, "addresses": addresses},
     )
 
 
+@login_required
 def profile_edit(request):
-    """Page to edit profile"""
+    """Page to edit profile."""
     profile = get_object_or_404(Profile, user=request.user)
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=profile)
@@ -26,4 +27,63 @@ def profile_edit(request):
             return redirect("profiles:profile")
     else:
         form = ProfileForm(instance=profile)
-    return render(request, "profiles/profile_form.html", {"form": form})
+
+    return render(
+        request,
+        "profiles/profile_form.html",
+        {"form": form},
+    )
+
+
+@login_required
+def address_add(request):
+    """Create a new address for the current user."""
+    if request.method == "POST":
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            return redirect("profiles:profile")
+    else:
+        form = AddressForm()
+
+    return render(
+        request,
+        "profiles/address_form.html",
+        {"form": form, "title": "Add address"},
+    )
+
+
+@login_required
+def address_edit(request, pk):
+    """Edit a users existing address."""
+    addr = get_object_or_404(Address, pk=pk, user=request.user)
+    if request.method == "POST":
+        form = AddressForm(request.POST, instance=addr)
+        if form.is_valid():
+            form.save()
+            return redirect("profiles:profile")
+    else:
+        form = AddressForm(instance=addr)
+
+    return render(
+        request,
+        "profiles/address_form.html",
+        {"form": form, "title": "Edit address"},
+    )
+
+
+@login_required
+def address_delete(request, pk):
+    """Delete a users existing address."""
+    address = get_object_or_404(Address, pk=pk, user=request.user)
+    if request.method == "POST":
+        address.delete()
+        return redirect("profiles:profile")
+
+    return render(
+        request,
+        "profiles/address_delete.html",
+        {"address": address},
+    )
