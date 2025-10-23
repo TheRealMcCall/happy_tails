@@ -8,6 +8,7 @@ import stripe
 from .models import Order, OrderItem
 from django.conf import settings
 from django.urls import reverse
+from django.core.mail import send_mail
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -214,6 +215,22 @@ def success(request):
     request.session["basket"] = {}
     request.session.pop("checkout_addresses", None)
     request.session.modified = True
+
+    if order.email:
+        try:
+            send_mail(
+                f"Order {order.order_number} confirmation Email",
+                (
+                    f"Thanks you for ordering with Happy Tails!\n\n"
+                    f"Order number: {order.order_number}\n"
+                    f"Total: £{order.total}\n"
+                ),
+                settings.DEFAULT_FROM_EMAIL,
+                [order.email],
+                fail_silently=True,
+            )
+        except Exception:
+            pass
 
     return render(request, "checkout/success.html", {"order": order})
 
