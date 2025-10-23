@@ -192,4 +192,5 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
 EMAIL_TIMEOUT = 20
 
+STORE_OWNER_EMAIL = os.environ.get("STORE_OWNER_EMAIL")
 DEFAULT_FROM_EMAIL = 'happytails@milestone4.com'

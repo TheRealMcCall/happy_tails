@@ -231,6 +231,21 @@ def success(request):
             )
         except Exception:
             pass
+        try:
+            send_mail(
+                f"New order received: {order.order_number}",
+                (
+                    f"A new order has been placed.\n\n"
+                    f"Order number: {order.order_number}\n"
+                    f"Customer: {request.user.get_username()} ({order.email})\n"
+                    f"Total: £{order.total}\n"
+                ),
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.STORE_OWNER_EMAIL],
+                fail_silently=True,
+            )
+        except Exception:
+            pass
 
     return render(request, "checkout/success.html", {"order": order})
 
