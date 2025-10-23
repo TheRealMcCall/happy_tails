@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Profile, Address
 from .forms import ProfileForm, AddressForm
 from checkout.models import Order
+from django.contrib import messages
 
 
 @login_required
@@ -17,9 +18,11 @@ def profile(request):
     return render(
         request,
         "profiles/profile.html",
-        {"profile": profile,
+        {
+         "profile": profile,
          "addresses": addresses,
-         "recent_orders": recent_orders},
+         "recent_orders": recent_orders
+        },
     )
 
 
@@ -31,6 +34,7 @@ def profile_edit(request):
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
+            messages.success(request, "Profile has been updated.")
             return redirect("profiles:profile")
     else:
         form = ProfileForm(instance=profile)
@@ -51,6 +55,7 @@ def address_add(request):
             address = form.save(commit=False)
             address.user = request.user
             address.save()
+            messages.success(request, "Address has been added.")
             return redirect("profiles:profile")
     else:
         form = AddressForm()
@@ -70,6 +75,7 @@ def address_edit(request, pk):
         form = AddressForm(request.POST, instance=addr)
         if form.is_valid():
             form.save()
+            messages.success(request, "Address has been updated.")
             return redirect("profiles:profile")
     else:
         form = AddressForm(instance=addr)
@@ -87,6 +93,7 @@ def address_delete(request, pk):
     address = get_object_or_404(Address, pk=pk, user=request.user)
     if request.method == "POST":
         address.delete()
+        messages.success(request, "Address has been deleted.")
         return redirect("profiles:profile")
 
     return render(
