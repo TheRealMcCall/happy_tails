@@ -10,9 +10,19 @@
         <div class="col-md-6">
             <h3>Profile</h3>
             <ul class="list-unstyled">
-                <li><strong>First name:</strong> {{ profile.first_name|default:"—" }}</li>
-                <li><strong>Last name:</strong> {{ profile.last_name|default:"—" }}</li>
-                <li><strong>Email:</strong> {{ request.user.email|default:"—" }}</li>
+                <li><strong>First name:</strong>
+                    {% if profile.first_name %}
+                    {{ profile.first_name }}
+                    {% else %}
+                    <span class="text-muted">Please set first name</span>
+                    {% endif %}</li>
+                <li><strong>Last name:</strong>
+                    {% if profile.last_name %}
+                    {{ profile.last_name }}
+                    {% else %}
+                    <span class="text-muted">Please set last name</span>
+                    {% endif %}</li>
+                <li><strong>Email:</strong> {{ request.user.email }}</li>
             </ul>
         </div>
         <div class="col-md-6">
