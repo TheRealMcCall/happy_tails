@@ -159,7 +159,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 # How users can log in
-ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}
 
 # Fields required at signup
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
