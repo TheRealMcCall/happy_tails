@@ -3,6 +3,8 @@ from .models import Product
 
 
 class ProductForm(forms.ModelForm):
+    upload = forms.ImageField(required=False, label="Upload new image")
+
     class Meta:
         model = Product
         fields = [
@@ -12,6 +14,7 @@ class ProductForm(forms.ModelForm):
             "description",
             "slug",
             "is_available",
+            "upload",
             ]
         widgets = {
             "description": forms.Textarea(attrs={"rows": 4}),

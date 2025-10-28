@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category
+from .models import Product, Category, ProductImage
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -85,10 +85,18 @@ def product_create(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save()
+            image_upload = form.cleaned_data.get("upload")
+            if image_upload:
+                image = ProductImage(product=product, image=image_upload)
+                image.save()
+                if not product.image:
+                    product.image = image
+                    product.save(update_fields=["image"])
             messages.success(request, f'Created “{product.name}”.')
             return redirect("store:manage_dashboard")
     else:
         form = ProductForm()
+
     return render(
         request,
         "store/product_form.html",
@@ -103,7 +111,14 @@ def product_edit(request, pk):
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            form.save()
+            product = form.save()
+            image_upload = form.cleaned_data.get("upload")
+            if image_upload:
+                image = ProductImage(product=product, image=image_upload)
+                image.save()
+                if not product.image:
+                    product.image = image
+                    product.save(update_fields=["image"])
             messages.success(request, f'Updated “{product.name}”.')
             return redirect("store:manage_dashboard")
     else:
