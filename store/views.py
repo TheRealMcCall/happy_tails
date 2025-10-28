@@ -116,9 +116,8 @@ def product_edit(request, pk):
             if image_upload:
                 image = ProductImage(product=product, image=image_upload)
                 image.save()
-                if not product.image:
-                    product.image = image
-                    product.save(update_fields=["image"])
+                product.image = image
+                product.save(update_fields=["image"])
             messages.success(request, f'Updated “{product.name}”.')
             return redirect("store:manage_dashboard")
     else:
