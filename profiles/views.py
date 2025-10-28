@@ -70,15 +70,15 @@ def address_add(request):
 @login_required
 def address_edit(request, pk):
     """Edit a users existing address."""
-    addr = get_object_or_404(Address, pk=pk, user=request.user)
+    address = get_object_or_404(Address, pk=pk, user=request.user)
     if request.method == "POST":
-        form = AddressForm(request.POST, instance=addr)
+        form = AddressForm(request.POST, instance=address)
         if form.is_valid():
             form.save()
             messages.success(request, "Address has been updated.")
             return redirect("profiles:profile")
     else:
-        form = AddressForm(instance=addr)
+        form = AddressForm(instance=address)
 
     return render(
         request,

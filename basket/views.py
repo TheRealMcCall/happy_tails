@@ -1,5 +1,5 @@
 from decimal import Decimal
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Variant
 from django.contrib import messages
 
@@ -10,17 +10,30 @@ def _basket(request):
 
 def add_to_basket(request):
     """Add a variant to the session basket and redirect to the basket view."""
-    v_id = request.POST.get("variant_id")
-    if not v_id:
+    variant_id = request.POST.get("variant_id")
+    if not variant_id:
         return redirect("store:product_list")
 
     try:
-        quantity = max(1, int(request.POST.get("qty", "1")))
+        requested_quantity = max(1, int(request.POST.get("qty", "1")))
     except ValueError:
-        quantity = 1
+        requested_quantity = 1
+
+    variant = get_object_or_404(
+        Variant.objects.select_related("stock"),
+        pk=variant_id,
+    )
+
+    available_quantity = (
+        getattr(getattr(variant, "stock", None), "quantity", 0) or 0
+    )
+
+    if available_quantity <= 0 or requested_quantity > available_quantity:
+        messages.error(request, "Sorry, that item is out of stock.")
+        return redirect("store:product_detail", slug=variant.product.slug)
 
     basket = _basket(request)
-    basket[v_id] = basket.get(v_id, 0) + quantity
+    basket[variant_id] = basket.get(variant_id, 0) + requested_quantity
     messages.success(request, "Added to basket.")
     request.session.modified = True
 
