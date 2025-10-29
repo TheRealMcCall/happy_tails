@@ -76,9 +76,9 @@ def checkout_view(request):
     free_delivery = getattr(settings, "FREE_DELIVERY_THRESHOLD", Decimal("0"))
     delivery_cost = getattr(settings, "DELIVERY_RATE", Decimal("0"))
 
-    delivery = delivery = Decimal("0") if (
+    delivery = Decimal("0") if (
         free_delivery and subtotal >= free_delivery
-        ) else delivery_cost
+    ) else delivery_cost
 
     grand_total = subtotal + delivery
 
@@ -111,7 +111,7 @@ def create_order(request):
         return redirect("checkout:start")
 
     billing = get_object_or_404(Address, id=billing_id, user=request.user)
-    delivery = get_object_or_404(Address, id=delivery_id, user=request.user)
+    delivery_address = get_object_or_404(Address, id=delivery_id, user=request.user)
 
     variant_ids = [int(k) for k in basket.keys()]
     variants = Variant.objects.filter(
@@ -122,6 +122,7 @@ def create_order(request):
     for variant in variants:
         quantity = int(basket[str(variant.id)])
         unit_amount = int(variant.price * 100)
+
         line_items.append({
             "price_data": {
                 "currency": "gbp",
@@ -133,7 +134,7 @@ def create_order(request):
 
     request.session["checkout_addresses"] = {
         "billing_id": billing.id,
-        "delivery_id": delivery.id,
+        "delivery_id": delivery_address.id,
     }
     request.session.modified = True
 
@@ -145,6 +146,25 @@ def create_order(request):
     order_number = str(uuid.uuid4()).split("-")[0].upper()
     request.session["pending_order_number"] = order_number
     request.session.modified = True
+
+    subtotal = Decimal("0.00")
+    for variant in variants:
+        quantity = int(basket[str(variant.id)])
+        subtotal += variant.price * quantity
+
+    free_threshold = getattr(settings, "FREE_DELIVERY_THRESHOLD", Decimal("0"))
+    rate = getattr(settings, "DELIVERY_RATE", Decimal("0"))
+    delivery_cost = Decimal("0") if (free_threshold and subtotal >= free_threshold) else rate
+
+    if delivery_cost > 0:
+        line_items.append({
+            "price_data": {
+                "currency": "gbp",
+                "product_data": {"name": "Delivery"},
+                "unit_amount": int(delivery_cost * 100),
+            },
+            "quantity": 1,
+        })
 
     session = stripe.checkout.Session.create(
         mode="payment",
@@ -189,7 +209,7 @@ def success(request):
     billing = get_object_or_404(
         Address, id=address_ids.get
         ("billing_id"), user=request.user)
-    delivery = get_object_or_404(
+    delivery_address = get_object_or_404(
         Address, id=address_ids.get
         ("delivery_id"), user=request.user)
 
@@ -229,16 +249,22 @@ def success(request):
                 )
                 return redirect("basket:view_basket")
 
+        free_threshold = getattr(
+            settings,
+            "FREE_DELIVERY_THRESHOLD", Decimal("0"))
+        rate = getattr(settings, "DELIVERY_RATE", Decimal("0"))
+        delivery_cost = Decimal("0") if (free_threshold and subtotal >= free_threshold) else rate
+
+        grand_total = subtotal + delivery_cost
+
         order = Order.objects.create(
             user=request.user,
             billing_address=billing,
-            delivery_address=delivery,
+            delivery_address=delivery_address,
             sub_total=subtotal,
-            total=subtotal,
+            total=grand_total,
             email=request.user.email or "",
-            order_number=(
-                order_number or str(uuid.uuid4()).split("-")[0].upper(),
-            ),
+            order_number=(order_number or str(uuid.uuid4()).split("-")[0].upper()),
             paid=True,
             stripe_session_id=getattr(session, "id", "")
         )
@@ -261,7 +287,7 @@ def success(request):
             send_mail(
                 f"Order {order.order_number} confirmation Email",
                 (
-                    f"Thanks you for ordering with Happy Tails!\n\n"
+                    f"Thank you for ordering with Happy Tails!\n\n"
                     f"Order number: {order.order_number}\n"
                     f"Total: £{order.total}\n"
                 ),
@@ -288,7 +314,7 @@ def success(request):
         except Exception:
             pass
 
-    return render(request, "checkout/success.html", {"order": order})
+    return render(request, "checkout/success.html", {"order": order, "delivery": delivery_cost})
 
 
 @login_required
