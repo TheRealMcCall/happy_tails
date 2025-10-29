@@ -73,13 +73,24 @@ def checkout_view(request):
     if not delivery_default:
         delivery_default = addresses.first()
 
+    free_delivery = getattr(settings, "FREE_DELIVERY_THRESHOLD", Decimal("0"))
+    delivery_cost = getattr(settings, "DELIVERY_RATE", Decimal("0"))
+
+    delivery = delivery = Decimal("0") if (
+        free_delivery and subtotal >= free_delivery
+        ) else delivery_cost
+
+    grand_total = subtotal + delivery
+
     context = {
         "items": items,
         "sub_total": subtotal,
-        "total": subtotal,
+        "delivery": delivery,
+        "total": grand_total,
         "addresses": addresses,
         "billing_default": billing_default,
         "delivery_default": delivery_default,
+        "free_delivery_threshold": free_delivery
     }
     return render(request, "checkout/checkout.html", context)
 
