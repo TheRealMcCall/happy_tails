@@ -2,13 +2,16 @@ from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from profiles.models import Address
-from store.models import Variant
+from store.models import Variant, Stock
 import uuid
 import stripe
 from .models import Order, OrderItem
 from django.conf import settings
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.db import transaction
+from django.db.models import F
+from django.contrib import messages
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -154,17 +157,17 @@ def success(request):
         return redirect("checkout:start")
 
     try:
-        sess = stripe.checkout.Session.retrieve(session_id)
+        session = stripe.checkout.Session.retrieve(session_id)
     except Exception:
         return redirect("checkout:start")
 
     order_number = (
         request.session.pop("pending_order_number", None)
-        or getattr(sess, "client_reference_id", None)
-        or (getattr(sess, "metadata", {}) or {}).get("order_number")
+        or getattr(session, "client_reference_id", None)
+        or (getattr(session, "metadata", {}) or {}).get("order_number")
         )
 
-    if getattr(sess, "payment_status", "") != "paid":
+    if getattr(session, "payment_status", "") != "paid":
         return redirect("checkout:start")
 
     basket = request.session.get("basket", {})
@@ -191,26 +194,52 @@ def success(request):
         quantity = int(basket[str(variant.id)])
         subtotal += variant.price * quantity
 
-    order = Order.objects.create(
-        user=request.user,
-        billing_address=billing,
-        delivery_address=delivery,
-        sub_total=subtotal,
-        total=subtotal,
-        email=request.user.email or "",
-        order_number=order_number or str(uuid.uuid4()).split("-")[0].upper(),
-        paid=True,
-        stripe_session_id=getattr(sess, "id", "")
-    )
+    existing = Order.objects.filter(
+        stripe_session_id=getattr(session, "id", "")
+    ).first()
+    if existing:
+        return render(request, "checkout/success.html", {"order": existing})
 
-    for variant in variants:
-        quantity = int(basket[str(variant.id)])
-        OrderItem.objects.create(
-            order=order,
-            variant=variant,
-            quantity=quantity,
-            unit_price=variant.price,
+    with transaction.atomic():
+        for variant in variants:
+            qty = int(basket[str(variant.id)])
+            updated = (
+                Stock.objects
+                .filter(variant_id=variant.id, quantity__gte=qty)
+                .update(quantity=F("quantity") - qty)
+            )
+            if updated == 0:
+                messages.error(
+                    request,
+                    (
+                      "Sorry, one or more items are out of stock."
+                      "Please check your basket."
+                    ),
+                )
+                return redirect("basket:view_basket")
+
+        order = Order.objects.create(
+            user=request.user,
+            billing_address=billing,
+            delivery_address=delivery,
+            sub_total=subtotal,
+            total=subtotal,
+            email=request.user.email or "",
+            order_number=(
+                order_number or str(uuid.uuid4()).split("-")[0].upper(),
+            ),
+            paid=True,
+            stripe_session_id=getattr(session, "id", "")
         )
+
+        for variant in variants:
+            quantity = int(basket[str(variant.id)])
+            OrderItem.objects.create(
+                order=order,
+                variant=variant,
+                quantity=quantity,
+                unit_price=variant.price,
+            )
 
     request.session["basket"] = {}
     request.session.pop("checkout_addresses", None)
@@ -237,7 +266,8 @@ def success(request):
                 (
                     f"A new order has been placed.\n\n"
                     f"Order number: {order.order_number}\n"
-                    f"Customer: {request.user.get_username()} ({order.email})\n"
+                    f"Customer: {request.user.get_username()}"
+                    f"({order.email})\n"
                     f"Total: £{order.total}\n"
                 ),
                 settings.DEFAULT_FROM_EMAIL,
