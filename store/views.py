@@ -7,10 +7,12 @@ from .forms import ProductForm
 
 
 def home(request):
+    """Render the store home page."""
     return render(request, "store/home.html")
 
 
 def product_list(request, category_slug=None):
+    """List available products with category and search filters."""
     products = (
         Product.objects.filter(is_available=True)
         .select_related("category")
@@ -48,6 +50,7 @@ def product_list(request, category_slug=None):
 
 
 def product_detail(request, slug):
+    """Display a single product detail page."""
     product = get_object_or_404(
         Product.objects
         .select_related('category')
