@@ -14,3 +14,7 @@ body {
     object-fit: cover;
     object-position: 50% 22%;
 }
+
+footer {
+    background-color: white;
+}
