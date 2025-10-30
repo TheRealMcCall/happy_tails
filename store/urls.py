@@ -45,4 +45,12 @@ urlpatterns = [
         "manage/products/<int:pk>/delete/",
         views.product_delete, name="product_delete"
         ),
+    path(
+        "manage/products/<int:pk>/variants/new/",
+        views.variant_create, name="variant_create"
+        ),
+    path(
+        "manage/variants/choose/",
+        views.variant_choose_product, name="variant_choose_product"
+        ),
 ]

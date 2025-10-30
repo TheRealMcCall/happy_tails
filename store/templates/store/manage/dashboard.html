@@ -4,16 +4,19 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Product Catalog</h2>
-        <a class="btn btn-primary" href="{% url 'store:product_create' %}">Add product</a>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary" href="{% url 'store:product_create' %}">Add product</a>
+            <a class="btn btn-outline-primary" href="{% url 'store:variant_choose_product' %}">Add variant</a>
+        </div>
     </div>
 
     <div class="table-responsive">
         <table class="table align-middle">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Product Name</th>
                     <th>Category</th>
-                    <th class="text-end">Modify</th>
+                    <th class="text-end">Modify Product</th>
                 </tr>
             </thead>
             <tbody>

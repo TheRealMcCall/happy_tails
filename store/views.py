@@ -3,7 +3,8 @@ from .models import Product, Category, ProductImage
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from .forms import ProductForm
+from .forms import ProductForm, VariantForm, ProductPickForm
+from django.urls import reverse
 
 
 def home(request):
@@ -145,4 +146,42 @@ def product_delete(request, pk):
         request,
         "store/manage/product_delete.html",
         {"product": product},
+    )
+
+
+@superuser_required
+def variant_choose_product(request):
+    """Choose product to adjust variant"""
+    if request.method == "POST":
+        form = ProductPickForm(request.POST)
+        if form.is_valid():
+            product = form.cleaned_data["product"]
+            return redirect(
+                reverse("store:variant_create", args=[product.pk]))
+    else:
+        form = ProductPickForm()
+    return render(request, "store/manage/variant_picker.html", {"form": form})
+
+
+@superuser_required
+def variant_create(request, pk):
+    """Create a variant for a product"""
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == "POST":
+        form = VariantForm(request.POST)
+        if form.is_valid():
+            variant = form.save(commit=False)
+            variant.product = product
+            variant.save()
+            messages.success(request, "Variant added.")
+            return redirect(
+                reverse("store:manage_dashboard")
+                )
+    else:
+        form = VariantForm()
+
+    return render(
+        request,
+        "store/manage/variant_form.html",
+        {"product": product, "form": form},
     )
