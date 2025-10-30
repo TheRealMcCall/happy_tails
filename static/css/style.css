@@ -27,6 +27,7 @@ footer {
     border: 2px solid rgba(0, 0, 0, .08);
     overflow: hidden;
     transition: box-shadow .12s ease, transform .12s ease, border-color .12s ease;
+    text-align: center;
 }
 
 .product-card:hover,
