@@ -5,6 +5,7 @@ from django.contrib import messages
 
 
 def _basket(request):
+    """Return the session basket, creating it if missing."""
     return request.session.setdefault("basket", {})
 
 
@@ -85,6 +86,7 @@ def view_basket(request):
 
 
 def update_quantity(request):
+    """Update a basket item's quantity."""
 
     if request.method != "POST":
         return redirect("basket:view_basket")
