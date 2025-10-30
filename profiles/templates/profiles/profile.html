@@ -2,96 +2,97 @@
 {% block content %}
 <div class="container my-4">
     <div class="d-flex justify-content-between align-items-center">
-        <h2>My Account</h2>
+        <h1 class="mb-0">My Account</h1>
         <a class="btn btn-outline-secondary" href="{% url 'profiles:profile_edit' %}">Edit profile</a>
     </div>
 
-    <div class="row mt-3">
-        <div class="col-md-6">
-            <h3>Profile</h3>
-            <ul class="list-unstyled">
+    <div class="row mt-3 g-3">
+        <div class="col-12 col-md-6">
+            <h2 class="h4 mb-2">Profile</h2>
+            <ul class="list-unstyled mb-0">
                 <li><strong>First name:</strong>
-                    {% if profile.first_name %}
-                    {{ profile.first_name }}
-                    {% else %}
-                    <span class="text-muted">Please set first name</span>
-                    {% endif %}</li>
+                    {% if profile.first_name %}{{ profile.first_name }}{% else %}
+                    <span class="text-muted">Please set first name</span>{% endif %}
+                </li>
                 <li><strong>Last name:</strong>
-                    {% if profile.last_name %}
-                    {{ profile.last_name }}
-                    {% else %}
-                    <span class="text-muted">Please set last name</span>
-                    {% endif %}</li>
+                    {% if profile.last_name %}{{ profile.last_name }}{% else %}
+                    <span class="text-muted">Please set last name</span>{% endif %}
+                </li>
                 <li><strong>Email:</strong> {{ request.user.email }}</li>
             </ul>
         </div>
-        <div class="col-md-6">
-            <h3>Addresses</h3>
-            <a class="btn btn-sm btn-primary mb-2" href="{% url 'profiles:address_add' %}">Add address</a>
+
+        <div class="col-12 col-md-6">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="h4 mb-0">Addresses</h2>
+                <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'profiles:address_add' %}">Add
+                    address</a>
+            </div>
+
             {% if addresses %}
-            <div class="list-group">
+            <div class="list-group" aria-label="Saved addresses">
                 {% for a in addresses %}
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ a.label|default:"Address" }}</strong><br>
+                <div class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="me-3">
+                        <strong class="text-capitalize">{{ a.label|default:"Address" }}</strong><br>
                         {{ a.first_line }}{% if a.second_line %}, {{ a.second_line }}{% endif %}, {{ a.city }}
                         {{ a.postcode }}<br>
                         {{ a.country }}
                     </div>
                     <div class="d-flex gap-2">
-                        <a class="btn btn-sm btn-outline-secondary"
-                            href="{% url 'profiles:address_edit' a.id %}">Edit</a>
-                        <a class="btn btn-sm btn-outline-danger"
-                            href="{% url 'profiles:address_delete' a.id %}">Delete</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'profiles:address_edit' a.id %}"
+                            aria-label="Edit {{ a.label|default:'address' }}">Edit</a>
+                        <a class="btn btn-sm btn-outline-danger" href="{% url 'profiles:address_delete' a.id %}"
+                            aria-label="Delete {{ a.label|default:'address' }}">Delete</a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <p>You don't have any addresses yet.</p>
+            <p class="text-muted mb-0">You don't have any addresses yet.</p>
             {% endif %}
         </div>
     </div>
-</div>
 
-<div class="mt-4">
-    <div class="d-flex justify-content-between align-items-center">
-        <h3 class="mb-0">Recent orders</h3>
-    </div>
 
-    {% if recent_orders %}
-    <table class="table align-middle mt-3">
-        <thead>
-            <tr>
-                <th>Order #</th>
-                <th>Date</th>
-                <th class="text-end">Total</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for o in recent_orders %}
-            <tr>
-                <td>{{ o.order_number }}</td>
-                <td>{{ o.created_at|date:"j M Y, H:i" }}</td>
-                <td class="text-end">£{{ o.total }}</td>
-                <td>
-                    {% if o.paid %}
-                    <span class="text-success">Paid</span>
-                    {% else %}
-                    Pending
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p class="mt-2">You don’t have any orders yet.</p>
-    {% endif %}
-</div>
-<a class="btn btn-sm btn-outline-primary" href="{% url 'checkout:my_orders' %}">
-    View all orders
-</a>
+    <section class="container my-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">Recent orders</h2>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'checkout:my_orders' %}">View all orders</a>
+        </div>
 
-{% endblock %}
+        {% if recent_orders %}
+        <div class="table-responsive mt-3">
+            <table class="table table-sm align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Order #</th>
+                        <th scope="col">Date</th>
+                        <th scope="col" class="text-end">Total</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for o in recent_orders %}
+                    <tr>
+                        <td>{{ o.order_number }}</td>
+                        <td>{{ o.created_at|date:"j M Y, H:i" }}</td>
+                        <td class="text-end">£{{ o.total|floatformat:2 }}</td>
+                        <td>
+                            {% if o.paid %}
+                            <span class="badge bg-success-subtle text-success">Paid</span>
+                            {% else %}
+                            <span class="badge bg-warning-subtle text-warning">Pending</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="mt-2 text-muted">You don’t have any orders yet.</p>
+        {% endif %}
+    </section>
+
+    {% endblock %}
