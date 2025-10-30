@@ -1,5 +1,7 @@
 body {
     background-color: lightblue;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
 }
 
 .hero {
