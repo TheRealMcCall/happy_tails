@@ -1,17 +1,19 @@
 from decimal import Decimal
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from profiles.models import Address
-from store.models import Variant, Stock
 import uuid
 import stripe
-from .models import Order, OrderItem
+
 from django.conf import settings
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.db import transaction
 from django.db.models import F
 from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+
+from profiles.models import Address
+from store.models import Variant, Stock
+from .models import Order, OrderItem
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -107,11 +109,16 @@ def create_order(request):
 
     billing_id = request.POST.get("billing_address_id")
     delivery_id = request.POST.get("delivery_address_id")
+
     if not billing_id or not delivery_id:
         return redirect("checkout:start")
 
     billing = get_object_or_404(Address, id=billing_id, user=request.user)
-    delivery_address = get_object_or_404(Address, id=delivery_id, user=request.user)
+    delivery_address = get_object_or_404(
+        Address,
+        id=delivery_id,
+        user=request.user
+        )
 
     variant_ids = [int(k) for k in basket.keys()]
     variants = Variant.objects.filter(
@@ -154,7 +161,11 @@ def create_order(request):
 
     free_threshold = getattr(settings, "FREE_DELIVERY_THRESHOLD", Decimal("0"))
     rate = getattr(settings, "DELIVERY_RATE", Decimal("0"))
-    delivery_cost = Decimal("0") if (free_threshold and subtotal >= free_threshold) else rate
+    delivery_cost = (
+        Decimal("0")
+        if (free_threshold and subtotal >= free_threshold)
+        else rate
+    )
 
     if delivery_cost > 0:
         line_items.append({
@@ -253,7 +264,11 @@ def success(request):
             settings,
             "FREE_DELIVERY_THRESHOLD", Decimal("0"))
         rate = getattr(settings, "DELIVERY_RATE", Decimal("0"))
-        delivery_cost = Decimal("0") if (free_threshold and subtotal >= free_threshold) else rate
+        delivery_cost = (
+            Decimal("0")
+            if (free_threshold and subtotal >= free_threshold)
+            else rate
+        )
 
         grand_total = subtotal + delivery_cost
 
@@ -264,9 +279,12 @@ def success(request):
             sub_total=subtotal,
             total=grand_total,
             email=request.user.email or "",
-            order_number=(order_number or str(uuid.uuid4()).split("-")[0].upper()),
+            order_number=(
+                order_number
+                or str(uuid.uuid4()).split("-")[0].upper()
+            ),
             paid=True,
-            stripe_session_id=getattr(session, "id", "")
+            stripe_session_id=getattr(session, "id", ""),
         )
 
         for variant in variants:
@@ -314,7 +332,11 @@ def success(request):
         except Exception:
             pass
 
-    return render(request, "checkout/success.html", {"order": order, "delivery": delivery_cost})
+    return render(
+        request,
+        "checkout/success.html",
+        {"order": order, "delivery": delivery_cost},
+    )
 
 
 @login_required
