@@ -61,4 +61,8 @@ urlpatterns = [
         "manage/variants/<int:pk>/edit/",
         views.variant_edit, name="variant_edit"
         ),
+    path(
+        "manage/variants/<int:pk>/stock/",
+        views.variant_stock_update, name="variant_stock_update",
+        ),
 ]

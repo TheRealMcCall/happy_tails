@@ -25,23 +25,30 @@
             <thead>
                 <tr>
                     <th>Product</th>
-                    <th>SKU</th>
                     <th>Size</th>
-                    <th>Price</th>
-                    <th class="text-end">Modify Variant</th>
+                    <th>Colour</th>
+                    <th class="text-end">Stock</th>
+                    <th class="text-end">Price</th>
+                    <th class="text-end">Modify</th>
                 </tr>
             </thead>
             <tbody>
                 {% for v in variants %}
                 <tr>
                     <td>{{ v.product.name }}</td>
-                    <td>{{ v.sku }}</td>
                     <td>{{ v.size }}</td>
-                    <td>£{{ v.price }}</td>
+                    <td>{{ v.colour }}</td>
+
+                    <td class="text-end">
+                        {% if v.stock %}{{ v.stock.quantity }}{% else %}<span class="text-muted">—</span>{% endif %}
+                    </td>
+
+                    <td class="text-end">£{{ v.price|floatformat:2 }}</td>
+
                     <td class="text-end d-flex gap-2 justify-content-end">
-                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'store:variant_edit' v.id %}">
-                            Edit Variant
-                        </a>
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'store:variant_edit' v.id %}">Edit</a>
+                        <a class="btn btn-sm btn-outline-primary"
+                            href="{% url 'store:variant_stock_update' v.id %}">Update Stock</a>
                     </td>
                 </tr>
                 {% empty %}

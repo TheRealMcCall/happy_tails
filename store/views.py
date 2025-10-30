@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category, ProductImage, Variant
+from .models import Product, Category, ProductImage, Variant, Stock
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from .forms import ProductForm, VariantForm, ProductPickForm
+from .forms import ProductForm, VariantForm, ProductPickForm, StockForm
 from django.urls import reverse
 
 
@@ -214,4 +214,28 @@ def variant_create(request, pk):
         request,
         "store/manage/edit_variant_form.html",
         {"product": product, "form": form},
+    )
+
+
+@superuser_required
+def variant_stock_update(request, pk):
+    variant = get_object_or_404(Variant, pk=pk)
+    stock, _ = Stock.objects.get_or_create(
+        variant=variant, defaults={
+            "quantity": 0, "low_stock_threshold": 0}
+            )
+
+    if request.method == "POST":
+        form = StockForm(request.POST, instance=stock)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Stock updated for {variant.sku}.")
+            return redirect(reverse("store:manage_variants"))
+    else:
+        form = StockForm(instance=stock)
+
+    return render(
+        request,
+        "store/manage/stock_form.html",
+        {"form": form, "variant": variant},
     )

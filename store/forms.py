@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, Variant
+from .models import Product, Variant, Stock
 
 
 class ProductForm(forms.ModelForm):
@@ -37,3 +37,9 @@ class ProductPickForm(forms.Form):
         label="Product",
         empty_label="Select a product",
     )
+
+
+class StockForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ["quantity", "low_stock_threshold"]
