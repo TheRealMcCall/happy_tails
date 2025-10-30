@@ -38,7 +38,7 @@
     <div class="row g-4">
         {% for p in products %}
         <div class="col-6 col-md-4 col-lg-3">
-            <div class="card h-100">
+            <div class="card product-card h-100 shadow-sm">
                 {% with photo=p.get_product_image %}
                 {% if photo %}
                 <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.alt_text|default:p.name }}">
