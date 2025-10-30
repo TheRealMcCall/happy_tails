@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category, ProductImage
+from .models import Product, Category, ProductImage, Variant
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -80,6 +80,36 @@ def manage_dashboard(request):
 
     context = {"products": products}
     return render(request, "store/manage/dashboard.html", context)
+
+
+@superuser_required
+def manage_variants(request):
+    """Variant Catalog"""
+    variants = (
+        Variant.objects.select_related("product")
+        .order_by("product__name", "sku")
+    )
+    return render(
+        request, "store/manage/variants.html", {"variants": variants})
+
+
+@superuser_required
+def variant_edit(request, pk):
+    """Edit variant"""
+    variant = get_object_or_404(Variant, pk=pk)
+    if request.method == "POST":
+        form = VariantForm(request.POST, instance=variant)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Variant {variant.sku} updated.")
+            return redirect(reverse("store:manage_variants"))
+    else:
+        form = VariantForm(instance=variant)
+    return render(
+        request,
+        "store/manage/edit_variant_form.html",
+        {"form": form, "variant": variant}
+        )
 
 
 @superuser_required
@@ -182,6 +212,6 @@ def variant_create(request, pk):
 
     return render(
         request,
-        "store/manage/variant_form.html",
+        "store/manage/edit_variant_form.html",
         {"product": product, "form": form},
     )

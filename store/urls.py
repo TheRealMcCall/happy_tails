@@ -53,4 +53,12 @@ urlpatterns = [
         "manage/variants/choose/",
         views.variant_choose_product, name="variant_choose_product"
         ),
+    path(
+        "manage/variants/",
+        views.manage_variants, name="manage_variants"
+        ),
+    path(
+        "manage/variants/<int:pk>/edit/",
+        views.variant_edit, name="variant_edit"
+        ),
 ]
