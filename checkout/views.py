@@ -19,11 +19,13 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 def _basket(request):
+    """Return the basket from the session"""
     return request.session.setdefault("basket", {})
 
 
 @login_required
 def checkout_view(request):
+    """Render checkout page with items, totals, and default addresses."""
     basket = _basket(request)
     if not basket:
         return redirect("basket:view_basket")
@@ -193,6 +195,7 @@ def create_order(request):
 
 @login_required
 def success(request):
+    """Handle Stripe success: validate and change stock"""
     session_id = request.GET.get("session_id")
 
     if not session_id:
@@ -341,5 +344,6 @@ def success(request):
 
 @login_required
 def my_orders(request):
+    """List the current user's orders in reverse chronological order."""
     orders = Order.objects.filter(user=request.user).order_by("-id")
     return render(request, "checkout/my_orders.html", {"orders": orders})
