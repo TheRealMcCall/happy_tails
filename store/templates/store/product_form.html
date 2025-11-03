@@ -20,9 +20,12 @@
         {% endfor %}
 
         <div class="d-flex gap-2">
-            <button class="btn btn-primary" type="submit">{% if is_create %}Create{% else %}Save
-                changes{% endif %}</button>
-            <button class="btn btn-outline-secondary" href="{% url 'store:manage_dashboard' %}">Cancel</button>
+            <button class="btn btn-primary" type="submit">
+                {% if is_create %}Create{% else %}Save changes{% endif %}
+            </button>
+            <a class="btn btn-outline-secondary" href="{% url 'store:manage_dashboard' %}">
+                Cancel
+            </a>
         </div>
     </form>
 </div>
