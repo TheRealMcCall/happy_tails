@@ -3,6 +3,9 @@ import os
 import dj_database_url
 from decimal import Decimal
 
+import cloudinary
+cloudinary.config(secure=True)
+
 if os.path.isfile('env.py'):
     import env
 
@@ -170,6 +173,9 @@ CLOUDINARY_STORAGE = {
     "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
     "SECURE": True,
 }
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 
 STRIPE_CURRENCY = 'gbp'
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")
