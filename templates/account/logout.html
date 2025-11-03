@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 form-container">
+    <h2 class="text-center mb-4">Log out</h2>
+
+    <p class="text-center mb-4">Are you sure you want to log out?</p>
+
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+        {% endif %}
+        <div class="d-flex gap-2 justify-content-center">
+            <button type="submit" class="btn btn-danger">Log out</button>
+            <a href="{% url 'store:home' %}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
