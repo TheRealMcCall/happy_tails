@@ -38,7 +38,7 @@ def add_to_basket(request):
     messages.success(request, "Added to basket.")
     request.session.modified = True
 
-    return redirect("basket:view_basket")
+    return redirect("store:product_list")
 
 
 def remove_from_basket(request, variant_id):
