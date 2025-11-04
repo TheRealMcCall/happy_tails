@@ -1,13 +1,88 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="container my-4">
-    <h1>Order placed</h1>
-    <p>Your order number is <strong>{{ order.order_number }}</strong>.</p>
 
-    <ul>
-        <li>Subtotal: £{{ order.sub_total|floatformat:2 }}</li>
-        <li>Delivery{% if delivery == 0 %} (Free){% endif %}: £{{ delivery|floatformat:2 }}</li>
-        <li><strong>Total: £{{ order.total|floatformat:2 }}</strong></li>
-    </ul>
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <div class="me-2" aria-hidden="true"></div>
+        <div><strong>Thank you!</strong> Your order was placed successfully.</div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h1 class="h4 mb-0">Order #{{ order.order_number }}</h1>
+        <a href="{% url 'store:home' %}" class="btn btn-outline-secondary">Continue shopping</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">Items</div>
+                <div class="table-responsive">
+                    <table class="table mb-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-nowrap">Variant</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-end">Unit price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        {% with photo=item.variant.product.get_product_image %}
+                                        {% if photo %}
+                                        <img src="{{ photo.image.url }}" alt="{{ item.variant.product.name }}"
+                                            class="rounded" style="width:56px;height:56px;object-fit:cover;">
+                                        {% endif %}
+                                        {% endwith %}
+                                        <div>
+                                            <div class="fw-semibold">{{ item.variant.product.name }}</div>
+                                            <div class="small text-body-secondary">
+                                                {{ item.variant.product.category.name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-nowrap">
+                                    {% if item.variant.size %}{{ item.variant.size }}{% endif %}
+                                    {% if item.variant.size and item.variant.colour %} / {% endif %}
+                                    {% if item.variant.colour %}{{ item.variant.colour }}{% endif %}
+                                </td>
+                                <td class="text-center">{{ item.quantity }}</td>
+                                <td class="text-end">£{{ item.unit_price|floatformat:2 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">Summary</div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-6">Subtotal</dt>
+                        <dd class="col-6 text-end">£{{ order.sub_total|floatformat:2 }}</dd>
+
+                        <dt class="col-6">Delivery</dt>
+                        <dd class="col-6 text-end">£{{ delivery|floatformat:2 }}</dd>
+
+                        <dt class="col-6 fw-semibold">Total</dt>
+                        <dd class="col-6 text-end fw-semibold">£{{ order.total|floatformat:2 }}</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <p class="small text-body-secondary mt-2">
+                A confirmation email has been sent to <strong>{{ order.email }}</strong>.
+            </p>
+
+        </div>
+    </div>
 </section>
 {% endblock %}
