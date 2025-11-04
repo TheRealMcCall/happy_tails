@@ -18,23 +18,20 @@ body {
 }
 
 footer {
+    margin-top: 10px;
     background-color: white;
 }
 
-.product-card {
-    --pc-radius: .75rem;
-    border-radius: var(--pc-radius);
-    border: 2px solid rgba(0, 0, 0, .08);
-    overflow: hidden;
-    transition: box-shadow .12s ease, transform .12s ease, border-color .12s ease;
-    text-align: center;
+.product-section {
+    max-width: 400px;
 }
 
-.product-card:hover,
-.product-card:focus-within {
-    border-color: transparent;
-    box-shadow:
-        0 0 0 2px #0a58ca,
-        0 .5rem 1rem rgba(0, 0, 0, .08);
-    transform: translateY(-2px);
+.product-section .product-variant {
+    max-width: 300px;
+    margin-right: 20px;
+}
+
+.product-section .product-qty {
+    max-width: 75px;
+    margin-right: 20px;
 }

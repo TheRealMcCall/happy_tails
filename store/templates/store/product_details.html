@@ -1,24 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="container my-4">
-    <h1 class="mt-2">{{ product.name }}</h1>
+<section class="container my-4 product-section text">
+    <h1 class="mt-2 text-center">{{ product.name }}</h1>
 
     {% with photo=product.get_product_image %}
     {% if photo %}
-    <img src="{{ photo.image.url }}" alt="{{ product.name }}" style="max-width:300px;">
+    <img src="{{ photo.image.url }}" alt="{{ product.name }}"
+        class="img-fluid rounded shadow-sm product-img mx-auto mx-md-0">
     {% endif %}
     {% endwith %}
 
     {% if product.description %}
-    <p class="mt-3">{{ product.description }}</p>
+    <p class="mt-3 product-desc mx-auto mx-md-0">{{ product.description }}</p>
     {% endif %}
 
-    <div class="mt-3" style="max-width:420px;">
-
-        <form action="{% url 'basket:add_to_basket' %}" method="post">
+    <div class="mt-3 product-panel mx-auto mx-md-0">
+        <form action="{% url 'basket:add_to_basket' %}" method="post" class="product-form">
             {% csrf_token %}
+
             <label for="variant" class="form-label">Choose a variant</label>
-            <select id="variant" name="variant_id" class="form-select mb-3">
+            <select id="variant" name="variant_id" class="form-select product-variant mb-3">
                 {% for v in product.variants.all %}
                 {% with qty=v.stock.quantity|default:0 %}
                 <option value="{{ v.id }}">
@@ -28,12 +29,11 @@
                 {% endfor %}
             </select>
 
-            <label for="qty" class="ms-2">Qty</label>
-            <input id="qty" name="qty" type="number" min="1" value="1" style="width:80px;">
-
-            <button type="submit" class="btn btn-primary">Add to Basket</button>
+            <label for="qty" class="form-label ms-1 mb-1">Qty</label>
+            <input id="qty" name="qty" type="number" min="1" value="1"
+                class="form-control product-qty d-inline-block me-2">
+            <button type="submit" class="btn btn-primary add-btn align-baseline">Add to Basket</button>
         </form>
-
     </div>
 </section>
 {% endblock %}
