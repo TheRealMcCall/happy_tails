@@ -30,7 +30,7 @@ def add_to_basket(request):
     )
 
     if available_quantity <= 0 or requested_quantity > available_quantity:
-        messages.error(request, "Sorry, that item is out of stock.")
+        messages.error(request, "Sorry, not enough stock.")
         return redirect("store:product_detail", slug=variant.product.slug)
 
     basket = _basket(request)
