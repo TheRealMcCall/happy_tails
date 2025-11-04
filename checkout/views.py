@@ -347,3 +347,18 @@ def my_orders(request):
     """List the current user's orders in reverse chronological order."""
     orders = Order.objects.filter(user=request.user).order_by("-id")
     return render(request, "checkout/my_orders.html", {"orders": orders})
+
+
+@login_required
+def order_detail(request, order_number):
+    """Renders page for previous order details"""
+    order = (Order.objects
+             .select_related("billing_address", "delivery_address")
+             .prefetch_related("items__variant__product__category")
+             .get(order_number=order_number, user=request.user))
+
+    delivery = order.total - order.sub_total
+    return render(request, "checkout/order_detail.html", {
+        "order": order,
+        "delivery": delivery,
+    })

@@ -74,8 +74,13 @@
                 </thead>
                 <tbody>
                     {% for o in recent_orders %}
-                    <tr>
-                        <td>{{ o.order_number }}</td>
+                    <tr class="position-relative">
+                        <td class="position-relative">
+                            <a href="{% url 'checkout:order_detail' o.order_number %}"
+                                class="stretched-link text-decoration-none">
+                                {{ o.order_number }}
+                            </a>
+                        </td>
                         <td>{{ o.created_at|date:"j M Y, H:i" }}</td>
                         <td class="text-end">£{{ o.total|floatformat:2 }}</td>
                         <td>
