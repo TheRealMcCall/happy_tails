@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-4">
+<section class="container my-4">
     <h2>Delete address</h2>
     <p>Are you sure you want to delete the address <strong>{{ address.label|default:address.first_line }}</strong>?</p>
     <form method="post">
@@ -10,5 +10,5 @@
             <a class="btn btn-outline-secondary" href="{% url 'profiles:profile' %}">Cancel</a>
         </div>
     </form>
-</div>
+</section>
 {% endblock %}

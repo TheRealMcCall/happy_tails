@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-4">
-    <h2>Checkout</h2>
+<section class="container my-4">
+    <h1>Checkout</h1>
 
     {% if items %}
     <table class="table align-middle mt-3">
@@ -44,7 +44,7 @@
         </tfoot>
     </table>
 
-    <h3 class="mt-4">Addresses</h3>
+    <h2 class="mt-4">Addresses</h2>
 
     {% if addresses %}
     <form method="post" action="{% url 'checkout:create' %}">{% csrf_token %}
@@ -97,5 +97,5 @@
     {% else %}
     <p>Your basket is empty.</p>
     {% endif %}
-</div>
+</section>
 {% endblock %}

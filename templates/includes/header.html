@@ -1,6 +1,6 @@
 {% load static %}
 <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" aria-label="main menu">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'store:home' %}">Happy Tails Pet Supplies</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -13,36 +13,42 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'store:home' %}">Home</a>
+                        <a class="nav-link" href="{% url 'store:home' %}" aria-label="Go home">Home</a>
                     </li>
 
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profiles:profile' %}">My Account</a>
+                        <a class="nav-link" href="{% url 'profiles:profile' %}" aria-label="Go to my account page">My
+                            Account</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+                        <a class="nav-link" href="{% url 'account_logout' %}"
+                            aria-label="Logout of your account">Logout</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                        <a class="nav-link" href="{% url 'account_login' %}"
+                            aria-label="Login to your account">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
+                        <a class="nav-link" href="{% url 'account_signup' %}"
+                            aria-label="Register an account">Register</a>
                     </li>
                     {% endif %}
 
                     {% if request.user.is_staff %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'store:manage_dashboard' %}">Product Management</a>
+                        <a class="nav-link" href="{% url 'store:manage_dashboard' %}"
+                            aria-label="Go to product management page">Product Management</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/">Admin</a>
+                        <a class="nav-link" href="/admin/" aria-label="Go to admin page">Admin</a>
                     </li>
                     {% endif %}
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'basket:view_basket' %}">Basket</a>
+                        <a class="nav-link" href="{% url 'basket:view_basket' %}"
+                            aria-label="View basket page">Basket</a>
                     </li>
                 </ul>
             </div>

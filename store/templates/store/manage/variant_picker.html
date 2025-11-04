@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-4">
-    <h2 class="h5 mb-3">Add Variant - choose a product</h2>
+<section class="container my-4">
+    <h1 class="mb-3">Add Variant - choose a product</h1>
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">
@@ -13,5 +13,5 @@
             <a class="btn btn-outline-secondary" href="{% url 'store:manage_dashboard' %}">Back</a>
         </div>
     </form>
-</div>
+</section>
 {% endblock %}

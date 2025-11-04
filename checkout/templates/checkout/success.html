@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-4">
-    <h2>Order placed</h2>
+<section class="container my-4">
+    <h1>Order placed</h1>
     <p>Your order number is <strong>{{ order.order_number }}</strong>.</p>
 
     <ul>
@@ -9,5 +9,5 @@
         <li>Delivery{% if delivery == 0 %} (Free){% endif %}: £{{ delivery|floatformat:2 }}</li>
         <li><strong>Total: £{{ order.total|floatformat:2 }}</strong></li>
     </ul>
-</div>
+</section>
 {% endblock %}

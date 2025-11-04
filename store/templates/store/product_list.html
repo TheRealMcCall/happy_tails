@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-4">
-    <h2 class="mb-4">
+<section class="container my-4">
+    <h1 class="mb-4">
         {% if active_category %}{{ active_category.name }}{% else %}Products{% endif %}
-    </h2>
+    </h1>
 
-    <form method="get" action="" class="row g-2 mb-3">
+    <form method="get" action="" class="row g-2 mb-3" role="search">
         <div class="col-9 col-md-10">
             <input type="search" name="q" class="form-control" placeholder="Search products" value="{{ q }}">
         </div>
@@ -54,5 +54,5 @@
         <p>No products yet.</p>
         {% endfor %}
     </div>
-</div>
+</section>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-4">
-    <h2 class="mb-3">Update Stock for “{{ variant.product.name }}” ({{ variant.sku }})</h2>
+<section class="container my-4">
+    <h1 class="mb-3">Update Stock for “{{ variant.product.name }}” ({{ variant.sku }})</h1>
 
     <form method="post">
         {% csrf_token %}
@@ -20,5 +20,5 @@
             <a class="btn btn-outline-secondary" href="{% url 'store:manage_variants' %}">Cancel</a>
         </div>
     </form>
-</div>
+</section>
 {% endblock %}

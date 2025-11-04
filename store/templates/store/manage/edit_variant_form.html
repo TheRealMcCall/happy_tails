@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-4">
-    <h2 class="mb-3">{% if is_create %}Add Variant{% else %}Edit Variant: {{ variant.sku }}{% endif %}</h2>
+<section class="container my-4">
+    <h1 class="mb-3">{% if is_create %}Add Variant{% else %}Edit Variant: {{ variant.sku }}{% endif %}</h1>
 
     <form method="post">
         {% csrf_token %}
@@ -18,5 +18,5 @@
             <a class="btn btn-outline-secondary" href="{% url 'store:manage_variants' %}">Cancel</a>
         </div>
     </form>
-</div>
+</section>
 {% endblock %}

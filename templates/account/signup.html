@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container py-5 form-container">
-    <h1 class="h3 text-center mb-4">Create your account</h1>
+<section class="container py-5 form-container">
+    <h1 class="text-center mb-4">Create your account</h1>
 
     {% if form.non_field_errors %}
     <div class="alert alert-danger" role="alert" aria-live="polite">
@@ -52,5 +52,5 @@
         Already registered?
         <a href="{% url 'account_login' %}" aria-label="Go to login page">Login here</a>
     </p>
-</div>
+</section>
 {% endblock %}
