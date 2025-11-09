@@ -26,15 +26,37 @@
 <body class="d-flex flex-column min-vh-100">
     {% include "includes/header.html" %}
 
-    {% if messages %}
-    <div class="message-container" id="messages" aria-live="polite">
+    <div class="text-center py-1 delivery-note">
+        <strong>Free delivery</strong> on orders over £50
+        <button class="btn btn-link btn-sm p-0 ms-2" data-bs-toggle="modal" data-bs-target="#deliveryInfo">Click for
+            info</button>
+    </div>
+
+    <aside id="messages" class="position-fixed end-0 p-3"
+        style="top: calc(var(--nav-offset, 56px) + .5rem); z-index:1080; width:min(420px, 90vw);" aria-live="polite">
+        {% if messages %}
         {% for message in messages %}
-        <div class="message-container__message alert alert-info" role="alert">
-            <p class="message-container__message--text">{{ message }}</p>
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} shadow mb-2"
+            role="status">
+            {{ message }}
         </div>
         {% endfor %}
+        {% endif %}
+    </aside>
+
+    <div class="modal fade" id="deliveryInfo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Delivery costs</h2><button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Orders over £50 qualify for free standard delivery. Under £50, delivery is £3.99.
+                </div>
+            </div>
+        </div>
     </div>
-    {% endif %}
 
     <main class="flex-fill">
         {% block content %}{% endblock %}

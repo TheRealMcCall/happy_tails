@@ -35,3 +35,24 @@ footer {
     max-width: 75px;
     margin-right: 20px;
 }
+
+@media (max-width: 576px) {
+    #messages {
+        top: auto !important;
+        bottom: .75rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 92vw !important;
+    }
+}
+
+.delivery-note {
+    background-color: black;
+    color: white;
+    text-decoration: none !important;
+
+}
+
+.delivery-note button {
+    text-decoration: none;
+}
