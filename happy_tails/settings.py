@@ -157,8 +157,10 @@ ACCOUNT_LOGIN_METHODS = {'username', 'email'}
 # Fields required at signup
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 
+ACCOUNT_EMAIL_REQUIRED = True
+
 # Email verification behaviour
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 # Redirects
 LOGIN_REDIRECT_URL = "/"
