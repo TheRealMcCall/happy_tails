@@ -51,9 +51,10 @@
     </p>
 
     {% else %}
-    <p>Your basket is empty.</p>
-
-
+    <div class="text-center my-5">
+        <p>Your basket is empty.</p>
+        <a class="btn btn-primary" href="{% url 'store:home' %}">Continue shopping</a>
+    </div>
     {% endif %}
 </section>
 {% endblock %}
