@@ -4,7 +4,26 @@ body {
     line-height: 1.6;
 }
 
+.navbar.fixed-top {
+    z-index: 1200;
+}
+
+.delivery-bar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    z-index: 1150;
+    background: #000;
+    color: #fff;
+}
+
+.delivery-bar button {
+    text-decoration: none;
+}
+
 .hero {
+    margin-top: 30px;
     height: clamp(320px, 36vw, 400px);
     overflow: hidden;
 }
@@ -36,23 +55,21 @@ footer {
     margin-right: 20px;
 }
 
+.message-container {
+    position: fixed;
+    right: 0;
+    padding: 1rem;
+    top: calc(var(--nav-offset) + .5rem);
+    z-index: 1080;
+    width: min(420px, 90vw);
+}
+
 @media (max-width: 576px) {
-    #messages {
+    .message-container {
         top: auto !important;
         bottom: .75rem;
         left: 50%;
         transform: translateX(-50%);
         width: 92vw !important;
     }
-}
-
-.delivery-note {
-    background-color: black;
-    color: white;
-    text-decoration: none !important;
-
-}
-
-.delivery-note button {
-    text-decoration: none;
 }

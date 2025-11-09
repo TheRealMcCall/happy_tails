@@ -1,6 +1,6 @@
 {% load static %}
 <header>
-    <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary shadow-sm" aria-label="main menu">
+    <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary shadow-sm" aria-label="main menu">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'store:home' %}">Happy Tails Pet Supplies</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -10,53 +10,78 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'store:home' %}" aria-label="Go home">Home</a>
-                    </li>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'store:home' %}" aria-label="Go home">Home</a>
+                        </li>
 
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profiles:profile' %}" aria-label="Go to my account page">My
-                            Account</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_logout' %}"
-                            aria-label="Logout of your account">Logout</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}"
-                            aria-label="Login to your account">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}"
-                            aria-label="Register an account">Register</a>
-                    </li>
-                    {% endif %}
+                        {% if request.user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'store:manage_dashboard' %}"
+                                aria-label="Go to product management page">Product Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/" aria-label="Go to admin page">Admin</a>
+                        </li>
+                        {% endif %}
+                    </ul>
 
-                    {% if request.user.is_staff %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'store:manage_dashboard' %}"
-                            aria-label="Go to product management page">Product Management</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/" aria-label="Go to admin page">Admin</a>
-                    </li>
-                    {% endif %}
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'basket:view_basket' %}"
+                                aria-label="View basket page">Basket</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'basket:view_basket' %}"
-                            aria-label="View basket page">Basket</a>
-                    </li>
-                </ul>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profiles:profile' %}"
+                                aria-label="Go to my account page">My Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_logout' %}"
+                                aria-label="Logout of your account">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_login' %}"
+                                aria-label="Login to your account">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_signup' %}"
+                                aria-label="Register an account">Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+    </nav>
+
+    <aside class="delivery-bar">
+        <div class="container-fluid text-center py-1">
+            <strong>Free delivery</strong> on orders over £50
+            <button class="btn btn-link btn-sm p-0 ms-2" data-bs-toggle="modal" data-bs-target="#deliveryInfo">
+                Click for info
+            </button>
+        </div>
+    </aside>
+
+    <div class="modal fade" id="deliveryInfo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Delivery costs</h2><button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Orders over £50 qualify for free standard delivery. Under £50, delivery is £3.99.
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
+
 
     <div class="hero">
         <img src="{% static 'images/hero_dog.png' %}" alt="Hero banner for Happy Tails Pet Supplies" class="hero-image">
     </div>
-
 </header>
