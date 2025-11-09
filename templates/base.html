@@ -26,6 +26,100 @@
 <body class="d-flex flex-column min-vh-100">
     {% include "includes/header.html" %}
 
+    {% if not user.is_authenticated %}
+    <aside id="register-bar" class="bg-black text-white register-bar" aria-label="Registration benefits">
+        <div class="container-fluid d-flex align-items-center gap-2 py-1">
+            <div id="benefitsCarousel" class="carousel carousel-fade slide flex-grow-1" data-bs-ride="carousel"
+                data-bs-interval="2600">
+                <div class="carousel-inner small">
+
+                    <div class="carousel-item active">
+                        <a href="{% url 'account_signup' %}"
+                            class="d-block w-100 text-center text-truncate px-2 link-light fw-semibold">
+                            Click here to register now!
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{% url 'account_signup' %}"
+                            class="d-block w-100 text-center text-truncate px-2 link-light">
+                            View previous orders - Register here!
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{% url 'account_signup' %}"
+                            class="d-block w-100 text-center text-truncate px-2 link-light">
+                            Create wishlists - Register here!
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{% url 'account_signup' %}"
+                            class="d-block w-100 text-center text-truncate px-2 link-light">
+                            Save multiple addresses - Register here!
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{% url 'account_signup' %}"
+                            class="d-block w-100 text-center text-truncate px-2 link-light">
+                            Early access to offers! - Register here!
+                        </a>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#benefitsCarousel"
+                        data-bs-slide="prev" aria-label="Previous">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#benefitsCarousel"
+                        data-bs-slide="next" aria-label="Next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="btn btn-outline-light btn-sm d-none d-md-inline-flex" data-bs-toggle="modal"
+                data-bs-target="#registerMoreInfo">
+                More info
+            </button>
+        </div>
+
+        <div class="container-fluid d-md-none text-center py-1">
+            <button class="btn btn-link btn-sm text-white text-decoration-underline p-0" data-bs-toggle="modal"
+                data-bs-target="#registerMoreInfo">
+                More info
+            </button>
+        </div>
+    </aside>
+    {% endif %}
+
+    <div class="modal fade" id="registerMoreInfo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title mb-0">Why create an account?</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body small">
+                    <ul class="mb-0">
+                        <li>View your full order history and receipts</li>
+                        <li>Create and manage product wishlists</li>
+                        <li>Save multiple delivery addresses for faster checkout</li>
+                        <li>Track delivery updates and get notifications</li>
+                        <li>Early access to promotions and new products</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <aside id="messages" class="position-fixed end-0 p-3 message-container" aria-live="polite">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} shadow mb-2"
+            role="status">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </aside>
+
     <main class="flex-fill">
         {% block content %}{% endblock %}
     </main>

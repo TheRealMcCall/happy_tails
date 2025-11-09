@@ -23,7 +23,7 @@ body {
 }
 
 .hero {
-    margin-top: 30px;
+    margin-top: 50px;
     height: clamp(320px, 36vw, 400px);
     overflow: hidden;
 }
@@ -71,5 +71,10 @@ footer {
         left: 50%;
         transform: translateX(-50%);
         width: 92vw !important;
+        z-index: 1300;
     }
+}
+
+.register-bar a {
+    text-decoration: none;
 }
