@@ -1,32 +1,27 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
 {% block content %}
 <div class="container my-4">
-    <h1 class="mb-3">
+    <h1 class="text-center mb-3">
         {% if is_create %}Add product{% else %}Edit: {{ product.name }}{% endif %}
     </h1>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        {% for field in form %}
-        <div>
-            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-            {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
-            {% for err in field.errors %}
-            <div class="text-danger small">{{ err }}</div>
-            {% endfor %}
-        </div>
-        {% endfor %}
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
 
-        <div class="d-flex gap-2">
-            <button class="btn btn-primary" type="submit">
-                {% if is_create %}Create{% else %}Save changes{% endif %}
-            </button>
-            <a class="btn btn-outline-secondary" href="{% url 'store:manage_dashboard' %}">
-                Cancel
-            </a>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">
+                        {% if is_create %}Create{% else %}Save changes{% endif %}
+                    </button>
+                    <a class="btn btn-outline-secondary" href="{% url 'store:manage_dashboard' %}">Cancel</a>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
+
 {% endblock %}

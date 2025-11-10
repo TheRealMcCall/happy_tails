@@ -53,11 +53,16 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'basket',
     'localflavor',
-    'phonenumber_field'
+    'phonenumber_field',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 PHONENUMBER_DEFAULT_REGION = "GB"
 PHONENUMBER_DEFAULT_FORMAT = "E164"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = ("bootstrap5",)
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

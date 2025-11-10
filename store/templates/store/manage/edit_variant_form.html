@@ -1,22 +1,24 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
 {% block content %}
 <section class="container my-4">
-    <h1 class="mb-3">{% if is_create %}Add Variant{% else %}Edit Variant: {{ variant.sku }}{% endif %}</h1>
+    <h1 class="mb-3 text-center">
+        {% if is_create %}Add Variant{% else %}Edit Variant: {{ variant.sku }}{% endif %}
+    </h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        {% for field in form %}
-        <div class="mb-3">
-            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-            {% for err in field.errors %}<div class="text-danger small">{{ err }}</div>{% endfor %}
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                    <a class="btn btn-outline-secondary" href="{% url 'store:manage_variants' %}">Cancel</a>
+                </div>
+            </form>
         </div>
-        {% endfor %}
-        <div class="d-flex gap-2">
-            <button class="btn btn-primary" type="submit">Save changes</button>
-            <a class="btn btn-outline-secondary" href="{% url 'store:manage_variants' %}">Cancel</a>
-        </div>
-    </form>
+    </div>
 </section>
 {% endblock %}
