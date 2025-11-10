@@ -13,12 +13,15 @@ class ProfileForm(forms.ModelForm):
 
 class AddressForm(forms.ModelForm):
     """Form for Creating an Address for the user"""
-    phone_number = PhoneNumberField(region="GB", required=True,
-                                    widget=forms.TextInput(attrs={
-                                        "inputmode": "tel",
-                                        "autocomplete": "tel",
-                                        "placeholder": "Enter phone number",
-                                    }))
+    phone_number = PhoneNumberField(
+        region="GB", required=True,
+        widget=forms.TextInput(attrs={
+            "inputmode": "tel",
+            "autocomplete": "tel",
+            "placeholder": "Enter phone number",
+        })
+    )
+
     postcode = GBPostcodeField(widget=forms.TextInput(attrs={
         "placeholder": "Enter post code",
         "autocomplete": "postal-code",
@@ -36,6 +39,19 @@ class AddressForm(forms.ModelForm):
             "phone_number",
         ]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if "country" in self.fields:
+            self.fields["country"].initial = "United Kingdom"
+            self.fields["country"].disabled = True
+
     def clean_phone_number(self):
         n = self.cleaned_data.get("phone_number")
         return n.as_e164 if n else n
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        obj.country = "United Kingdom"
+        if commit:
+            obj.save()
+        return obj
