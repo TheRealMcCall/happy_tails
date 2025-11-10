@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container py-5" role="region" aria-labelledby="verification-sent-title">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 text-center">
+            <h1 id="verification-sent-title" class="mb-3">Check your inbox</h1>
+            <p id="verification-sent-description" aria-live="polite">
+                We’ve sent a verification link to your email. Click the link to finish setting up your account.
+            </p>
+            <a href="{% url 'account_login' %}" class="btn btn-primary mt-3" aria-describedby="verification-sent-description"
+                aria-label="Back to login page">
+                Back to login
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
