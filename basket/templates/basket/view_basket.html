@@ -7,11 +7,11 @@
     <table class="table align-middle mt-3">
         <thead>
             <tr>
-                <th>Item</th>
-                <th class="text-center">Qty</th>
-                <th class="text-end">Unit</th>
-                <th class="text-end">Total</th>
-                <th></th>
+                <th scope="col">Item</th>
+                <th scope="col" class="text-center">Qty</th>
+                <th scope="col" class="text-end">Unit</th>
+                <th scope="col" class="text-end">Total</th>
+                <th aria-hidden="true"></th>
             </tr>
         </thead>
         <tbody>
@@ -25,14 +25,21 @@
 
                     <form method="post" action="{% url 'basket:remove' i.variant_id %}" style="display:inline;">
                         {% csrf_token %}
-                        <button class="btn btn-sm btn-outline-danger" type="submit">Remove</button>
+                        <button class="btn btn-sm btn-outline-danger" type="submit"
+                            aria-label="Remove {{ i.name }} from basket">
+                            Remove
+                        </button>
                     </form>
 
                     <form method="post" action="{% url 'basket:update' %}" style="display:inline; margin-left:6px;">
                         {% csrf_token %}
                         <input type="hidden" name="variant_id" value="{{ i.variant_id }}">
-                        <input type="number" name="qty" min="0" value="{{ i.qty }}" style="width:70px;">
-                        <button class="btn btn-sm btn-outline-secondary" type="submit">Update Qty</button>
+                        <input type="number" name="qty" min="0" value="{{ i.qty }}" style="width:70px;"
+                            aria-label="Quantity for {{ i.name }}">
+                        <button class="btn btn-sm btn-outline-secondary" type="submit"
+                            aria-label="Update quantity for {{ i.name }}">
+                            Update Qty
+                        </button>
                     </form>
                 </td>
             </tr>
@@ -46,14 +53,19 @@
             </tr>
         </tfoot>
     </table>
-    <p class="text-end mt-3">
-        <a class="btn btn-primary" href="{% url 'checkout:start' %}">Proceed to Checkout</a>
-    </p>
+    <div class="d-flex justify-content-between mt-3">
+        <a class="btn btn-outline-secondary" href="{% url 'store:product_list' %}"
+            aria-label="Back to store products">Back to store</a>
+
+        <a class="btn btn-primary" href="{% url 'checkout:start' %}" aria-label="Proceed to checkout">Proceed to
+            Checkout</a>
+    </div>
 
     {% else %}
     <div class="text-center my-5">
         <p>Your basket is empty.</p>
-        <a class="btn btn-primary" href="{% url 'store:home' %}">Continue shopping</a>
+        <a class="btn btn-primary" href="{% url 'store:home' %}"
+            aria-label="Continue shopping on the home page">Continue shopping</a>
     </div>
     {% endif %}
 </section>
