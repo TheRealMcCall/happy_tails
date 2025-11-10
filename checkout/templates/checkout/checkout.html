@@ -7,10 +7,10 @@
     <table class="table align-middle mt-3">
         <thead>
             <tr>
-                <th>Item</th>
-                <th class="text-center">Qty</th>
-                <th class="text-end">Unit Price</th>
-                <th class="text-end">Total</th>
+                <th scope="col">Item</th>
+                <th scope="col" class="text-center">Qty</th>
+                <th scope="col" class="text-end">Unit Price</th>
+                <th scope="col" class="text-end">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -23,20 +23,17 @@
             </tr>
             {% endfor %}
         </tbody>
-
         <tfoot>
             <tr>
                 <th colspan="3" class="text-end">Subtotal</th>
                 <th class="text-end">£{{ sub_total|default:total }}</th>
             </tr>
-
             <tr>
                 <th colspan="3" class="text-end">
                     Delivery{% if delivery == 0 and free_delivery_threshold %} (Free){% endif %}
                 </th>
                 <th class="text-end">£{{ delivery|default:"0.00" }}</th>
             </tr>
-
             <tr class="border-top">
                 <th colspan="3" class="text-end">Total</th>
                 <th class="text-end">£{{ total }}</th>
@@ -44,7 +41,15 @@
         </tfoot>
     </table>
 
-    <h2 class="mt-4">Addresses</h2>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="d-flex align-items-center">
+            <h2 class="mb-0 me-2">Addresses</h2>
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                data-bs-target="#addressInfoModal" aria-label="Open information about choosing addresses">
+                Info
+            </button>
+        </div>
+    </div>
 
     {% if addresses %}
     <form method="post" action="{% url 'checkout:create' %}">{% csrf_token %}
@@ -73,8 +78,18 @@
             </div>
         </div>
 
+        <div class="text-center mt-3">
+            <a class="btn btn-primary btn-sm" href="{% url 'profiles:address_add' %}"
+                aria-label="Add a new address in My Account">
+                Add a new address
+            </a>
+        </div>
+
         <div class="d-flex justify-content-between mt-3">
-            <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}">Back to Basket</a>
+            <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}"
+                aria-label="Go back to your basket">
+                Back to Basket
+            </a>
             <button class="btn btn-success" type="submit">Place Order</button>
         </div>
     </form>
@@ -83,19 +98,37 @@
         You don’t have any saved addresses yet.
     </div>
     <div class="d-flex justify-content-between mt-3">
-        <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}">Back to Basket</a>
-        <a class="btn btn-success" href="{% url 'profiles:profile' %}">Add an Address</a>
+        <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}" aria-label="Go back to your basket">
+            Back to Basket
+        </a>
+        <a class="btn btn-success" href="{% url 'profiles:address_add' %}" aria-label="Add a new address">
+            Add an Address
+        </a>
     </div>
-    {% endif %}
-
-    {% if free_delivery_threshold %}
-    <p class="text-muted small text-end mt-3">
-        Free delivery on orders £{{ free_delivery_threshold }} and over.
-    </p>
     {% endif %}
 
     {% else %}
     <p>Your basket is empty.</p>
     {% endif %}
+
+    <aside class="modal fade" id="addressInfoModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-labelledby="addressInfoModalLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="addressInfoModalLabel" class="modal-title">Choosing addresses</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close information modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>Billing address</h4>
+                    <p class="mb-2">Used on your receipt and for payment verification.</p>
+                    <h4>Delivery address</h4>
+                    <p class="mb-2">Where we’ll send your order.</p>
+                    <p class="mb-0 text-muted">Tip: If both are the same, select the same address in each dropdown.</p>
+                </div>
+            </div>
+        </div>
+    </aside>
 </section>
 {% endblock %}
