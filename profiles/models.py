@@ -55,7 +55,9 @@ class Profile(models.Model):
 
     def __str__(self):
         """Makes admin easier to read."""
-        username = getattr(self.user, "username", None) or getattr(self.user, "email", "")
+        username = getattr(
+            self.user, "username", None
+            ) or getattr(self.user, "email", "")
         return f"Profile for {username}"
 
 
