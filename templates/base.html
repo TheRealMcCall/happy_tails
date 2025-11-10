@@ -111,12 +111,16 @@
 
     <aside id="messages" class="position-fixed end-0 p-3 message-container" aria-live="polite">
         {% if messages %}
-        {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} shadow mb-2"
-            role="status">
-            {{ message }}
+        <div id="messages" class="message-container" aria-live="polite" aria-atomic="true">
+            {% for message in messages %}
+            {% with tag=message.tags %}
+            <div class="alert alert-{% if tag == 'error' %}danger{% else %}{{ tag }}{% endif %} shadow-sm mb-2"
+                role="alert">
+                {{ message }}
+            </div>
+            {% endwith %}
+            {% endfor %}
         </div>
-        {% endfor %}
         {% endif %}
     </aside>
 
