@@ -14,20 +14,43 @@
                     </a>
                 </div>
                 <ul class="list-unstyled mb-0">
-                    <li><strong>First name:</strong>
-                        {% if profile.first_name %}{{ profile.first_name }}{% else %}
-                        <span class="text-muted">Please set first name</span>
-                        {% endif %}
-                    </li>
-                    <li><strong>Last name:</strong>
-                        {% if profile.last_name %}{{ profile.last_name }}{% else %}
-                        <span class="text-muted">Please set last name</span>
-                        {% endif %}
-                    </li>
+                    <li><strong>First name:</strong> {% if profile.first_name %}{{ profile.first_name }}{% else %}<span
+                            class="text-muted">Please set first name</span>{% endif %}</li>
+                    <li><strong>Last name:</strong> {% if profile.last_name %}{{ profile.last_name }}{% else %}<span
+                            class="text-muted">Please set last name</span>{% endif %}</li>
                     <li><strong>Email:</strong> {{ request.user.email }}</li>
                 </ul>
             </div>
+
+            <div class="bg-white p-3 rounded-3 shadow-sm mt-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Wishlist</h2>
+                    <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'store:wishlist' %}"
+                        aria-label="View full wishlist">
+                        View full wishlist
+                    </a>
+                </div>
+
+                {% if wishlist_products %}
+                <div class="list-group mt-3">
+                    {% for p in wishlist_products %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'store:product_detail' p.slug %}" class="text-decoration-none">{{ p.name }}</a>
+                        <form method="post" action="{% url 'store:wishlist_toggle' p.id %}" class="ms-3">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="btn btn-sm btn-outline-danger">Remove</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="mt-2 text-muted mb-0">You haven’t saved any products yet.</p>
+                {% endif %}
+            </div>
         </div>
+
+
 
         <div class="col-12 col-md-6">
             <div class="bg-white p-3 rounded-3 shadow-sm">

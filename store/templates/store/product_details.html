@@ -4,37 +4,63 @@
     <h1 class="mt-2 text-center">{{ product.name }}</h1>
 
     {% with photo=product.get_product_image %}
-    {% if photo %}
-    <img src="{{ photo.image.url }}" alt="{{ product.name }}"
-        class="img-fluid rounded shadow-sm product-img mx-auto mx-md-0">
-    {% endif %}
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <div class="row g-4 align-items-start">
+                <div class="col-12 col-md-5">
+                    {% if photo %}
+                    <img src="{{ photo.image.url }}" alt="{{ product.name }}"
+                        class="img-fluid rounded product-img d-block mx-auto">
+                    {% endif %}
+                </div>
+
+                <div class="col-12 col-md-7">
+                    {% if product.description %}
+                    <p class="product-desc">{{ product.description }}</p>
+                    {% endif %}
+
+                    <div class="product-panel d-flex flex-wrap align-items-end gap-2 mt-2">
+                        <form action="{% url 'basket:add_to_basket' %}" method="post" class="product-form">
+                            {% csrf_token %}
+
+                            <label for="variant" class="form-label">Choose a variant</label>
+                            <select id="variant" name="variant_id" class="form-select product-variant mb-3">
+                                {% for v in product.variants.all %}
+                                {% with qty=v.stock.quantity|default:0 %}
+                                <option value="{{ v.id }}">{{ v.size|default:"" }} / {{ v.colour|default:"" }}
+                                    £{{ v.price }} ({{ qty }} left)</option>
+                                {% endwith %}
+                                {% endfor %}
+                            </select>
+
+                            <div class="d-flex align-items-end gap-2 flex-wrap">
+                                <div>
+                                    <label for="qty" class="form-label ms-1 mb-1">Qty</label>
+                                    <input id="qty" name="qty" type="number" min="1" value="1"
+                                        class="form-control product-qty d-inline-block">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add to Basket</button>
+                            </div>
+                        </form>
+
+                        {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'store:wishlist_toggle' product.id %}"
+                            class="d-inline align-self-end mt-2 mt-md-0" {% csrf_token %} <input type="hidden"
+                            name="next" value="{{ request.get_full_path }}">
+                            {% if user.wishlist and product in user.wishlist.products.all %}
+                            <button class="btn btn-outline-danger">Remove from wishlist</button>
+                            {% else %}
+                            <button class="btn btn-outline-secondary">Add to wishlist</button>
+                            {% endif %}
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endwith %}
 
-    {% if product.description %}
-    <p class="mt-3 product-desc mx-auto mx-md-0">{{ product.description }}</p>
-    {% endif %}
-
-    <div class="mt-3 product-panel mx-auto mx-md-0">
-        <form action="{% url 'basket:add_to_basket' %}" method="post" class="product-form">
-            {% csrf_token %}
-
-            <label for="variant" class="form-label">Choose a variant</label>
-            <select id="variant" name="variant_id" class="form-select product-variant mb-3">
-                {% for v in product.variants.all %}
-                {% with qty=v.stock.quantity|default:0 %}
-                <option value="{{ v.id }}">
-                    {{ v.size|default:"" }} / {{ v.colour|default:"" }} £{{ v.price }} ({{ qty }} left)
-                </option>
-                {% endwith %}
-                {% endfor %}
-            </select>
-
-            <label for="qty" class="form-label ms-1 mb-1">Qty</label>
-            <input id="qty" name="qty" type="number" min="1" value="1"
-                class="form-control product-qty d-inline-block me-2">
-            <button type="submit" class="btn btn-primary add-btn align-baseline">Add to Basket</button>
-        </form>
-    </div>
 </section>
 
 <div class="d-flex justify-content-center gap-3 mt-5">

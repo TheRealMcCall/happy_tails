@@ -2,6 +2,7 @@ body {
     background-color: lightblue;
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
+    max-width: 100%;
 }
 
 .navbar.fixed-top {
@@ -42,17 +43,21 @@ footer {
 }
 
 .product-section {
-    max-width: 400px;
+    max-width: 720px;
+    margin: 0 auto;
 }
 
-.product-section .product-variant {
-    max-width: 300px;
-    margin-right: 20px;
+.product-img {
+    display: block;
+    max-width: 100%;
+    width: auto;
+    max-height: 420px;
+    height: auto;
+    object-fit: contain;
 }
 
 .product-section .product-qty {
-    max-width: 75px;
-    margin-right: 20px;
+    max-width: 72px;
 }
 
 .message-container {
