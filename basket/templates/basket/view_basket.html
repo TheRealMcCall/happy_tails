@@ -57,6 +57,39 @@
         <a class="btn btn-outline-secondary" href="{% url 'store:product_list' %}"
             aria-label="Back to store products">Back to store</a>
 
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#emptyBasketModal"
+            aria-label="Open confirm dialog to empty basket">
+            Empty basket
+        </button>
+
+        <div class="modal fade" id="emptyBasketModal" tabindex="-1" aria-labelledby="emptyBasketLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title fs-5" id="emptyBasketLabel">Empty basket?</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close dialog"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        This will remove all items from your basket.
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="post" action="{% url 'basket:empty' %}" class="m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" aria-label="Confirm empty basket">Empty
+                                basket</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <a class="btn btn-primary" href="{% url 'checkout:start' %}" aria-label="Proceed to checkout">Proceed to
             Checkout</a>
     </div>

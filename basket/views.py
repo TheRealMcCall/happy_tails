@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Variant
 from django.contrib import messages
+from django.views.decorators.http import require_POST
 
 
 def _basket(request):
@@ -83,6 +84,14 @@ def view_basket(request):
 
     context = {"items": items, "total": total}
     return render(request, "basket/view_basket.html", context)
+
+
+@require_POST
+def empty(request):
+    """Empty basket contents"""
+    request.session.pop("basket", None)
+    messages.success(request, "Your basket is now empty.")
+    return redirect("basket:view_basket")
 
 
 def update_quantity(request):
