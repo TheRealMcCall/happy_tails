@@ -1,103 +1,122 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="container my-4">
-    <div class="d-flex justify-content-between align-items-center">
-        <h1 class="mb-0">My Account</h1>
-        <a class="btn btn-outline-secondary" href="{% url 'profiles:profile_edit' %}">Edit profile</a>
-    </div>
+    <h1 class="mb-3">My Account</h1>
 
-    <div class="row mt-3 g-3">
+    <div class="row g-3">
         <div class="col-12 col-md-6">
-            <h2 class="h4 mb-2">Profile</h2>
-            <ul class="list-unstyled mb-0">
-                <li><strong>First name:</strong>
-                    {% if profile.first_name %}{{ profile.first_name }}{% else %}
-                    <span class="text-muted">Please set first name</span>{% endif %}
-                </li>
-                <li><strong>Last name:</strong>
-                    {% if profile.last_name %}{{ profile.last_name }}{% else %}
-                    <span class="text-muted">Please set last name</span>{% endif %}
-                </li>
-                <li><strong>Email:</strong> {{ request.user.email }}</li>
-            </ul>
+            <div class="bg-white p-3 rounded-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h2 class="mb-0">Profile</h2>
+                    <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'profiles:profile_edit' %}"
+                        aria-label=" Edit your profile">
+                        Edit profile
+                    </a>
+                </div>
+                <ul class="list-unstyled mb-0">
+                    <li><strong>First name:</strong>
+                        {% if profile.first_name %}{{ profile.first_name }}{% else %}
+                        <span class="text-muted">Please set first name</span>
+                        {% endif %}
+                    </li>
+                    <li><strong>Last name:</strong>
+                        {% if profile.last_name %}{{ profile.last_name }}{% else %}
+                        <span class="text-muted">Please set last name</span>
+                        {% endif %}
+                    </li>
+                    <li><strong>Email:</strong> {{ request.user.email }}</li>
+                </ul>
+            </div>
         </div>
 
         <div class="col-12 col-md-6">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h2 class="h4 mb-0">Addresses</h2>
-                <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'profiles:address_add' %}">Add
-                    address</a>
+            <div class="bg-white p-3 rounded-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h2 class="mb-0">Addresses</h2>
+                    <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'profiles:address_add' %}"
+                        aria-label="Add a new address">Add address
+                    </a>
+                </div>
+
+                {% if addresses %}
+                <div class="list-group" aria-label="Saved addresses">
+                    {% for a in addresses %}
+                    <div class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="me-3">
+                            <strong class="text-capitalize">{{ a.label|default:"Address" }}</strong><br>
+                            {{ a.first_line }}{% if a.second_line %}, {{ a.second_line }}{% endif %}, {{ a.city }}
+                            {{ a.postcode }}<br>
+                            {{ a.country }}
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a class="btn btn-sm btn-outline-secondary" href="{% url 'profiles:address_edit' a.id %}"
+                                aria-label="Edit address {{ a.label|default:'Address' }}">
+                                Edit
+                            </a>
+                            <a class="btn btn-sm btn-outline-danger" href="{% url 'profiles:address_delete' a.id %}"
+                                aria-label="Delete address {{ a.label|default:'Address' }}">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">You don't have any addresses yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <section class="my-4">
+        <div class="bg-white p-3 rounded-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Recent orders</h2>
+                {% if recent_orders %}
+                <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'checkout:my_orders' %}"
+                    aria-label="View all your orders">View all orders</a>
+                {% endif %}
             </div>
 
-            {% if addresses %}
-            <div class="list-group" aria-label="Saved addresses">
-                {% for a in addresses %}
-                <div class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="me-3">
-                        <strong class="text-capitalize">{{ a.label|default:"Address" }}</strong><br>
-                        {{ a.first_line }}{% if a.second_line %}, {{ a.second_line }}{% endif %}, {{ a.city }}
-                        {{ a.postcode }}<br>
-                        {{ a.country }}
-                    </div>
-                    <div class="d-flex gap-2">
-                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'profiles:address_edit' a.id %}"
-                            aria-label="Edit {{ a.label|default:'address' }}">Edit</a>
-                        <a class="btn btn-sm btn-outline-danger" href="{% url 'profiles:address_delete' a.id %}"
-                            aria-label="Delete {{ a.label|default:'address' }}">Delete</a>
-                    </div>
-                </div>
-                {% endfor %}
+            {% if recent_orders %}
+            <div class="table-responsive mt-3">
+                <table class="table table-sm align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order #</th>
+                            <th scope="col">Date</th>
+                            <th scope="col" class="text-end">Total</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for o in recent_orders %}
+                        <tr class="position-relative">
+                            <td class="position-relative">
+                                <a href="{% url 'checkout:order_detail' o.order_number %}"
+                                    class="stretched-link text-decoration-none"
+                                    aria-label="View order {{ o.order_number }}">
+                                    {{ o.order_number }}
+                                </a>
+                            </td>
+                            <td>{{ o.created_at|date:"j M Y, H:i" }}</td>
+                            <td class="text-end">£{{ o.total|floatformat:2 }}</td>
+                            <td>
+                                {% if o.paid %}
+                                <span class="badge bg-success-subtle text-success">Paid</span>
+                                {% else %}
+                                <span class="badge bg-warning-subtle text-warning">Pending</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
-            <p class="text-muted mb-0">You don't have any addresses yet.</p>
+            <p class="mt-2 text-muted">You don’t have any orders yet.</p>
             {% endif %}
         </div>
-    </div>
-
-
-    <section class="container my-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="h5 mb-0">Recent orders</h2>
-            <a class="btn btn-sm btn-outline-primary" href="{% url 'checkout:my_orders' %}">View all orders</a>
-        </div>
-
-        {% if recent_orders %}
-        <div class="table-responsive mt-3">
-            <table class="table table-sm align-middle">
-                <thead>
-                    <tr>
-                        <th scope="col">Order #</th>
-                        <th scope="col">Date</th>
-                        <th scope="col" class="text-end">Total</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for o in recent_orders %}
-                    <tr class="position-relative">
-                        <td class="position-relative">
-                            <a href="{% url 'checkout:order_detail' o.order_number %}"
-                                class="stretched-link text-decoration-none">
-                                {{ o.order_number }}
-                            </a>
-                        </td>
-                        <td>{{ o.created_at|date:"j M Y, H:i" }}</td>
-                        <td class="text-end">£{{ o.total|floatformat:2 }}</td>
-                        <td>
-                            {% if o.paid %}
-                            <span class="badge bg-success-subtle text-success">Paid</span>
-                            {% else %}
-                            <span class="badge bg-warning-subtle text-warning">Pending</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% else %}
-        <p class="mt-2 text-muted">You don’t have any orders yet.</p>
-        {% endif %}
     </section>
-
-    {% endblock %}
+</section>
+{% endblock %}
