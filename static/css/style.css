@@ -60,7 +60,7 @@ footer {
     right: 0;
     padding: 1rem;
     top: calc(var(--nav-offset) + .5rem);
-    z-index: 1080;
+    z-index: 1300;
     width: min(420px, 90vw);
 }
 
