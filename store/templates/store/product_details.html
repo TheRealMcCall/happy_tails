@@ -45,8 +45,9 @@
 
                         {% if user.is_authenticated %}
                         <form method="post" action="{% url 'store:wishlist_toggle' product.id %}"
-                            class="d-inline align-self-end mt-2 mt-md-0" {% csrf_token %} <input type="hidden"
-                            name="next" value="{{ request.get_full_path }}">
+                            class="d-inline align-self-end mt-2 mt-md-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
                             {% if user.wishlist and product in user.wishlist.products.all %}
                             <button class="btn btn-outline-danger">Remove from wishlist</button>
                             {% else %}
