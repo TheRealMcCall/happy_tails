@@ -4,6 +4,7 @@ from .models import Profile, Address
 from .forms import ProfileForm, AddressForm
 from checkout.models import Order
 from django.contrib import messages
+from store.models import Wishlist
 
 
 @login_required
@@ -11,6 +12,8 @@ def profile(request):
     """Render the profile page."""
     profile = get_object_or_404(Profile, user=request.user)
     addresses = Address.objects.filter(user=request.user).order_by("id")
+    wishlist, _ = Wishlist.objects.get_or_create(user=request.user)
+    wishlist_products = wishlist.products.only("id", "name", "slug")[:3]
     recent_orders = (
         Order.objects.filter(user=request.user)
         .order_by("-created_at", "-id")[:5]
@@ -21,7 +24,8 @@ def profile(request):
         {
          "profile": profile,
          "addresses": addresses,
-         "recent_orders": recent_orders
+         "recent_orders": recent_orders,
+         "wishlist_products": wishlist_products,
         },
     )
 

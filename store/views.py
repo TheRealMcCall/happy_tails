@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category, ProductImage, Variant, Stock
+from .models import Product, Category, ProductImage, Variant, Stock, Wishlist
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -239,3 +239,33 @@ def variant_stock_update(request, pk):
         "store/manage/stock_form.html",
         {"form": form, "variant": variant},
     )
+
+
+@login_required
+def wishlist_view(request):
+    """Render wishlist view"""
+    wishlist, _ = Wishlist.objects.get_or_create(user=request.user)
+    products = wishlist.products.select_related("category").all()
+    return render(request, "store/wishlist.html", {"products": products})
+
+
+@login_required
+def wishlist_toggle(request, product_id):
+    if request.method != "POST":
+        return redirect("store:wishlist")
+
+    wishlist, _ = Wishlist.objects.get_or_create(user=request.user)
+    product = get_object_or_404(Product, id=product_id)
+
+    if wishlist.products.filter(id=product.id).exists():
+        wishlist.products.remove(product)
+        messages.success(request, "Removed from wishlist.")
+    else:
+        wishlist.products.add(product)
+        messages.success(request, "Added to wishlist.")
+
+    next_url = request.POST.get(
+        "next"
+        ) or request.META.get("HTTP_REFERER") or ""
+
+    return redirect(next_url or "store:wishlist")

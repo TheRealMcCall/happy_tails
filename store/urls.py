@@ -62,4 +62,14 @@ urlpatterns = [
         "manage/variants/<int:pk>/stock/",
         views.variant_stock_update, name="variant_stock_update",
         ),
+    path(
+        "wishlist/",
+        views.wishlist_view,
+        name="wishlist"
+        ),
+    path(
+        "wishlist/toggle/<int:product_id>/",
+        views.wishlist_toggle,
+        name="wishlist_toggle"
+        ),
 ]
