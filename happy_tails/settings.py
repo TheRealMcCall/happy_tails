@@ -52,7 +52,12 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'basket',
+    'localflavor',
+    'phonenumber_field'
 ]
+
+PHONENUMBER_DEFAULT_REGION = "GB"
+PHONENUMBER_DEFAULT_FORMAT = "E164"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
