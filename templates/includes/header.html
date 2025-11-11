@@ -34,8 +34,9 @@
 
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'basket:view_basket' %}"
-                                aria-label="View basket page">Basket</a>
+                            <a class="nav-link header-basket" href="{% url 'basket:view_basket' %}">
+                                Basket (£{{ basket_total|default:0|floatformat:2 }})
+                            </a>
                         </li>
 
                         {% if user.is_authenticated %}
