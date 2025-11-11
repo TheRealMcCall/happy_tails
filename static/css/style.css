@@ -83,3 +83,15 @@ footer {
 .register-bar a {
     text-decoration: none;
 }
+
+.alert-success {
+    --bs-alert-bg: #23a04d;
+    --bs-alert-border-color: #ffffff;
+    --bs-alert-color: #ffffff;
+}
+
+.alert-danger {
+    --bs-alert-bg: #b90f0f;
+    --bs-alert-border-color: #ffffff;
+    --bs-alert-color: #ffffff;
+}
