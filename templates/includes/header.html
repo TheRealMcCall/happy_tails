@@ -3,9 +3,20 @@
     <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary shadow-sm" aria-label="main menu">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'store:home' %}">Happy Tails Pet Supplies</a>
-            <a class="nav-link d-lg-none me-2" href="{% url 'basket:view_basket' %}" aria-label="Go to basket">
-                Basket (£{{ basket_total|default:0|floatformat:2 }})
+
+            <a class="nav-link header-basket d-inline-flex align-items-center d-lg-none"
+                href="{% url 'basket:view_basket' %}"
+                aria-label="Go to basket ({{ basket_total|default:0 }} item{{ basket_total|pluralize }})">
+                <span class="icon-wrap position-relative">
+                    <i class="fa-solid fa-basket-shopping fa-lg"></i>
+                    {% if basket_total %}
+                    <span class="badge rounded-pill text-bg-primary basket-badge">
+                        {{ basket_total }}
+                    </span>
+                    {% endif %}
+                </span>
             </a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -13,8 +24,6 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'store:home' %}" aria-label="Go home">Home</a>
@@ -37,9 +46,18 @@
 
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item d-none d-lg-block">
-                        <a class="nav-link header-basket" href="{% url 'basket:view_basket' %}"
-                            aria-label="Go to basket">
-                            Basket (£{{ basket_total|default:0|floatformat:2 }})
+                        <a class="nav-link header-basket d-inline-flex align-items-center gap-3"
+                            href="{% url 'basket:view_basket' %}"
+                            aria-label="Go to basket ({{ basket_total|default:0 }} item{{ basket_total|pluralize }})">
+                            <span class="icon-wrap position-relative">
+                                <i class="fa-solid fa-basket-shopping fa-lg"></i>
+                                {% if basket_total %}
+                                <span class="badge rounded-pill text-bg-primary basket-badge">
+                                    {{ basket_total }}
+                                </span>
+                                {% endif %}
+                            </span>
+                            <span>Basket</span>
                         </a>
                     </li>
 
@@ -64,6 +82,7 @@
                     {% endif %}
                 </ul>
             </div>
+        </div>
     </nav>
 
     <aside class="delivery-bar">
@@ -75,12 +94,13 @@
         </div>
     </aside>
 
-    <div class="modal fade" id="deliveryInfo" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="deliveryInfo" tabindex="-1" aria-labelledby="deliveryInfoTitle" aria-hidden="true"
+        aria-modal="true" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">Delivery costs</h2><button type="button" class="btn-close"
-                        data-bs-dismiss="modal"></button>
+                    <h2 class="modal-title h5" id="deliveryInfoTitle">Delivery costs</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     Orders over £50 qualify for free standard delivery. Under £50, delivery is £3.99.
@@ -88,7 +108,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="hero">
         <img src="{% static 'images/hero_dog.png' %}" alt="Hero banner for Happy Tails Pet Supplies" class="hero-image">
