@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'store',
+    'store.apps.StoreConfig',
     'profiles',
     'checkout',
     'cloudinary',

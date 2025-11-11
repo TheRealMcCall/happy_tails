@@ -3,6 +3,12 @@
     <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary shadow-sm" aria-label="main menu">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'store:home' %}">Happy Tails Pet Supplies</a>
+            {% if user.is_authenticated %}
+            <a class="nav-link d-inline-flex align-items-center d-lg-none" href="{% url 'store:wishlist' %}"
+                aria-label=" Go to Wishlist">
+                <i class="fa-solid fa-heart"></i>
+            </a>
+            {% endif %}
 
             <a class="nav-link header-basket d-inline-flex align-items-center d-lg-none"
                 href="{% url 'basket:view_basket' %}"
@@ -45,6 +51,18 @@
                 </ul>
 
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                    {% if user.is_authenticated %}
+                    <li class="nav-item d-none d-lg-block">
+                        <a class="nav-link d-inline-flex align-items-center gap-2" href="{% url 'store:wishlist' %}"
+                            aria-label="Go to wishlist">
+                            <i class="fa-solid fa-heart fa-lg"></i>
+                            <span class="align-middle">Wishlist</span>
+                        </a>
+                    </li>
+                    {% endif %}
+
+
                     <li class="nav-item d-none d-lg-block">
                         <a class="nav-link header-basket d-inline-flex align-items-center gap-3"
                             href="{% url 'basket:view_basket' %}"

@@ -46,15 +46,28 @@
                         {% if user.is_authenticated %}
                         <form method="post" action="{% url 'store:wishlist_toggle' product.id %}"
                             class="d-inline align-self-end mt-2 mt-md-0">
+                            
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            
                             {% if user.wishlist and product in user.wishlist.products.all %}
-                            <button class="btn btn-outline-danger">Remove from wishlist</button>
+                            <button type="submit" class="btn btn-link p-0 align-baseline"
+                                aria-label="Remove from wishlist" aria-pressed="true">
+                                <i class="fa-solid fa-heart fa-xl text-danger"></i>
+                                <span class="visually-hidden">Remove from wishlist</span>
+                            </button>
+                            
                             {% else %}
-                            <button class="btn btn-outline-secondary">Add to wishlist</button>
+                            <button type="submit" class="btn btn-link p-0 align-baseline" aria-label="Add to wishlist"
+                                aria-pressed="false">
+                                <i class="fa-regular fa-heart fa-xl"></i>
+                                <span class="visually-hidden">Add to wishlist</span>
+                            </button>
+                            
                             {% endif %}
                         </form>
                         {% endif %}
+
                     </div>
                 </div>
             </div>
