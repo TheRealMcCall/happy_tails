@@ -1,58 +1,61 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 <section class="container my-4">
     <h1>Basket</h1>
 
     {% if items %}
-    <table class="table align-middle mt-3">
-        <thead>
-            <tr>
-                <th scope="col">Item</th>
-                <th scope="col" class="text-center">Qty</th>
-                <th scope="col" class="text-end">Unit</th>
-                <th scope="col" class="text-end">Total</th>
-                <th aria-hidden="true"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in items %}
-            <tr>
-                <td>{{ i.name }}</td>
-                <td class="text-center">{{ i.qty }}</td>
-                <td class="text-end">£{{ i.unit_price|default:i.unit }}</td>
-                <td class="text-end">£{{ i.line_total|default:i.line }}</td>
-                <td class="text-end">
+    <section>
+        <table class="table table-sm align-middle mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col" class="text-center">Qty</th>
+                    <th scope="col" class="text-center">Unit</th>
+                    <th scope="col" class="text-center">Total</th>
+                    <th scope="col" class="text-center">Update Qty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in items %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td class="text-center">{{ i.qty }}</td>
+                    <td class="text-center">£{{ i.unit_price|default:i.unit }}</td>
+                    <td class="text-center">£{{ i.line_total|default:i.line }}</td>
+                    <td class="text-center">
+                        <form method="post" action="{% url 'basket:update' %}" class="m-0 d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="variant_id" value="{{ i.variant_id }}">
+                            <div class="input-group input-group-sm justify-content-center basket-qty-group">
+                                <button class="btn btn-outline-secondary text-nowrap" type="button" data-qty-btn="dec"
+                                    aria-label="Decrease quantity for {{ i.name }}">&minus;</button>
 
-                    <form method="post" action="{% url 'basket:remove' i.variant_id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button class="btn btn-sm btn-outline-danger" type="submit"
-                            aria-label="Remove {{ i.name }} from basket">
-                            Remove
-                        </button>
-                    </form>
+                                <label for="qty-{{ i.variant_id }}" class="visually-hidden">New quantity for
+                                    {{ i.name }}</label>
+                                <input id="qty-{{ i.variant_id }}" type="number" name="qty" min="0" value="{{ i.qty }}"
+                                    class="form-control text-center qty-input"
+                                    aria-label="New quantity for {{ i.name }}">
 
-                    <form method="post" action="{% url 'basket:update' %}" style="display:inline; margin-left:6px;">
-                        {% csrf_token %}
-                        <input type="hidden" name="variant_id" value="{{ i.variant_id }}">
-                        <input type="number" name="qty" min="0" value="{{ i.qty }}" style="width:70px;"
-                            aria-label="Quantity for {{ i.name }}">
-                        <button class="btn btn-sm btn-outline-secondary" type="submit"
-                            aria-label="Update quantity for {{ i.name }}">
-                            Update Qty
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="3" class="text-end">Total</th>
-                <th class="text-end">£{{ total }}</th>
-                <th></th>
-            </tr>
-        </tfoot>
-    </table>
+                                <button class="btn btn-outline-secondary text-nowrap" type="button" data-qty-btn="inc"
+                                    aria-label="Increase quantity for {{ i.name }}">+</button>
+                            </div>
+                        </form>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2" class="text-start">Total</th>
+                    <th class="text-center">£{{ total }}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </section>
 
     <div class="modal fade" id="emptyBasketModal" tabindex="-1" aria-labelledby="emptyBasketLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -76,7 +79,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <div class="row mt-3 g-2 align-items-center">
@@ -108,8 +110,11 @@
     <div class="text-center my-5">
         <p>Your basket is empty.</p>
         <a class="btn btn-primary" href="{% url 'store:home' %}"
-            aria-label="Continue shopping on the home page">Continue shopping</a>
+            aria-label="Continue shopping on the home page">Continue
+            shopping</a>
     </div>
     {% endif %}
+
+    <script src="{% static 'js/basket.js' %}" defer></script>
 </section>
 {% endblock %}

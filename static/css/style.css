@@ -98,3 +98,11 @@ footer {
     --bs-alert-border-color: #ffffff;
     --bs-alert-color: #ffffff;
 }
+
+.basket-qty-group {
+    min-width: 60px;
+}
+
+.qty-input {
+    max-width: 64px;
+}
