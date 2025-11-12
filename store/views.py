@@ -52,14 +52,18 @@ def product_list(request, category_slug=None):
 
 def product_detail(request, slug):
     """Display a single product detail page."""
-    product = get_object_or_404(
-        Product.objects
-        .select_related('category')
-        .prefetch_related('variants__stock'),
-        slug=slug,
+    product = get_object_or_404(Product, slug=slug)
+    variants = (
+        product.variants
+        .select_related("stock")
+        .filter(is_available=True)
     )
 
-    return render(request, 'store/product_details.html', {'product': product})
+    return render(
+        request,
+        'store/product_details.html',
+        {'product': product, "variants": variants}
+        )
 
 
 def superuser_required(view_func):

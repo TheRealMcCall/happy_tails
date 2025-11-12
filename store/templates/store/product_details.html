@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 <section class="container my-4 product-section text">
     <h1 class="mt-2 text-center">{{ product.name }}</h1>
@@ -24,14 +25,25 @@
                             {% csrf_token %}
 
                             <label for="variant" class="form-label">Choose a variant</label>
-                            <select id="variant" name="variant_id" class="form-select product-variant mb-3">
-                                {% for v in product.variants.all %}
-                                {% with qty=v.stock.quantity|default:0 %}
-                                <option value="{{ v.id }}">{{ v.size|default:"" }} / {{ v.colour|default:"" }}
-                                    £{{ v.price }} ({{ qty }} left)</option>
-                                {% endwith %}
+                            <select name="variant" id="variant" class="form-select" required>
+                                {% for v in variants %}
+                                <option value="{{ v.id }}" data-stock="{{ v.stock.quantity|default:0 }}"
+                                    data-threshold="{{ v.stock.low_stock_threshold|default:0 }}">
+                                    {{ v.product.name }}
+                                    {% if v.size %} / {{ v.size }}{% endif %}
+                                    {% if v.colour %} / {{ v.colour }}{% endif %}
+                                    {% with qty=v.stock.quantity|default:0 %}
+                                    {% if qty > 0 %}
+                                    ({{ qty }} in stock)
+                                    {% else %}
+                                    (Out of stock)
+                                    {% endif %}
+                                    {% endwith %}
+                                </option>
                                 {% endfor %}
                             </select>
+
+                            <p id="stock-warning" class="text-danger text-center small mt-1" aria-live="polite"></p>
 
                             <div class="d-flex align-items-end gap-2 flex-wrap">
                                 <div>
@@ -46,24 +58,24 @@
                         {% if user.is_authenticated %}
                         <form method="post" action="{% url 'store:wishlist_toggle' product.id %}"
                             class="d-inline align-self-end mt-2 mt-md-0">
-                            
+
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                            
+
                             {% if user.wishlist and product in user.wishlist.products.all %}
                             <button type="submit" class="btn btn-link p-0 align-baseline"
                                 aria-label="Remove from wishlist" aria-pressed="true">
                                 <i class="fa-solid fa-heart fa-xl text-danger"></i>
                                 <span class="visually-hidden">Remove from wishlist</span>
                             </button>
-                            
+
                             {% else %}
                             <button type="submit" class="btn btn-link p-0 align-baseline" aria-label="Add to wishlist"
                                 aria-pressed="false">
                                 <i class="fa-regular fa-heart fa-xl"></i>
                                 <span class="visually-hidden">Add to wishlist</span>
                             </button>
-                            
+
                             {% endif %}
                         </form>
                         {% endif %}
@@ -81,4 +93,5 @@
     <a class="btn btn-outline-secondary" href="{% url 'store:product_list' %}" aria-label="Back to store products">Back
         to store</a>
 </div>
+<script src="{% static 'js/product_stock.js' %}"></script>
 {% endblock %}
