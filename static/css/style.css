@@ -135,68 +135,69 @@ footer {
         font-size: .85rem;
         line-height: 1.2;
     }
+}
 
-    @media (min-width: 992px) {
-        .product-section .card {
-            max-width: 960px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+@media (min-width: 992px) {
+    .product-section .card {
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
     }
+}
 
-    .product-img {
-        display: block;
-        max-width: 100%;
-        width: auto;
-        max-height: 420px;
-        height: auto;
-        object-fit: contain;
-    }
+.product-img {
+    display: block;
+    max-width: 100%;
+    width: auto;
+    max-height: 420px;
+    height: auto;
+    object-fit: contain;
+}
 
-    .product-section .product-qty {
-        max-width: 72px;
-    }
+.product-section .product-qty {
+    max-width: 72px;
+}
 
+.message-container {
+    position: fixed;
+    right: 0;
+    padding: 1rem;
+    top: calc(var(--nav-offset) + .5rem);
+    z-index: 1300;
+    width: min(420px, 90vw);
+}
+
+@media (max-width: 576px) {
     .message-container {
-        position: fixed;
-        right: 0;
-        padding: 1rem;
-        top: calc(var(--nav-offset) + .5rem);
+        top: auto !important;
+        bottom: .75rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 92vw !important;
         z-index: 1300;
-        width: min(420px, 90vw);
     }
+}
 
-    @media (max-width: 576px) {
-        .message-container {
-            top: auto !important;
-            bottom: .75rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92vw !important;
-            z-index: 1300;
-        }
-    }
+.register-bar a {
+    text-decoration: none;
+}
 
-    .register-bar a {
-        text-decoration: none;
-    }
+.alert-success {
+    --bs-alert-bg: #23a04d;
+    --bs-alert-border-color: #ffffff;
+    --bs-alert-color: #ffffff;
+}
 
-    .alert-success {
-        --bs-alert-bg: #23a04d;
-        --bs-alert-border-color: #ffffff;
-        --bs-alert-color: #ffffff;
-    }
+.alert-danger {
+    --bs-alert-bg: #b90f0f;
+    --bs-alert-border-color: #ffffff;
+    --bs-alert-color: #ffffff;
+}
 
-    .alert-danger {
-        --bs-alert-bg: #b90f0f;
-        --bs-alert-border-color: #ffffff;
-        --bs-alert-color: #ffffff;
-    }
+.basket-qty-group {
+    min-width: 60px;
+}
 
-    .basket-qty-group {
-        min-width: 60px;
-    }
-
-    .qty-input {
-        max-width: 115px;
-    }
+.qty-input {
+    max-width: 115px;
+}
