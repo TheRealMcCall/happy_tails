@@ -10,10 +10,13 @@ def _basket(request):
     return request.session.setdefault("basket", {})
 
 
+@require_POST
 def add_to_basket(request):
     """Add a variant to the session basket and redirect to the basket view."""
-    variant_id = request.POST.get("variant_id")
-    if not variant_id:
+    try:
+        variant_id = int(request.POST.get("variant_id", "0"))
+    except (TypeError, ValueError):
+        messages.error(request, "invalid product selection.")
         return redirect("store:product_list")
 
     try:
@@ -22,26 +25,41 @@ def add_to_basket(request):
         requested_quantity = 1
 
     variant = get_object_or_404(
-        Variant.objects.select_related("stock"),
+        Variant.objects.select_related("stock", "product"),
         pk=variant_id,
     )
 
-    available_quantity = (
+    available_quantity = int(
         getattr(getattr(variant, "stock", None), "quantity", 0) or 0
-    )
+        )
 
-    if available_quantity <= 0 or requested_quantity > available_quantity:
-        messages.error(request, "Sorry, not enough stock.")
+    if available_quantity <= 0:
+        messages.error(request, "Sorry, this item is out of stock.")
         return redirect("store:product_detail", slug=variant.product.slug)
 
     basket = _basket(request)
-    basket[variant_id] = basket.get(variant_id, 0) + requested_quantity
-    messages.success(request, "Added to basket.")
-    request.session.modified = True
+    key = str(variant.id)
+    current_quantity = int(basket.get(key, 0))
 
+    if current_quantity + requested_quantity > available_quantity:
+        if current_quantity >= available_quantity:
+            messages.error(
+                request, f"Sorry, only {available_quantity} in stock."
+                )
+        else:
+            remaining = available_quantity - current_quantity
+            messages.error(
+                request, f"Only {remaining} more are in stock."
+                )
+        return redirect("store:product_detail", slug=variant.product.slug)
+
+    basket[key] = current_quantity + requested_quantity
+    request.session.modified = True
+    messages.success(request, "Added to basket.")
     return redirect("store:product_list")
 
 
+@require_POST
 def remove_from_basket(request, variant_id):
     """Remove a variant line entirely from the basket."""
     if request.method != "POST":
@@ -94,38 +112,51 @@ def empty(request):
     return redirect("basket:view_basket")
 
 
+@require_POST
 def update_quantity(request):
     """Update a basket item's quantity."""
-
-    if request.method != "POST":
-        return redirect("basket:view_basket")
-
     basket = _basket(request)
 
     try:
-        v_id = str(int(request.POST.get("variant_id", "0")))
+        variant_id = int(request.POST.get("variant_id", "0"))
         qty = int(request.POST.get("qty", "1"))
-    except ValueError:
+    except (TypeError, ValueError):
+        messages.error(request, "Invalid quantity.")
         return redirect("basket:view_basket")
 
+    v_id = str(variant_id)
     if v_id not in basket:
+        messages.error(request, "Item not found in basket.")
         return redirect("basket:view_basket")
 
     if qty <= 0:
         basket.pop(v_id, None)
         request.session.modified = True
+        messages.success(request, "Item removed from basket.")
         return redirect("basket:view_basket")
 
     try:
-        v = Variant.objects.select_related("stock").get(id=int(v_id))
-        available = getattr(getattr(v, "stock", None), "quantity", None)
-        if isinstance(available, int):
-            qty = min(qty, max(0, available))
+        v = Variant.objects.select_related("stock").get(id=variant_id)
     except Variant.DoesNotExist:
         basket.pop(v_id, None)
         request.session.modified = True
+        messages.error(
+            request, "That item is no longer available.")
         return redirect("basket:view_basket")
+
+    available = getattr(getattr(v, "stock", None), "quantity", None)
+    if isinstance(available, int):
+        if available <= 0:
+            messages.error(
+                request, "This item is out of stock.")
+            return redirect("basket:view_basket")
+        if qty > available:
+            qty = available
+            messages.warning(
+                request, f"Quantity adjusted to available stock ({available})."
+                )
 
     basket[v_id] = qty
     request.session.modified = True
+    messages.success(request, "Quantity updated.")
     return redirect("basket:view_basket")
