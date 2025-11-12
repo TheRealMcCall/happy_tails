@@ -1,7 +1,56 @@
-<footer class=" text-center">
-    <p> &copy; {{ year|default:"2025" }} Happy Tails Pet Supplies</p>
-    <p class="mb-0">
-        Created by <a href="https://github.com/TheRealMcCall/" target="_blank"
-            aria-label="Visit Luke McCall's GitHub profile">Luke McCall</a>
-    </p>
+<footer class="footer mt-5 py-4">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+
+            <div class="text-center text-md-start">
+                <p class="small mb-1">© {% now "Y" %} Happy Tails Pet Supplies</p>
+                <p class="small mb-0">
+                    Built by
+                    <a href="https://github.com/TheRealMcCall/" target="_blank" rel="noopener"
+                        aria-label="Visit Luke McCall's GitHub profile">Luke McCall</a>
+                </p>
+            </div>
+
+            <div class="text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <button type="button" class="btn btn-link p-0 align-baseline" data-bs-toggle="modal"
+                            data-bs-target="#deliveryInfo" aria-label="View delivery information">
+                            Delivery Info
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class=" text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <a class="text-decoration-none" href="https://www.facebook.com/profile.php?id=61583493396784"
+                            target="_blank" rel="noopener" aria-label="Visit us on Facebook">
+                            <i class="fa-brands fa-facebook fa-lg" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="text-decoration-none" href="https://www.instagram.com" target="_blank" rel="noopener"
+                            aria-label="Follow us on Instagram">
+                            <i class="fa-brands fa-instagram fa-lg" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="text-decoration-none" href="https://x.com/" target="_blank" rel="noopener"
+                            aria-label="Follow us on X">
+                            <i class="fa-brands fa-x-twitter fa-lg" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="text-decoration-none" href="https://www.youtube.com/" target="_blank" rel="noopener"
+                            aria-label="Subscribe on YouTube">
+                            <i class="fa-brands fa-youtube fa-lg" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
 </footer>

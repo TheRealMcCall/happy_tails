@@ -9,6 +9,19 @@ body {
     z-index: 1200;
 }
 
+.header-basket .icon-wrap {
+    display: inline-block;
+}
+
+.header-basket .basket-badge {
+    position: absolute;
+    top: -0.35rem;
+    right: -0.55rem;
+    font-size: 0.65rem;
+    line-height: 1;
+    padding: 0.15rem 0.35rem;
+}
+
 @media (max-width: 380px) {
     .navbar {
         padding-top: .25rem;
@@ -71,6 +84,15 @@ body {
 footer {
     margin-top: 10px;
     background-color: white;
+}
+
+.footer a {
+    text-decoration: none;
+}
+
+.footer .btn-link {
+    text-decoration: none;
+    padding: 0;
 }
 
 @media (min-width: 992px) {
@@ -136,17 +158,4 @@ footer {
 
 .qty-input {
     max-width: 115px;
-}
-
-.header-basket .icon-wrap {
-    display: inline-block;
-}
-
-.header-basket .basket-badge {
-    position: absolute;
-    top: -0.35rem;
-    right: -0.55rem;
-    font-size: 0.65rem;
-    line-height: 1;
-    padding: 0.15rem 0.35rem;
 }
