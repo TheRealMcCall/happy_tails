@@ -303,14 +303,40 @@ def success(request):
     request.session.pop("checkout_addresses", None)
     request.session.modified = True
 
+    line_items = []
+
+    for order_item in order.items.all():
+        variant = order_item.variant
+
+        size = (variant.size or "").strip()
+        colour = (variant.colour or "").strip()
+        variant_options = " / ".join(opt for opt in (size, colour) if opt)
+
+        product_name = variant.product.name
+        if variant_options:
+            display_name = f"{product_name} ({variant_options})"
+        else:
+            display_name = product_name
+
+        line_items.append(f"- {display_name} x{order_item.quantity}")
+
+    items_block = "Items:\n" + "\n".join(line_items)
+
+    sub_total_str = f"{order.sub_total:.2f}"
+    delivery_cost_str = f"{delivery_cost:.2f}"
+    total_str = f"{order.total:.2f}"
+
     if order.email:
         try:
             send_mail(
                 f"Order {order.order_number} confirmation Email",
                 (
-                    f"Thank you for ordering with Happy Tails!\n\n"
-                    f"Order number: {order.order_number}\n"
-                    f"Total: £{order.total}\n"
+                    "Thank you for ordering with Happy Tails!\n\n"
+                    f"Order number: {order.order_number}\n\n"
+                    f"{items_block}\n\n"
+                    f"Subtotal: £{sub_total_str}\n"
+                    f"Delivery: £{delivery_cost_str}\n"
+                    f"Total: £{total_str}\n"
                 ),
                 settings.DEFAULT_FROM_EMAIL,
                 [order.email],
@@ -322,11 +348,14 @@ def success(request):
             send_mail(
                 f"New order received: {order.order_number}",
                 (
-                    f"A new order has been placed.\n\n"
+                    "A new order has been placed.\n\n"
                     f"Order number: {order.order_number}\n"
-                    f"Customer: {request.user.get_username()}"
-                    f"({order.email})\n"
-                    f"Total: £{order.total}\n"
+                    f"Customer: {request.user.get_username(
+                    )} ({order.email})\n\n"
+                    f"{items_block}\n\n"
+                    f"Subtotal: £{sub_total_str}\n"
+                    f"Delivery: £{delivery_cost_str}\n"
+                    f"Total: £{total_str}\n"
                 ),
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.STORE_OWNER_EMAIL],
