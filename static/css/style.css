@@ -9,9 +9,40 @@ body {
     z-index: 1200;
 }
 
+@media (max-width: 380px) {
+    .navbar {
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+    }
+
+    .navbar-brand {
+        font-size: 0.95rem;
+    }
+
+    .navbar .nav-link {
+        font-size: 0.9rem;
+        padding: .25rem .5rem;
+    }
+
+    .navbar .fa-heart,
+    .navbar .fa-basket-shopping {
+        font-size: 1rem;
+    }
+
+    .header-basket .basket-badge {
+        font-size: .65rem;
+        padding: .15em .35em;
+    }
+
+    .delivery-bar {
+        margin-top: -8px;
+    }
+}
+
+
 .delivery-bar {
     position: fixed;
-    top: 56px;
+    top: 50px;
     left: 0;
     right: 0;
     z-index: 1150;
@@ -104,7 +135,7 @@ footer {
 }
 
 .qty-input {
-    max-width: 64px;
+    max-width: 115px;
 }
 
 .header-basket .icon-wrap {

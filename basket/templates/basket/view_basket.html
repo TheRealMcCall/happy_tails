@@ -19,7 +19,7 @@
             <tbody>
                 {% for i in items %}
                 <tr>
-                    <td>{{ i.name }}</td>
+                    <td class="w-80 text-break">{{ i.name }}</td>
                     <td class="text-center">{{ i.qty }}</td>
                     <td class="text-center">£{{ i.unit_price|default:i.unit }}</td>
                     <td class="text-center">£{{ i.line_total|default:i.line }}</td>
@@ -29,7 +29,8 @@
                             <input type="hidden" name="variant_id" value="{{ i.variant_id }}">
                             <div class="input-group input-group-sm justify-content-center basket-qty-group">
                                 <button class="btn btn-outline-secondary text-nowrap" type="button" data-qty-btn="dec"
-                                    aria-label="Decrease quantity for {{ i.name }}">&minus;</button>
+                                    aria-label="Decrease quantity for {{ i.name }}"><i
+                                        class="fa-solid fa-minus"></i></button>
 
                                 <label for="qty-{{ i.variant_id }}" class="visually-hidden">New quantity for
                                     {{ i.name }}</label>
@@ -38,7 +39,8 @@
                                     aria-label="New quantity for {{ i.name }}">
 
                                 <button class="btn btn-outline-secondary text-nowrap" type="button" data-qty-btn="inc"
-                                    aria-label="Increase quantity for {{ i.name }}">+</button>
+                                    aria-label="Increase quantity for {{ i.name }}"><i
+                                        class="fa-solid fa-plus"></i></button>
                             </div>
                         </form>
                     </td>
