@@ -12,6 +12,10 @@
                         aria-label=" Edit your profile">
                         Edit profile
                     </a>
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'account_change_password' %}"
+                        aria-label="Change your password">
+                        Change password
+                    </a>
                 </div>
                 <ul class="list-unstyled mb-0">
                     <li><strong>First name:</strong> {% if profile.first_name %}{{ profile.first_name }}{% else %}<span
