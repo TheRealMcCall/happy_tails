@@ -20,7 +20,7 @@
                     <p class="product-desc">{{ product.description }}</p>
                     {% endif %}
 
-                    <div class="product-panel d-flex flex-wrap align-items-end gap-2 mt-2">
+                    <div class="product-panel d-flex flex-wrap align-items-end gap-3 mt-3">
                         <form action="{% url 'basket:add_to_basket' %}" method="post" class="product-form">
                             {% csrf_token %}
 
@@ -28,7 +28,8 @@
                             <select name="variant" id="variant" class="form-select" required>
                                 <option value="" selected disabled>Choose a variant</option>
                                 {% for v in variants %}
-                                <option value="{{ v.id }}" data-stock="{{ v.stock.quantity|default:0 }}"
+                                <option value="{{ v.id }}" data-price="{{ v.price }}"
+                                    data-stock="{{ v.stock.quantity|default:0 }}"
                                     data-threshold="{{ v.stock.low_stock_threshold|default:0 }}">
                                     {{ v.product.name }}
                                     {% if v.size %} / {{ v.size }}{% endif %}
@@ -44,22 +45,29 @@
                                 {% endfor %}
                             </select>
 
-                            <p id="stock-warning" class="text-danger text-center small mt-1" aria-live="polite"></p>
+                            <p id="stock-warning" class="text-danger small mt-1" aria-live="polite"></p>
 
-                            <div class="d-flex align-items-end gap-2 flex-wrap">
-                                <div>
-                                    <label for="qty" class="form-label ms-1 mb-1">Qty</label>
-                                    <input id="qty" name="qty" type="number" min="1" value="1"
-                                        class="form-control product-qty d-inline-block">
+                            <div class="d-flex align-items-end gap-3 flex-wrap mt-2">
+                                <div class="d-flex align-items-end gap-2">
+                                    <div>
+                                        <label for="qty" class="form-label ms-1 mb-1">Qty</label>
+                                        <input id="qty" name="qty" type="number" min="1" value="1"
+                                            class="form-control product-qty">
+                                    </div>
+                                    <p id="price-display" class="fs-4 fw-semibold mb-0">
+                                        {{ product.price_label }}
+                                    </p>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Add to Basket</button>
+
+                                <button type="submit" class="btn btn-primary">
+                                    Add to Basket
+                                </button>
                             </div>
                         </form>
 
                         {% if user.is_authenticated %}
                         <form method="post" action="{% url 'store:wishlist_toggle' product.id %}"
-                            class="d-inline align-self-end mt-2 mt-md-0">
-
+                            class="d-inline-flex align-items-center ms-1 mt-2 mt-md-0 flex-shrink-0">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.get_full_path }}">
 
@@ -69,22 +77,20 @@
                                 <i class="fa-solid fa-heart fa-xl text-danger"></i>
                                 <span class="visually-hidden">Remove from wishlist</span>
                             </button>
-
                             {% else %}
                             <button type="submit" class="btn btn-link p-0 align-baseline" aria-label="Add to wishlist"
                                 aria-pressed="false">
                                 <i class="fa-regular fa-heart fa-xl"></i>
                                 <span class="visually-hidden">Add to wishlist</span>
                             </button>
-
                             {% endif %}
                         </form>
                         {% endif %}
-
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     {% endwith %}
 
