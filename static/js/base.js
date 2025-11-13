@@ -1,3 +1,5 @@
+/* jshint esversion: 11 */
+
 //** Dismisses alert messages automatically after a delay */ 
 document.addEventListener("DOMContentLoaded", function () {
     const messageBox = document.getElementById('messages');

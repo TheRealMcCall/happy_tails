@@ -1,3 +1,5 @@
+/* jshint esversion: 11 */
+
 document.addEventListener("DOMContentLoaded", function () {
     const select = document.getElementById("variant");
     const warning = document.getElementById("stock-warning");

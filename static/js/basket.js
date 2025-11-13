@@ -1,3 +1,5 @@
+/* jshint esversion: 11 */
+
 document.addEventListener('click', function (e) {
     const btn = e.target.closest('[data-qty-btn]');
     if (!btn) return;

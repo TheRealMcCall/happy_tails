@@ -10,7 +10,7 @@
             <div class="row g-4 align-items-start">
                 <div class="col-12 col-md-5">
                     {% if photo %}
-                    <img src="{{ photo.image.url }}" alt="{{ product.name }}"
+                    <img src="{{ photo.image.url }}" alt="{{ product.name }}" loading="lazy"
                         class="img-fluid rounded product-img d-block mx-auto">
                     {% endif %}
                 </div>
