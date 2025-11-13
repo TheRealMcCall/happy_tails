@@ -5,14 +5,6 @@
 <section class="container py-5 form-container">
     <h1 class="text-center mb-4">Sign in</h1>
 
-    {% if form.non_field_errors %}
-    <div class="alert alert-danger" role="alert" aria-live="polite">
-        {% for error in form.non_field_errors %}
-        <p class="mb-0">{{ error }}</p>
-        {% endfor %}
-    </div>
-    {% endif %}
-
     <div class="row">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto">
             <form method="post" action="{% url 'account_login' %}">
