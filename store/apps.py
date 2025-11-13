@@ -7,4 +7,4 @@ class StoreConfig(AppConfig):
 
 
 def ready(self):
-        from . import signals
+    from . import signals

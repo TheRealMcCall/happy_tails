@@ -8,7 +8,7 @@ class ProfileForm(forms.ModelForm):
     """Form for user profile details"""
     class Meta:
         model = Profile
-        fields = ["first_name", "last_name",]
+        fields = ["first_name", "last_name", ]
 
 
 class AddressForm(forms.ModelForm):

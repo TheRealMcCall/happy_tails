@@ -351,7 +351,7 @@ def success(request):
                     "A new order has been placed.\n\n"
                     f"Order number: {order.order_number}\n"
                     f"Customer: {request.user.get_username(
-                    )} ({order.email})\n\n"
+                    )}({order.email})\n\n"
                     f"{items_block}\n\n"
                     f"Subtotal: £{sub_total_str}\n"
                     f"Delivery: £{delivery_cost_str}\n"

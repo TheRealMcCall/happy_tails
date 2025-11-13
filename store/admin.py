@@ -71,7 +71,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ("created_on",)
     autocomplete_fields = ("category", "image")
-    inlines = [VariantInline, ProductImageInline,]
+    inlines = [VariantInline, ProductImageInline, ]
     list_select_related = ("category",)
 
 
