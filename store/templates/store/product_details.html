@@ -26,6 +26,7 @@
 
                             <label for="variant" class="form-label">Choose a variant</label>
                             <select name="variant" id="variant" class="form-select" required>
+                                <option value="" selected disabled>Choose a variant</option>
                                 {% for v in variants %}
                                 <option value="{{ v.id }}" data-stock="{{ v.stock.quantity|default:0 }}"
                                     data-threshold="{{ v.stock.low_stock_threshold|default:0 }}">
