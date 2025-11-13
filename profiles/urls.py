@@ -14,7 +14,6 @@ urlpatterns = [
         views.profile_edit,
         name="profile_edit"
     ),
-
     path(
         "addresses/add/",
         views.address_add,
