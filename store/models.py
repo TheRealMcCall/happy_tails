@@ -64,6 +64,24 @@ class Product(models.Model):
         """ Return the image for the product. """
         return self.image or self.images.first()
 
+    @property
+    def price_label(self):
+        """Returns price range for product based on variants"""
+        price_range = self.variants.aggregate(
+            minimum_price=models.Min("price"),
+            maximum_price=models.Max("price"),
+        )
+        minimum_price = price_range["minimum_price"]
+        maximum_price = price_range["maximum_price"]
+
+        if minimum_price is None:
+            return ""
+
+        if minimum_price == maximum_price:
+            return f"£{minimum_price:.2f}"
+
+        return f"£{minimum_price:.2f} - £{maximum_price:.2f}"
+
 
 class Variant(models.Model):
     """Model representing a product variantion such as size or colour."""
