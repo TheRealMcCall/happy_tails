@@ -14,7 +14,7 @@ def _basket(request):
 def add_to_basket(request):
     """Add a variant to the session basket and redirect to the basket view."""
     try:
-        variant_id = int(request.POST.get("variant_id", "0"))
+        variant_id = int(request.POST.get("variant", "0"))
     except (TypeError, ValueError):
         messages.error(request, "invalid product selection.")
         return redirect("store:product_list")
