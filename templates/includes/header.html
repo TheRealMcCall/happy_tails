@@ -2,7 +2,7 @@
 <header>
     <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary shadow-sm py-1" aria-label="main menu">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'store:home' %}" aria-label="Happy Tails Pet Suppies">Happy Tails Pet
+            <a class="navbar-brand" href="{% url 'store:home' %}" aria-label="Happy Tails Pet Supplies">Happy Tails Pet
                 Supplies</a>
             {% if user.is_authenticated %}
             <a class="nav-link d-inline-flex align-items-center d-lg-none" href="{% url 'store:wishlist' %}"
