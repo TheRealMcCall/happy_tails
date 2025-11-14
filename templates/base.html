@@ -90,7 +90,7 @@
     </aside>
     {% endif %}
 
-    <div class="modal fade" id="registerMoreInfo" tabindex="-1" aria-hidden="true">
+    <aside class="modal fade" id="registerMoreInfo" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -108,16 +108,18 @@
                 </div>
             </div>
         </div>
-    </div>
+    </aside>
 
-    <aside id="messages" class="position-fixed end-0 p-3 message-container" aria-live="polite">
+    <aside id="messages" class="position-fixed end-0 message-container" aria-live="polite" aria-atomic="true">
         {% if messages %}
-        <div id="messages" class="message-container" aria-live="polite" aria-atomic="true">
+        <div class="message-container">
             {% for message in messages %}
             {% with tag=message.tags %}
-            <div class="alert alert-{% if tag == 'error' %}danger{% else %}{{ tag }}{% endif %} shadow-sm mb-2"
-                role="alert">
+            <div class="alert alert-{% if tag == 'error' %}danger{% else %}{{ tag }}{% endif %}
+                    alert-dismissible shadow-sm mb-2" role="alert">
                 {{ message }}
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
             </div>
             {% endwith %}
             {% endfor %}

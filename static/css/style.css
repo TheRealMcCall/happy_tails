@@ -198,6 +198,13 @@ footer {
     }
 }
 
+@media (min-width: 992px) {
+    #messages {
+        top: 2rem;
+        right: 1rem;
+    }
+}
+
 .register-bar a {
     text-decoration: none;
 }
@@ -220,4 +227,14 @@ footer {
 
 .qty-input {
     max-width: 75px;
+}
+
+.alert-dismissible {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.alert-dismissible .btn-close {
+    margin-left: auto;
+    color: white;
 }
