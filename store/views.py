@@ -273,3 +273,8 @@ def wishlist_toggle(request, product_id):
         ) or request.META.get("HTTP_REFERER") or ""
 
     return redirect(next_url or "store:wishlist")
+
+
+def terms(request):
+    """Display the store terms and conditions."""
+    return render(request, "store/terms.html")

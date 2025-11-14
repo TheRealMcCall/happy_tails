@@ -71,5 +71,10 @@ urlpatterns = [
         "wishlist/toggle/<int:product_id>/",
         views.wishlist_toggle,
         name="wishlist_toggle"
-        ),
+    ),
+    path(
+        "terms/",
+        views.terms,
+        name="terms"
+    ),
 ]
