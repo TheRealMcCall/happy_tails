@@ -19,7 +19,12 @@
                 {% for i in items %}
                 <tr>
                     <td class="w-80 text-break">
-                        {{ i.name }}
+                        <div class="d-flex align-items-center gap-2">
+                            {% if i.image_url %}
+                            <img src="{{ i.image_url }}" alt="{{ i.name }}" class="img-thumbnail" loading="lazy">
+                            {% endif %}
+                            <span>{{ i.name }}</span>
+                        </div>
                     </td>
                     <td class="text-center">
                         <form method="post" action="{% url 'basket:update' %}" class="m-0 d-inline">

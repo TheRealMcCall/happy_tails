@@ -91,6 +91,7 @@ def view_basket(request):
 
         line_total = variant.price * qty
         total += line_total
+        photo = variant.product.get_product_image()
 
         items.append({
             "variant_id": variant.id,
@@ -98,6 +99,7 @@ def view_basket(request):
             "qty": qty,
             "unit": variant.price,
             "line": line_total,
+            "image_url": photo.image.url if photo else None
         })
 
     context = {"items": items, "total": total}

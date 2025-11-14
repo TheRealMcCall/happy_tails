@@ -154,6 +154,26 @@ footer {
     object-fit: contain;
 }
 
+.img-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+@media (min-width: 768px) {
+    .img-thumbnail {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .img-thumbnail {
+        width: 150px;
+        height: 150px;
+    }
+}
+
 .product-section .product-qty {
     max-width: 72px;
 }
@@ -199,5 +219,5 @@ footer {
 }
 
 .qty-input {
-    max-width: 115px;
+    max-width: 75px;
 }
