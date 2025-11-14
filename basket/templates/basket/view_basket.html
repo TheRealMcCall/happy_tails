@@ -32,8 +32,12 @@
                             <input type="hidden" name="variant_id" value="{{ i.variant_id }}">
                             <div class="input-group input-group-sm justify-content-center basket-qty-group">
                                 <button class="btn btn-outline-secondary text-nowrap" type="button" data-qty-btn="dec"
-                                    aria-label="Decrease quantity for {{ i.name }}">
+                                    aria-label="{% if i.qty > 1 %}Decrease quantity for {{ i.name }}{% else %}Remove {{ i.name }} from basket{% endif %}">
+                                    {% if i.qty > 1 %}
                                     <i class="fa-solid fa-minus"></i>
+                                    {% else %}
+                                    <i class="fa-solid fa-trash-can"></i>
+                                    {% endif %}
                                 </button>
 
                                 <label for="qty-{{ i.variant_id }}" class="visually-hidden">
