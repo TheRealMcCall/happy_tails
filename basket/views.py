@@ -91,11 +91,24 @@ def view_basket(request):
 
         line_total = variant.price * qty
         total += line_total
+
+        product_name = variant.product.name
+        size = (getattr(variant, "size", "") or "").strip()
+        colour = (getattr(variant, "colour", "") or "").strip()
+        variant_options = " / ".join(
+            opt for opt in (size, colour) if opt
+        )
+
+        if variant_options:
+            display_name = f"{product_name} ({variant_options})"
+        else:
+            display_name = product_name
+
         photo = variant.product.get_product_image()
 
         items.append({
             "variant_id": variant.id,
-            "name": str(variant),
+            "name": display_name,
             "qty": qty,
             "unit": variant.price,
             "line": line_total,
