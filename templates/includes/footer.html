@@ -11,23 +11,7 @@
                 </p>
             </div>
 
-            <div class="text-center">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <button type="button" class="btn btn-link p-0 align-baseline" data-bs-toggle="modal"
-                            data-bs-target="#deliveryInfo" aria-label="View delivery information">
-                            Delivery Info
-                        </button>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="{% url 'store:terms' %}" aria-label="Read our terms and conditions">
-                            Terms &amp; Conditions
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class=" text-center">
+            <div class="text-center my-2 my-md-0">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
                         <a class="text-decoration-none" href="https://www.facebook.com/profile.php?id=61583493396784"
@@ -56,6 +40,38 @@
                 </ul>
             </div>
 
+            <div class="text-center">
+                <ul class="list-inline mb-2">
+                    <li class="list-inline-item">
+                        <button type="button" class="btn btn-link p-0 align-baseline" data-bs-toggle="modal"
+                            data-bs-target="#deliveryInfo" aria-label="View delivery information">
+                            Delivery Info
+                        </button>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="{% url 'store:terms' %}" aria-label="Read our terms and conditions">
+                            Terms &amp; Conditions
+                        </a>
+                    </li>
+                </ul>
+                <p class="small mb-2">Subscribe to our newsletter</p>
+                <form
+                    action="https://gmail.us3.list-manage.com/subscribe/post?u=be4f635a4c491efef0d744d44&id=c3c2d9c7c8&f_id=0037c1e0f0"
+                    method="post" target="_blank" novalidate
+                    class="d-flex flex-column flex-sm-row justify-content-center gap-2 mx-auto newsletter-form">
+                    <label for="newsletter-email" class="visually-hidden">
+                        Email address for newsletter
+                    </label>
+                    <input type="email" name="EMAIL" id="newsletter-email" class="form-control form-control-sm"
+                        placeholder="Email address" required>
+                    <div aria-hidden="true" class="newsletter-honeypot">
+                        <input type="text" name="b_be4f635a4c491efef0d744d44_c3c2d9c7c8" tabindex="-1" value="">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </footer>

@@ -238,3 +238,12 @@ footer {
     margin-left: auto;
     color: white;
 }
+
+.newsletter-form {
+    max-width: 320px;
+}
+
+.newsletter-honeypot {
+    position: absolute;
+    left: -5000px;
+}
