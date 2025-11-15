@@ -364,6 +364,12 @@ def success(request):
         except Exception:
             pass
 
+    messages.success(
+        request,
+        "Order placed successfully. Please check your emails for "
+        "order details."
+    )
+
     return render(
         request,
         "checkout/success.html",

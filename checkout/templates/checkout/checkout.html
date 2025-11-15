@@ -60,7 +60,11 @@
                     {% for a in addresses %}
                     <option value="{{ a.id }}"
                         {% if billing_default and a.id == billing_default.id %}selected{% endif %}>
-                        {{ a.label|default:a.first_line }}, {{ a.city }} {{ a.postcode }}
+                        {% if a.label %}
+                        {{ a.label }} -- {{ a.first_line }}, {{ a.city }}, {{ a.postcode }}
+                        {% else %}
+                        {{ a.first_line }}, {{ a.city }}, {{ a.postcode }}
+                        {% endif %}
                     </option>
                     {% endfor %}
                 </select>
@@ -71,7 +75,11 @@
                     {% for a in addresses %}
                     <option value="{{ a.id }}"
                         {% if delivery_default and a.id == delivery_default.id %}selected{% endif %}>
-                        {{ a.label|default:a.first_line }}, {{ a.city }} {{ a.postcode }}
+                        {% if a.label %}
+                        {{ a.label }} -- {{ a.first_line }}, {{ a.city }}, {{ a.postcode }}
+                        {% else %}
+                        {{ a.first_line }}, {{ a.city }}, {{ a.postcode }}
+                        {% endif %}
                     </option>
                     {% endfor %}
                 </select>
