@@ -59,7 +59,13 @@
             </div>
         </div>
         {% empty %}
+        {% if q %}
+        <p>
+            No products matching "<strong>{{ q }}</strong>" were found.
+        </p>
+        {% else %}
         <p>No products yet.</p>
+        {% endif %}
         {% endfor %}
     </div>
 </section>
