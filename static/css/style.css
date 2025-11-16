@@ -4,6 +4,25 @@ body {
     line-height: 1.6;
 }
 
+h1,
+h2,
+h3 {
+    font-weight: 500;
+}
+
+.navbar-menu {
+    background-color: lightblue;
+}
+
+.navbar-menu a {
+    color: #0F2039;
+}
+
+.navbar-menu a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
 .navbar.fixed-top {
     z-index: 1200;
 }
@@ -86,23 +105,43 @@ footer {
 }
 
 .footer a {
+    color: #0000FF !important;
     text-decoration: none;
+}
+
+.footer a:hover {
+    color: #0F2039 !important;
+    text-decoration: underline;
 }
 
 .footer .btn-link {
+    color: #0000FF !important;
     text-decoration: none;
     padding: 0;
+
 }
 
-.footer-bar a,
-.footer-bar a:visited {
-    color: #0a58ca;
+.footer .btn-link:hover {
+    text-decoration: underline;
+    color: #0F2039 !important;
 }
 
 .footer-bar a:hover,
 .footer-bar a:focus {
     color: #084298;
     text-decoration: underline;
+}
+
+.fa-brands:hover {
+    color: #470e88;
+    text-decoration: underline;
+}
+
+.fa-hover-effect:hover {
+    -webkit-animation: fa-flip 2s infinite linear;
+    -moz-animation: fa-flip 2s infinite linear;
+    -o-animation: fa-flip 2s infinite linear;
+    animation: fa-flip 2s infinite linear;
 }
 
 @media (max-width: 576px) {
@@ -246,4 +285,13 @@ footer {
 .newsletter-honeypot {
     position: absolute;
     left: -5000px;
+}
+
+@media (max-width: 768px) {
+    .password-button {
+        margin-left: 10px;
+        width: 120px;
+        max-height: 50px;
+        text-align: center;
+    }
 }
