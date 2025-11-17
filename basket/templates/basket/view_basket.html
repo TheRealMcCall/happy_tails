@@ -2,7 +2,15 @@
 {% load static %}
 {% block content %}
 <section class="container my-4">
-    <h1>Basket</h1>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Basket</h1>
+        {% if items %}
+        <a class="btn btn-outline-primary" href="{% url 'store:product_list' %}" aria-label="Back to store products">
+            Back to store
+        </a>
+        {% endif %}
+    </div>
 
     {% if items %}
     <div class="bg-white rounded-3 p-3 shadow-sm">
@@ -99,7 +107,7 @@
 
     <div class="row mt-3 g-2 align-items-center">
         <div class="col-12 col-md-auto">
-            <button type="button" class="btn btn-outline-danger w-100 w-md-auto" data-bs-toggle="modal"
+            <button type="button" class="btn btn-danger w-100 w-md-auto" data-bs-toggle="modal"
                 data-bs-target="#emptyBasketModal" aria-label="Open confirm dialog to empty basket">
                 Empty basket
             </button>
@@ -109,15 +117,6 @@
             <a class="btn btn-primary w-100 w-md-auto" href="{% url 'checkout:start' %}"
                 aria-label="Proceed to checkout">
                 Proceed to Checkout
-            </a>
-        </div>
-    </div>
-
-    <div class="row mt-4 mb-5">
-        <div class="col-12 text-center">
-            <a class="btn btn-outline-secondary" href="{% url 'store:product_list' %}"
-                aria-label="Back to store products">
-                Back to store
             </a>
         </div>
     </div>

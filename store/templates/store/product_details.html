@@ -2,11 +2,17 @@
 {% load static %}
 {% block content %}
 <section class="container my-4 product-section text">
-    <h1 class="mt-2 text-center">{{ product.name }}</h1>
+    <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+        <h1 class="mb-0">Product details</h1>
+        <a class="btn btn-outline-primary" href="{% url 'store:product_list' %}" aria-label="Back to store products">
+            Back to store
+        </a>
+    </div>
 
     {% with photo=product.get_product_image %}
     <div class="card shadow-sm mt-3">
         <div class="card-body">
+            <h2 class="h4 mb-3">{{ product.name }}</h2>
             <div class="row g-4 align-items-start">
                 <div class="col-12 col-md-5">
                     {% if photo %}
@@ -95,10 +101,5 @@
     {% endwith %}
 
 </section>
-
-<div class="d-flex justify-content-center gap-3 mt-5">
-    <a class="btn btn-outline-secondary" href="{% url 'store:product_list' %}" aria-label="Back to store products">Back
-        to store</a>
-</div>
 <script src="{% static 'js/product_stock.js' %}"></script>
 {% endblock %}

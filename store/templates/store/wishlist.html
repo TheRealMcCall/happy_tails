@@ -3,8 +3,8 @@
 <section class="container my-4">
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="mb-0">My Wishlist</h1>
-        <a class="btn btn-outline-secondary" href="{% url 'store:home' %}" aria-label="Go back to shop">
-            Back to shop
+        <a class="btn btn-outline-primary" href="{% url 'store:home' %}" aria-label="Go back to store">
+            Back to store
         </a>
     </div>
 
@@ -27,7 +27,7 @@
                         <form method="post" action="{% url 'store:wishlist_toggle' p.id %}" class="d-inline">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{% url 'store:wishlist' %}">
-                            <button class="btn btn-sm btn-outline-danger">Remove</button>
+                            <button class="btn btn-sm btn-danger">Remove</button>
                         </form>
                     </td>
                 </tr>

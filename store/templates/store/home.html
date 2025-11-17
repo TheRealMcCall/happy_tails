@@ -20,15 +20,14 @@
             <a class="btn btn-primary" href="{% url 'store:product_list' %}" aria-label="Browse products">Shop
                 now</a>
             {% if user.is_authenticated %}
-            <a class="btn btn-outline-primary" href="{% url 'profiles:profile' %}" aria-label="View your account">My
+            <a class="btn btn-primary" href="{% url 'profiles:profile' %}" aria-label="View your account">My
                 account</a>
-            <a class="btn btn-outline-secondary" href="{% url 'checkout:my_orders' %}"
-                aria-label="View your recent orders">My orders</a>
+            <a class="btn btn-primary" href="{% url 'checkout:my_orders' %}" aria-label="View your recent orders">My
+                orders</a>
             {% else %}
-            <a class="btn btn-outline-primary" href="{% url 'account_signup' %}" aria-label="Create an account">Create
+            <a class="btn btn-primary" href="{% url 'account_signup' %}" aria-label="Create an account">Create
                 account</a>
-            <a class="btn btn-outline-secondary" href="{% url 'account_login' %}"
-                aria-label="Log in to your account">Login</a>
+            <a class="btn btn-primary" href="{% url 'account_login' %}" aria-label="Log in to your account">Login</a>
             {% endif %}
         </div>
     </div>

@@ -10,6 +10,33 @@ h3 {
     font-weight: 500;
 }
 
+main a:not(.btn):not(.nav-link) {
+    color: #0000FF !important;
+    text-decoration: none;
+}
+
+main a:not(.btn):not(.nav-link):hover,
+main a:not(.btn):not(.nav-link):focus {
+    color: #0F2039 !important;
+    text-decoration: underline;
+}
+
+main .form-container p a {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.nav-pills .nav-link {
+    color: #0F2039;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #0F2039;
+    color: #ffffff;
+}
+
 .navbar-menu {
     background-color: lightblue;
 }
@@ -85,6 +112,17 @@ h3 {
     text-decoration: none;
 }
 
+.carousel-inner.small a {
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.carousel-inner.small a:hover,
+.carousel-inner.small a:focus {
+    background-color: #000;
+}
+
 .hero {
     margin-top: 50px;
     height: clamp(320px, 36vw, 400px);
@@ -97,6 +135,19 @@ h3 {
     display: block;
     object-fit: cover;
     object-position: 50% 22%;
+}
+
+.btn-outline-primary {
+    color: #0F2039;
+    border-color: #0F2039;
+    background-color: #ffffff;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    color: #ffffff;
+    background-color: #0F2039;
+    border-color: #0F2039;
 }
 
 footer {
@@ -133,7 +184,7 @@ footer {
 }
 
 .fa-brands:hover {
-    color: #470e88;
+    color: #0F2039;
     text-decoration: underline;
 }
 

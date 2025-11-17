@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="container my-4">
-    <h1>My Orders</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">My Orders</h1>
+        <a href="{% url 'profiles:profile' %}" class="btn btn-secondary">Return to My Account</a>
+    </div>
     {% if orders %}
     <table class="table align-middle mt-3">
         <thead>
