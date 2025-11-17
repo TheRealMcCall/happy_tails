@@ -13,7 +13,8 @@
         {% endif %}
         <div class="d-flex gap-2 justify-content-center">
             <button type="submit" class="btn btn-danger">Log out</button>
-            <a href="{% url 'store:home' %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'store:home' %}" aria-label="Cancel and return to home page"
+                class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </section>

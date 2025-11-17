@@ -3,7 +3,8 @@
 <section class="container my-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="mb-0">My Orders</h1>
-        <a href="{% url 'profiles:profile' %}" class="btn btn-secondary">Return to My Account</a>
+        <a href="{% url 'profiles:profile' %}" aria-label="Go back to my account" class="btn btn-secondary">Return to My
+            Account</a>
     </div>
     {% if orders %}
     <table class="table align-middle mt-3">
@@ -19,7 +20,8 @@
             {% for o in orders %}
             <tr>
                 <td>
-                    <a href="{% url 'checkout:order_detail' o.order_number %}" class="text-decoration-none">
+                    <a href="{% url 'checkout:order_detail' o.order_number %}"
+                        aria-label="View details for order {{ o.order_number }}" class="text-decoration-none">
                         {{ o.order_number }}
                     </a>
                 </td>

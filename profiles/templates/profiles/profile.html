@@ -15,11 +15,11 @@
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h2 class="mb-0">Profile</h2>
                         <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'profiles:profile_edit' %}"
-                            aria-label=" Edit your profile">
+                            aria-label="Go to profile edit page">
                             Edit profile
                         </a>
                         <a class="btn btn-sm password-button btn-outline-secondary"
-                            href="{% url 'account_change_password' %}" aria-label="Change your password">
+                            href="{% url 'account_change_password' %}" aria-label="go to password change page">
                             Change password
                         </a>
                     </div>
@@ -37,7 +37,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h2 class="mb-0">Wishlist</h2>
                         <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'store:wishlist' %}"
-                            aria-label="View full wishlist">
+                            aria-label="go to View full wishlist page">
                             View full wishlist
                         </a>
                     </div>
@@ -69,7 +69,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h2 class="mb-0">Addresses</h2>
                         <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'profiles:address_add' %}"
-                            aria-label="Add a new address">Add address
+                            aria-label="Go to page to add new address">Add address
                         </a>
                     </div>
 
@@ -87,11 +87,11 @@
                             <div class="d-flex gap-2">
                                 <a class="btn btn-sm btn-outline-secondary"
                                     href="{% url 'profiles:address_edit' a.id %}"
-                                    aria-label="Edit address {{ a.label|default:'Address' }}">
+                                    aria-label="go to page to edit address {{ a.label|default:'Address' }}">
                                     Edit
                                 </a>
                                 <a class="btn btn-sm btn-outline-danger" href="{% url 'profiles:address_delete' a.id %}"
-                                    aria-label="Delete address {{ a.label|default:'Address' }}">
+                                    aria-label="go to page to delete address {{ a.label|default:'Address' }}">
                                     Delete
                                 </a>
                             </div>
@@ -111,7 +111,7 @@
                     <h2 class="mb-0">Recent orders</h2>
                     {% if recent_orders %}
                     <a class="btn btn-sm btn-primary ms-3 flex-shrink-0" href="{% url 'checkout:my_orders' %}"
-                        aria-label="View all your orders">View all orders</a>
+                        aria-label="go to View all orders page">View all orders</a>
                     {% endif %}
                 </div>
 

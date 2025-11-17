@@ -19,10 +19,10 @@
         <h1 class="mb-0">Product Catalog</h1>
 
         <div class="d-flex flex-column align-items-end gap-2">
-            <a class="btn btn-outline-primary" href="{% url 'store:home' %}" aria-label="Go back to store">
+            <a class="btn btn-outline-primary" href="{% url 'store:home' %}" aria-label="Go back to store page">
                 Back to store
             </a>
-            <a class="btn btn-primary" href="{% url 'store:product_create' %}">
+            <a class="btn btn-primary" href="{% url 'store:product_create' %}" aria-lable="Go to add product page">
                 Add product
             </a>
         </div>
@@ -43,8 +43,10 @@
                     <td>{{ p.name }}</td>
                     <td>{{ p.category }}</td>
                     <td class="text-end d-flex gap-2 justify-content-end">
-                        <a class="btn btn-sm btn-secondary" href="{% url 'store:product_edit' p.id %}">Edit</a>
-                        <a class="btn btn-sm btn-danger" href="{% url 'store:product_delete' p.id %}">Delete</a>
+                        <a class="btn btn-sm btn-secondary" href="{% url 'store:product_edit' p.id %}"
+                            aria-label="Edit product {{ p.name }}"">Edit</a>
+                        <a class=" btn btn-sm btn-danger" href="{% url 'store:product_delete' p.id %}"
+                            aria-label="Delete product {{ p.name }}">Delete</a>
                     </td>
                 </tr>
                 {% empty %}

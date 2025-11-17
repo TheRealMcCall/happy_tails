@@ -6,11 +6,12 @@
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'manage_dashboard' %}active{% endif %}"
-                    href="{% url 'store:manage_dashboard' %}">Product Catalog</a>
+                    href="{% url 'store:manage_dashboard' %}" aria-label="Go to product catalog">Product Catalog</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'manage_variants' %}active{% endif %}"
-                    href="{% url 'store:manage_variants' %}">Variant Catalog</a>
+                    href="{% url 'store:manage_variants' %}" aria-label="Go to variant catalog">Variant
+                    Catalog</a>>Variant Catalog</a>
             </li>
         </ul>
     </nav>
@@ -22,13 +23,13 @@
             <a class="btn btn-outline-primary" href="{% url 'store:home' %}" aria-label="Go back to store">
                 Back to store
             </a>
-            <a class="btn btn-primary" href="{% url 'store:variant_choose_product' %}">
+            <a class="btn btn-primary" href="{% url 'store:variant_choose_product' %}" aria-label="Add a new variant">
                 Add variant
             </a>
         </div>
     </div>
 
-    <div class="table-responsive">
+    <div class=" table-responsive">
         <table class="table align-middle">
             <thead>
                 <tr>
@@ -54,14 +55,15 @@
                     <td class="text-end">£{{ v.price|floatformat:2 }}</td>
 
                     <td class="text-end d-flex gap-2 justify-content-end">
-                        <a class="btn btn-sm btn-secondary" href="{% url 'store:variant_edit' v.id %}">Edit</a>
-                        <a class="btn btn-sm btn-outline-primary"
-                            href="{% url 'store:variant_stock_update' v.id %}">Update Stock</a>
+                        <a class="btn btn-sm btn-secondary" href="{% url 'store:variant_edit' v.id %}"
+                            aria-label="Edit variant for {{ v.product.name }}">Edit</a>
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'store:variant_stock_update' v.id %}"
+                            aria-label="Update stock for {{ v.product.name }}">Update Stock</a>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" class="text-muted">No variants yet.</td>
+                    <td colspan=" 6" class="text-muted">No variants yet.</td>
                 </tr>
                 {% endfor %}
             </tbody>

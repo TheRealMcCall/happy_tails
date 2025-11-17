@@ -66,35 +66,36 @@
                 </div>
 
                 <button class="carousel-control-prev" type="button" data-bs-target="#benefitsCarousel"
-                    data-bs-slide="prev" aria-label="Previous">
+                    data-bs-slide="prev" aria-label="Show previous benefit">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#benefitsCarousel"
-                    data-bs-slide="next" aria-label="Next">
+                    data-bs-slide="next" aria-label="Show next benefit">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 </button>
             </div>
 
             <button class="btn btn-outline-light btn-sm d-none d-md-inline-flex" data-bs-toggle="modal"
-                data-bs-target="#registerMoreInfo">
+                data-bs-target="#registerMoreInfo" aria-label="Show more information about account benefits">
                 More info
             </button>
         </div>
 
         <div class="container-fluid d-md-none text-center py-1">
             <button class="btn btn-link btn-sm text-white text-decoration-underline p-0" data-bs-toggle="modal"
-                data-bs-target="#registerMoreInfo">
+                data-bs-target="#registerMoreInfo" aria-label="Show more information about account benefits">
                 More info
             </button>
         </div>
     </aside>
     {% endif %}
 
-    <aside class="modal fade" id="registerMoreInfo" tabindex="-1" aria-hidden="true">
+    <aside class="modal fade" id="registerMoreInfo" tabindex="-1" aria-hidden="true" aria-modal="true"
+        aria-labelledby="registerMoreInfoTitle">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title mb-0">Why create an account?</h2>
+                    <h2 id="registerMoreInfoTitle" class="modal-title mb-0">Why create an account?</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body small">

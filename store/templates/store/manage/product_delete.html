@@ -6,7 +6,8 @@
         {% csrf_token %}
         <div class="d-flex gap-2">
             <button class="btn btn-danger" type="submit">Yes, delete</button>
-            <a class="btn btn-secondary" href="{% url 'store:manage_dashboard' %}">Cancel</a>
+            <a class="btn btn-secondary" href="{% url 'store:manage_dashboard' %}"
+                aria-label="Cancel and go back to product catalog">Cancel</a>
         </div>
     </form>
 </section>

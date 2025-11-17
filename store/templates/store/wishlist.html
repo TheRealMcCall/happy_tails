@@ -21,7 +21,8 @@
                 {% for p in products %}
                 <tr>
                     <td>
-                        <a href="{% url 'store:product_detail' p.slug %}">{{ p.name }}</a>
+                        <a href="{% url 'store:product_detail' p.slug %}"
+                            aria-label="View details for {{ p.name }}">{{ p.name }}</a>
                     </td>
                     <td class="text-end">
                         <form method="post" action="{% url 'store:wishlist_toggle' p.id %}" class="d-inline">

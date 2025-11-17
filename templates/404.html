@@ -5,8 +5,9 @@
     <h1 class="display-6 mb-3">Page not found!</h1>
     <p class="mb-4">The page you’re looking for doesn’t exist or may have moved.</p>
     <div class="d-flex gap-2 justify-content-center">
-        <a href="{% url 'store:home' %}" class="btn btn-primary">Go home</a>
-        <a href="javascript:history.back()" class="btn btn-outline-secondary">Go back</a>
+        <a href="{% url 'store:home' %}" aria-label="return to homepage" class="btn btn-primary">Go home</a>
+        <a href="javascript:history.back()" class="btn btn-outline-secondary" aria-label="Go back to previous page">Go
+            back</a>
     </div>
 </section>
 {% endblock %}

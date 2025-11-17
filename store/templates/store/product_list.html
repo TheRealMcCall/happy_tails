@@ -19,7 +19,7 @@
             <li class="nav-item">
                 <a class="nav-link {% if not active_category %}active{% endif %}"
                     href="{% url 'store:product_list' %}{% if q %}?q={{ q|urlencode }}{% endif %}"
-                    {% if not active_category %}aria-current="page" {% endif %}>
+                    {% if not active_category %}aria-current="page" {% endif %} aria-label="View all products">
                     All
                 </a>
             </li>
@@ -27,7 +27,8 @@
             <li class="nav-item">
                 <a class="nav-link {% if active_category and active_category.id == c.id %}active{% endif %}"
                     href="{% url 'store:category' c.slug %}{% if q %}?q={{ q|urlencode }}{% endif %}"
-                    {% if active_category and active_category.id == c.id %}aria-current="page" {% endif %}>
+                    {% if active_category and active_category.id == c.id %}aria-current="page" {% endif %}
+                    aria-label="View products in category {{ c.name }}">
                     {{ c.name }}
                 </a>
             </li>
@@ -54,7 +55,10 @@
                     </p>
                     {% endif %}
 
-                    <a href="{{ p.get_absolute_url }}" class="btn btn-primary mt-auto">View</a>
+                    <a href="{{ p.get_absolute_url }}" class="btn btn-primary mt-auto"
+                        aria-label="View details for {{ p.name }}">
+                        View
+                    </a>
                 </div>
             </div>
         </div>

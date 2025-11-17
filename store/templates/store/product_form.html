@@ -17,7 +17,8 @@
                     <button class="btn btn-primary" type="submit">
                         {% if is_create %}Create{% else %}Save changes{% endif %}
                     </button>
-                    <a class="btn btn-secondary" href="{% url 'store:manage_dashboard' %}">Cancel</a>
+                    <a class="btn btn-secondary" href="{% url 'store:manage_dashboard' %}"
+                        aria-label="Cancel and return to product catalog">Cancel</a>
                 </div>
             </form>
         </div>
