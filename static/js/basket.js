@@ -1,5 +1,6 @@
 /* jshint esversion: 11 */
 
+/** Handle basket quantity increment/decrement buttons and auto-submit form. */
 document.addEventListener('click', function (e) {
     const btn = e.target.closest('[data-qty-btn]');
     if (!btn) return;
@@ -18,6 +19,7 @@ document.addEventListener('click', function (e) {
     form.submit();
 });
 
+/** Submit the form when the quantity input is changed manually. */
 document.addEventListener('change', function (e) {
     if (e.target.matches('input[name="qty"]')) {
         const form = e.target.closest('form');

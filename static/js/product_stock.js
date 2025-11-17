@@ -1,5 +1,6 @@
 /* jshint esversion: 11 */
 
+/** Handle product variant stock warnings and dynamic price display. */
 document.addEventListener("DOMContentLoaded", function () {
     const select = document.getElementById("variant");
     const warning = document.getElementById("stock-warning");
@@ -8,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!select) return;
 
+    /** Update the low stock / out of stock warning message. */
     function updateWarning() {
         const option = select.options[select.selectedIndex];
         if (!option || !warning) return;
@@ -28,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!priceDisplay) return;
 
+    // Determine the minimum unit price from all variant options as a fallback.
     let minPrice = null;
     for (let i = 0; i < select.options.length; i++) {
         const opt = select.options[i];
@@ -42,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Get the current quantity, defaulting to 1 if the input is invalid.
     function getQty() {
         if (!quantityInput) return 1;
         const q = Number(quantityInput.value || "1");
@@ -49,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return q;
     }
 
+    /** Update displayed price based on selected variant and quantity. */
     function updatePrice() {
         let unitPrice = null;
         const option = select.options[select.selectedIndex];
@@ -78,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePrice();
     }
 
+    // Recalculate price when variant or quantity changes.
     select.addEventListener("change", updatePrice);
     if (quantityInput) {
         quantityInput.addEventListener("input", updatePrice);
