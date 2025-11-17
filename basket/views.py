@@ -6,7 +6,6 @@ from decimal import Decimal
 from store.models import Variant
 
 
-
 def _basket(request):
     """Return the session basket, creating it if missing."""
     return request.session.setdefault("basket", {})
