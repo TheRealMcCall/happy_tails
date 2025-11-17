@@ -3,6 +3,7 @@ from .models import Product, Variant, Stock
 
 
 class ProductForm(forms.ModelForm):
+    """Forms for managing products, variants, and stock in the store admin."""
     upload = forms.ImageField(required=False, label="Upload new image")
 
     class Meta:
@@ -21,6 +22,7 @@ class ProductForm(forms.ModelForm):
 
 
 class VariantForm(forms.ModelForm):
+    """Form for creating and editing product variants."""
     class Meta:
         model = Variant
         fields = [
@@ -32,6 +34,7 @@ class VariantForm(forms.ModelForm):
 
 
 class ProductPickForm(forms.Form):
+    """Form for selecting a product before creating a variant."""
     product = forms.ModelChoiceField(
         queryset=Product.objects.order_by("name"),
         label="Product",
@@ -40,6 +43,7 @@ class ProductPickForm(forms.Form):
 
 
 class StockForm(forms.ModelForm):
+    """Form for updating stock levels for a variant."""
     class Meta:
         model = Stock
         fields = ["quantity", "low_stock_threshold"]

@@ -44,10 +44,10 @@ class Profile(models.Model):
 
     created_at = models.DateTimeField(
         auto_now_add=True
-        )
+    )
     updated_at = models.DateTimeField(
         auto_now=True
-        )
+    )
 
     class Meta:
         """This orders profiles by associated username for clarity in admin."""
@@ -75,25 +75,25 @@ class Address(models.Model):
     )
     first_line = models.CharField(
         max_length=80
-        )
+    )
     second_line = models.CharField(
         max_length=80,
         blank=True
-        )
+    )
     city = models.CharField(
         max_length=30
-        )
+    )
     postcode = models.CharField(
         max_length=20
-        )
+    )
     country = models.CharField(
         max_length=25,
         default="United Kingdom"
-        )
+    )
     phone_number = models.CharField(
         max_length=30,
         blank=True
-        )
+    )
 
     def __str__(self):
         """Makes admin easier to read."""

@@ -90,7 +90,7 @@ class WishlistModelTests(TestCase):
             email="wishlist@example.com",
             password="testpass123",
         )
-        wishlist = Wishlist.objects.create(user=user)
+        wishlist, _ = Wishlist.objects.get_or_create(user=user)
         self.assertEqual(str(wishlist), "wishlist_user's Wishlist")
 
 

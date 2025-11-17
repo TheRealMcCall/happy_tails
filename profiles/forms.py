@@ -46,10 +46,12 @@ class AddressForm(forms.ModelForm):
             self.fields["country"].disabled = True
 
     def clean_phone_number(self):
+        """Normalise phone numbers to E.164 format."""
         n = self.cleaned_data.get("phone_number")
         return n.as_e164 if n else n
 
     def save(self, commit=True):
+        """Save the address, enforcing United Kingdom as the country."""
         obj = super().save(commit=False)
         obj.country = "United Kingdom"
         if commit:

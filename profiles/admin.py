@@ -1,11 +1,10 @@
 from django.contrib import admin
 from .models import Profile, Address
 
-# Register your models here.
-
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
+    """Admin configuration for user profiles and saved addresses."""
     list_display = (
         "user",
         "first_name",
@@ -28,6 +27,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
+    """Admin configuration for customer addresses."""
     list_display = (
         "user",
         "label",

@@ -7,5 +7,6 @@ from .models import Wishlist
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_wishlist_for_user(sender, instance, created, **kwargs):
+    """Create a wishlist for a newly created user if one does not exist."""
     if created:
         Wishlist.objects.get_or_create(user=instance)
