@@ -63,8 +63,8 @@
         <div class="row g-3">
             <!-- Billing address select, defaulting to user's billing_default if set -->
             <div class="col-md-6">
-                <label class="form-label">Billing address</label>
-                <select class="form-select" name="billing_address_id" required>
+                <label class="form-label" for="billing_address_id">Billing address</label>
+                <select class="form-select" id="billing_address_id" name="billing_address_id" required>
                     <option value="" disabled {% if not billing_default %}selected{% endif %}>
                         Select billing address
                     </option>
@@ -82,8 +82,8 @@
             </div>
             <!-- Delivery address select, defaulting to user's delivery_default if set -->
             <div class="col-md-6">
-                <label class="form-label">Delivery address</label>
-                <select class="form-select" name="delivery_address_id" required>
+                <label class="form-label" for="delivery_address_id">Delivery address</label>
+                <select class="form-select" id="delivery_address_id" name="delivery_address_id" required>
                     <option value="" disabled {% if not delivery_default %}selected{% endif %}>
                         Select delivery address
                     </option>
