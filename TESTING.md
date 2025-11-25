@@ -63,7 +63,7 @@ In addition to real device testing, 'Chrome DevTools’ responsive mode was used
 </details>
 
 ----
-Responsiveness was also demonstrated using a short video recordings of real device testing:
+Responsiveness was also demonstrated using a short video recording of real device testing:
 
 - [Google Pixel 8 Pro - Mobile Device](https://photos.app.goo.gl/7xxtSf2eWFppvVsG7)  
 
@@ -320,7 +320,7 @@ Nav Items were tested logged in as an admin and as a shopper account in order to
 | Feature                 | Action                                       | Expected Result                                                        | Works?              |
 |-------------------------|----------------------------------------------|------------------------------------------------------------------------|---------------------|
 | Invalid URL behaviour   | Visit non-existent URL                       | Custom 404 page displayed                                              | Works as expected   |
-| 404 page navigation     | Click “Go home or go back                    | User navigated safely back to home or back a page                      | Works as expected   |
+| 404 page navigation     | Click “Go home or go back buttons            | User navigated safely back to home or back a page                      | Works as expected   |
 
 ---
 
@@ -546,7 +546,7 @@ All key templates were tested using the [W3C HTML Validator](https://validator.w
 <details>
 <summary>Click to view validation result</summary>
 
-![Checkout Page HTML Validation](/documentation/validation/html_checkout.png)
+![Checkout Page HTML Validation](/documentation/validation/html_success.png)
 
 </details>
 
@@ -598,15 +598,15 @@ Custom JavaScript was tested using [JSHint](https://jshint.com/). The following 
 
 **Base JS**
 
-![Coverage Report](/documentation/validation/js_base.png)
+![Base.js JSHint Validation](/documentation/validation/js_base.png)
 
 **Basket JS**
 
-![HTML Coverage Report](/documentation/validation/js_basket.png)
+![Basket.js JSHint Validation](/documentation/validation/js_basket.png)
 
 **Product Stock JS**
 
-![HTML Coverage Report](/documentation/validation/js_product_stock.png)
+![Product_Stock.js JSHint Validation](/documentation/validation/js_product_stock.png)
 </details>
 
 ### Python (PEP8)
@@ -624,6 +624,11 @@ The Python codebase was validated using the [CI Python Linter](https://pep8ci.he
 
 The following bugs were discovered and resolved during development and testing:
 
+```md
+### Known Issues
+
+At the time of final testing, no critical unresolved bugs were identified.
+```
 ---
 
 
