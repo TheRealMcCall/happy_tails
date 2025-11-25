@@ -396,11 +396,27 @@ Custom JavaScript was tested using [JSHint](https://jshint.com/). The following 
 - `basket.js`
 - `product_stock.js`
 
-| File              | Tool    | Result |
-|-------------------|---------|--------|
-| `base.js`         | JSHint  |        |
-| `basket.js`       | JSHint  |        |
-| `product_stock.js`| JSHint  |        |
+| File              | Tool    | Result   |
+|-------------------|---------|----------|
+| `base.js`         | JSHint  | No errors|
+| `basket.js`       | JSHint  | No errors|
+| `product_stock.js`| JSHint  | No errors|
+
+<details>
+<summary><strong>Click Here</strong> to view screenshots for JavaScript validation.</summary>
+
+**Base JS**
+
+![Coverage Report](/documentation/validation/js_base.png)
+
+**Basket JS**
+
+![HTML Coverage Report](/documentation/validation/js_basket.png)
+
+**Product Stock JS**
+
+![HTML Coverage Report](/documentation/validation/js_product_stock.png)
+</details>
 
 ### Python (PEP8)
 
