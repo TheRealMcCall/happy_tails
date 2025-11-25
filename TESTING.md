@@ -386,23 +386,50 @@ The table below summarises the main areas covered by automated tests:
 
 ## User Stories Testing
 
-All key user stories were implemented and tested. Screenshots demonstrating the implementation of each user story can be found in the [README User Stories section](/README.md#user-stories).
+All user stories listed in the README were considered during development and testing.  
+This section shows how each story was implemented and manually tested, or if it has been left for future development.
+
+Screenshots demonstrating the implementation of each user story can be found in the [README User Stories section](/README.md#user-stories).
 
 ### Must Have
 
-| User Story                                                                 | Feature or Page           | Test Description                                                                 | Works?             |
-|----------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------|---------------------|
+| User Story                                                                                                            | Feature or Page                               | Test Description                                                                                                          | Works?             |
+|-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-----------------------------------------------------------------------------------------------------------------------    |--------------------|
+| As a user, I want to browse products by category so that I can easily find what I’m looking for.                      | Products page - category pills                | Click each category pill on the Products page and confirm that only products from that category are shown.                | Works as expected  |
+| As a user, I want to search for products by name/keyword so that I can quickly locate a specific item.                | Products page - search bar                    | Enter a keyword and submit; confirm that the product list is filtered to matching products or shows a no-results message. | Works as expected  |
+| As a user, I want to view product details (name, description, price, image) so that I can make an informed decision.  | Product detail page                           | Click “View” on a product card and confirm the page shows name, image, description, price and variant details.            | Works as expected  |
+| As a customer, I want to add products to my basket so that I can keep track of what I intend to buy.                  | Product detail page - add to basket           | Choose a variant and quantity, click “Add to Basket”; confirm a success message shows and the basket badge updates.       | Works as expected  |
+| As a customer, I can view and update my basket so that I can remove items before checkout.                            | Basket page                                   | Open the basket, change quantities, remove items and empty basket; confirm totals and basket badge update correctly.      | Works as expected  |
+| As a customer, I want to register an account and log in so that I can save my details and view my order history.      | Allauth signup/login, My Account, My Orders   | Register a new account, log in, place an order, and confirm that My Account and My Orders display saved data.             | Works as expected  |
+| As a customer, I want to checkout securely using Stripe so that I can pay online with confidence.                     | Checkout flow + Stripe Checkout               | Start from a populated basket, go to checkout, then proceed to Stripe test payment page and complete a test payment.      | Works as expected  |
+| As a customer, I want to receive order confirmation so that I know my purchase went through.                          | Order confirmation email + success page       | Complete a test order; confirm the on-site success page shows order details and an order confirmation email is received.  | Works as expected  |
 
+---
 
 ### Should Have
 
-| User Story                                                                 | Feature or Page           | Test Description                                                                 | Works?             |
-|----------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------|---------------------|
+| User Story                                                                                                       | Feature or Page                                                  | Test Description                                                                                                         | Works?             |
+|------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|--------------------|
+| As a customer, I want to save my delivery details so that I don’t have to re-enter them each time I order.       | My Account - Addresses, Checkout address dropdowns               | Add one or more addresses in My Account; go to checkout and confirm they are available in the billing/delivery dropdowns.| Works as expected  |
+| As a customer, I want to receive email confirmation of my order so that I have a receipt outside of the website. | Order confirmation email                                         | Place a test order and confirm that an order confirmation email is received with order number and summary.               | Works as expected  |
+| As a returning customer, I want to view my past orders so that I can reorder items easily.                       | My Orders & Order Detail pages                                   | Log in as a user with orders, visit My Orders, open an order and verify that items and totals are displayed correctly.   | Works as expected  |
+| As a store owner, I want to manage products so that I can keep the store up to date.                             | Product Management Page / Admin - Product/Variant/Stock models   | Log in to Django admin, add/edit/delete products and variants; confirm changes appear on the storefront pages.           | Works as expected  |
+| As a store owner, I want to receive notifications of new orders so that I can fulfil them quickly.               | Order Email Confirmation to shop owner                           | Store owner receives an email when an order is placed.                                                                   | Works as expected  |
+
+---
 
 ### Could Have (Future Development)
 
-| User Story                                                                 | Feature or Page           | Test Description                                                                 | Works?             |
-|----------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------|---------------------|
+| User Story                                                                                                        | Feature or Page / Area                                | Test Description                                                                                          |   Works?                             |
+|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------|
+| As a customer, I want to leave reviews on products so that I can share my experience with others.                 | Product reviews                                       | Would allow logged-in customers who purchased a product to leave a rating and review on its page.         | Future enhancement (not implemented) |
+| As a customer, I want to filter products (price, popularity, category) so that I can refine my shopping.          | Advanced product filtering                            | Would add additional filters (price range, popularity) alongside existing category filters.               | Future enhancement (not implemented) |
+| As a store owner, I want to view basic sales reports so that I can track performance.                             | Admin reporting / dashboard                           | Would provide a simple reporting view of orders, totals and popular products.                             | Future enhancement (not implemented) |
+| As a customer, I want to add items to a Wishlist so that I can purchase them later.                               | Wishlist (product detail, My Wishlist, My Account)    | Logged-in users can toggle wishlist on product detail and view/remove items via My Wishlist/My Account.   | Works as expected                    |  
+| As a customer, I want to customise pet supplies (e.g. engrave tags) so that I can personalise my order.           | Customisation options                                 | Would add product options for custom text/engraving, applied at checkout and stored with the order.       | Future enhancement (not implemented) |
+| As a customer, I want to book grooming appointments online so that I can schedule services as well as products.   | Appointment booking                                   | Would add a booking system for grooming appointments with date/time selection and confirmation.           | Future enhancement (not implemented) |
+
+---
 
 ## Lighthouse Testing
 
