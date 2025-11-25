@@ -105,8 +105,7 @@
 
         <!-- Navigation: back to basket or place order (creates Stripe session) -->
         <div class="d-flex justify-content-between mt-3">
-            <a class="btn btn-secondary" href="{% url 'basket:view_basket' %}"
-                aria-label="Go back to your basket">
+            <a class="btn btn-secondary" href="{% url 'basket:view_basket' %}" aria-label="Go back to your basket">
                 Back to Basket
             </a>
             <button class="btn btn-success" type="submit">Place Order</button>
@@ -133,7 +132,7 @@
     {% endif %}
 
     <!-- Info modal explaining billing vs delivery addresses -->
-    <aside class="modal fade" id="addressInfoModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true"
+    <aside class="modal fade" id="addressInfoModal" tabindex="-1" aria-hidden="true" role="dialog"
         aria-labelledby="addressInfoModalLabel">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
