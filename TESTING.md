@@ -420,7 +420,14 @@ Custom JavaScript was tested using [JSHint](https://jshint.com/). The following 
 
 ### Python (PEP8)
 
-The Python codebase was validated using the [CI Python Linter](https://pep8ci.herokuapp.com/) provided by Code Institute. All files passed without issues. 
+The Python codebase was validated using the [CI Python Linter](https://pep8ci.herokuapp.com/) provided by Code Institute. All files passed without issues.
+
+| Area / App        | Notes                                      | Status  |
+|-------------------|--------------------------------------------|---------|
+| `store` app       | models, views, urls, forms, signals        | Passed  |
+| `basket` app      | views and helpers                          | Passed  |
+| `checkout` app    | models and views                           | Passed  |
+| `profiles` app    | models and views                           | Passed  |
 
 ## Bugs
 
