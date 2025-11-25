@@ -253,25 +253,32 @@ Pages were tested using [Google Chrome Lighthouse](https://developers.google.com
 
 ### Home Page
 
-![Home Lighthouse Report]()
+![Home Lighthouse Report](/documentation/lighthouse/home_lighthouse.png)
 
 ### Products Page
 
-![Products Lighthouse Report]()
+![Products Lighthouse Report](/documentation/lighthouse/products_lighthouse.png)
 
 ### Product Detail Page
 
-![Product Detail Lighthouse Report]()
+![Product Detail Lighthouse Report](/documentation/lighthouse/product_detail_lighthouse.png)
 
 ### Basket Page
 
-![Basket Lighthouse Report]()
+![Basket Lighthouse Report](/documentation/lighthouse/basket_lighthouse.png)
 
 ### Checkout Page
 
-![Checkout Lighthouse Report]()
+![Checkout Lighthouse Report](/documentation/lighthouse/checkout_lighthouse.png)
 
-Overall, scores were consistently high across all categories. Minor accessibility suggestions were already addressed manually, such as ARIA labels and semantic headings.
+### My Account Page
+
+![My Account Lighthouse Report](/documentation/lighthouse/account_lighthouse.png)
+
+
+Overall, scores were consistently high across all categories. Minor accessibility suggestions were already addressed manually, such as ARIA labels and semantic headings. 
+
+Lighthouse raised some advanced security suggestions (CSP, HSTS, Trusted Types). These relate to server configuration rather than the site code.
 
 ## Validator Testing
 
