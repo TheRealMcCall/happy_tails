@@ -277,11 +277,13 @@ Overall, scores were consistently high across all categories. Minor accessibilit
 
 ### HTML
 
-All key templates were tested using the [W3C HTML Validator](https://validator.w3.org/).
+All key templates were tested using the [W3C HTML Validator](https://validator.w3.org/). No errors were found.
 
 #### Home Page
 <details>
 <summary>Click to view validation result (no Errors)</summary>
+
+![Home Page HTML Validation](/documentation/validation/html_home.png)
 
 </details>
 
@@ -289,11 +291,15 @@ All key templates were tested using the [W3C HTML Validator](https://validator.w
 <details>
 <summary>Click to view validation result</summary>
 
+![Product Page HTML Validation](/documentation/validation/html_products.png)
+
 </details>
 
 #### Product Detail Page
 <details>
 <summary>Click to view validation result</summary>
+
+![Product Detail HTML Validation](/documentation/validation/html_product_detail.png)
 
 </details>
 
@@ -301,17 +307,23 @@ All key templates were tested using the [W3C HTML Validator](https://validator.w
 <details>
 <summary>Click to view validation result</summary>
 
+![Basket Page HTML Validation](/documentation/validation/html_basket.png)
+
 </details>
 
 #### Checkout Page
 <details>
 <summary>Click to view validation result</summary>
 
+![Checkout Page HTML Validation](/documentation/validation/html_checkout.png)
+
 </details>
 
-#### Profile Page
+#### My Account Page
 <details>
 <summary>Click to view validation result</summary>
+
+![My Account Page HTML Validation](/documentation/validation/html_account.png)
 
 </details>
 
@@ -319,11 +331,15 @@ All key templates were tested using the [W3C HTML Validator](https://validator.w
 <details>
 <summary>Click to view validation result</summary>
 
+![Wishlist Page HTML Validation](/documentation/validation/html_wishlist.png)
+
 </details>
 
 #### My Orders Page
 <details>
 <summary>Click to view validation result</summary>
+
+![My Orders Page HTML Validation](/documentation/validation/html_my_orders.png)
 
 </details>
 
@@ -331,11 +347,15 @@ All key templates were tested using the [W3C HTML Validator](https://validator.w
 <details>
 <summary>Click to view validation result</summary>
 
+![Order Detail Page HTML Validation](/documentation/validation/html_order_detail.png)
+
 </details>
 
 #### Checkout Success Page
 <details>
 <summary>Click to view validation result</summary>
+
+![Checkout Page HTML Validation](/documentation/validation/html_checkout.png)
 
 </details>
 
@@ -343,11 +363,15 @@ All key templates were tested using the [W3C HTML Validator](https://validator.w
 <details>
 <summary>Click to view validation result</summary>
 
+![Terms & Conditions Page HTML Validation](/documentation/validation/html_terms.png)
+
 </details>
 
 #### 404 Page
 <details>
 <summary>Click to view validation result</summary>
+
+![Error 404 Page HTML Validation](/documentation/validation/html_404.png)
 
 </details>
 
