@@ -181,7 +181,51 @@ Thorough manual testing was done for all critical user interactions across pages
 
 Automated tests were written using Django’s built-in test framework.
 
+### How to Run the Tests
+
+From the project root:
+
+```bash
+# Run all Django tests
+python manage.py test
+
+# Run tests with coverage
+coverage run manage.py test
+
+# Generate HTML coverage report
+coverage html
+```
+
 ### Test Coverage
+
+Coverage was measured using the `coverage` package:
+
+- **Overall coverage:** 64%  
+- **Applications covered:** `store`, `basket`, `checkout`, `profiles`
+
+<details>
+<summary><strong>Click Here</strong> to view screenshots for the coverage reports</summary>
+
+**Terminal coverage summary**
+
+![Coverage Report](/documentation/testing/coverage_report.png)
+
+**HTML coverage index**
+
+![HTML Coverage Report](/documentation/testing/coverage_html.png)
+</details>
+
+### Test Summary
+
+The table below summarises the main areas covered by automated tests:
+
+| App       | Area Tested                     | Notes                                    |
+|-----------|----------------------------------|------------------------------------------|
+| store     | Models, views, URL resolution   | All key model methods and views covered.  |
+| basket    | Add/update/remove item logic    | Edge cases for invalid quantities tested. |
+| checkout  | Order creation, redirects       | Stripe session created for valid orders.  |
+| profiles  | Profile & address creation      | Only logged-in access permitted.          |
+
 
 ## User Stories Testing
 
