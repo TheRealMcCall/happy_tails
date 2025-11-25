@@ -73,11 +73,48 @@ All navigation menus, forms, buttons, summaries, and tables were confirmed to be
 
 Thorough manual testing was done for all critical user interactions across pages.
 
-### Global Navigation
+### Global Navigation (Header)
 
-| Feature        | Action | Expected Result                                                                          | Works?              |
-|----------------|--------|------------------------------------------------------------------------------------------|---------------------|
-| Brand Name     | Click  | Goes to homepage                                                                         | Works as expected   |
+Nav Items were tested logged in as an admin and as a shopper account in order to check correct navlinks are displayed for the relevant user type.
+
+| Feature                          | Action | Expected Result                           | Works?              |
+|----------------------------------|--------|-------------------------------------------|---------------------|
+| Brand Name                       | Click  | Goes to homepage                          | Works as expected   |
+| Products link                    | Click  | Navigates to the products list page       | Works as expected   |
+| Wishlist icon (logged in)        | Click  | Navigates to the wishlist page            | Works as expected   |
+| My Account link (logged in)      | Click  | Navigates to the My Account page          | Works as expected   |
+| Logout Link (logged in)          | Click  | Navigates to the Logout Page              | Works as expected   |
+| Login / Register (logged out)    | Click  | Navigates to the relevant page            | Works as expected   |
+| Basket icon + badge              | Display| Shows number of items in basket           | Works as expected   |
+| Basket icon + badge              | Click  | Navigates to the basket page              | Works as expected   |
+| Products management link         | Click  | Navigates to the product management page  | Works as expected   |
+| Nav links hover state            | Hover  | contrast change and underline             | Works as expected   |
+
+### Global Navigation (Hamburger menu)
+
+| Feature                          | Action | Expected Result                           | Works?              |
+|----------------------------------|--------|-------------------------------------------|---------------------|
+| Hamburger menu                   | Click  | lists nav items                           | Works as expected   |
+| Brand Name                       | Click  | Goes to homepage                          | Works as expected   |
+| Products link                    | Click  | Navigates to the products list page       | Works as expected   |
+| Wishlist icon (logged in)        | Click  | Navigates to the wishlist page            | Works as expected   |
+| My Account link (logged in)      | Click  | Navigates to the My Account page          | Works as expected   |
+| Logout Link (logged in)          | Click  | Navigates to the Logout Page              | Works as expected   |
+| Login / Register (logged out)    | Click  | Navigates to the relevant page            | Works as expected   |
+| Basket icon + badge              | Display| Shows number of items in basket           | Works as expected   |
+| Basket icon + badge              | Click  | Navigates to the basket page              | Works as expected   |
+| Products management link         | Click  | Navigates to the product management page  | Works as expected   |
+
+### Global Navigation (Footer)
+
+| Feature                             | Action    | Expected Result                      | Works?              |
+|-------------------------------------|-----------|--------------------------------------|---------------------|
+| Delivery Info link                  | Click     | Delivery Info Modal dispays          | Works as expected   |
+| Terms and conditions link           | Click     | Navigates to the terms page          | Works as expected   |
+| Social links                        | Click     | Navigates to the relevant social page| Works as expected   |
+| Newsletter Subscription             | Subscribe | Confirms subscription (mailchimp)    | Works as expected   |
+| Icons and links hover state         | Hover     | contrast change and underline        | Works as expected   |
+
 
 ### Home Page
 
