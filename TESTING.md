@@ -624,6 +624,34 @@ The Python codebase was validated using the [CI Python Linter](https://pep8ci.he
 
 The following bugs were discovered and resolved during development and testing:
 
+---
+
+### Bug: Duplicate error messaage when invalid sign in details
+
+**Issue:**  
+When user enters an invalid password there are two error messages instead of one.
+
+![Duplicate error message](/documentation/bugs/bug_duplicate.png)
+
+**Solution:**  
+
+
+![Duplicate solution](/documentation/bugs/bug_duplicate_solution.png)
+
+See issue #63 for more details.
+
+### Bug: User can add variants with zero stock to basket
+
+**Issue:**  
+User is able to add out of stock items to basket.
+
+**Solution:**  
+
+![Zero Stock basket solution](/documentation/bugs/bug_zero_stock_basket_solution.png)
+
+See issue #56 for more details.
+
+
 ```md
 ### Known Issues
 
