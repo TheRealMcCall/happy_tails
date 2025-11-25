@@ -638,7 +638,7 @@ When user enters an invalid password there are two error messages instead of one
 
 ![Duplicate solution](/documentation/bugs/bug_duplicate_solution.png)
 
-See issue #63 for more details.
+[See issue #63 for more details.](https://github.com/TheRealMcCall/happy_tails/issues/63)
 
 ### Bug: User can add variants with zero stock to basket
 
@@ -649,7 +649,7 @@ User is able to add out of stock items to basket.
 
 ![Zero Stock basket solution](/documentation/bugs/bug_zero_stock_basket_solution.png)
 
-See issue #56 for more details.
+[See issue #56 for more details.](https://github.com/TheRealMcCall/happy_tails/issues/56)
 
 
 ```md
