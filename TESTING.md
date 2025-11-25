@@ -63,10 +63,9 @@ In addition to real device testing, 'Chrome DevTools’ responsive mode was used
 </details>
 
 ----
-Responsiveness was also demonstrated using short video recordings of real device testing:
+Responsiveness was also demonstrated using a short video recordings of real device testing:
 
-- [Google Pixel 8 Pro – Portrait Test](https://drive.google.com/file/d/10eUMt4fQAiNPTXftHLw7Ml7OJQt9P0Wp/view?usp=drive_link)  
-- [Google Pixel 8 Pro – Landscape Test](https://drive.google.com/file/d/1Q2A0s3Khq_xtYin5kUAfGEvWzmfDBPma/view?usp=drive_link)
+- [Google Pixel 8 Pro - Mobile Device](https://photos.app.goo.gl/7xxtSf2eWFppvVsG7)  
 
 All navigation menus, forms, buttons, summaries, and tables were confirmed to be usable at small screen widths. The layout adapts seamlessly.
 
