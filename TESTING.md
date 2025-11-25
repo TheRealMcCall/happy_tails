@@ -382,7 +382,7 @@ The custom CSS file was tested using the [W3C CSS Validation Service](https://ji
 <details>
 <summary>Click to view validation result - No issues</summary>
 
-![CSS Validation Result]()
+![CSS Validation Result](/documentation/validation/css_stylesheet.png)
 
 </details>
 
