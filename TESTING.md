@@ -50,15 +50,45 @@ The website was tested on multiple browsers to confirm full compatibility and co
 The site was tested for responsive behaviour across multiple screen sizes and devices. All major content, forms, and controls adjust fluidly across viewport sizes with no layout-breaking issues observed.
 
 **Tested Devices:**
-- 1440p 27" Landscape Monitor
-- Pixel 8 Pro Mobile Device
+- 24" 1440p Landscape Monitor
+- 24" 1080p Portrait Desktop Monitor
+- 34" 1440p Ultra-Wide Monitor
+- Google Pixel 8 Pro Mobile Device
 
 In addition to real device testing, 'Chrome DevTools’ responsive mode was used throughout development to verify breakpoints and content flow.
 
 <details>
-<summary>Click here to view 27" 1440p Desktop Monitor screenshot – <strong>Works as expected</strong></summary>
+<summary>Click here to view 24" 1440p Desktop Monitor screenshot – <strong>Works as expected</strong></summary>
 
-![1440p Desktop Screenshot](/documentation/responsive/1440p_desktop.png)
+![1440p Desktop Landscape Screenshot](/documentation/responsive/24_1440p_landscape.png)
+
+</details>
+-
+<details>
+<summary>Click here to view 24" 1080p Portrait Desktop Monitor screenshot – <strong>Works as expected</strong></summary>
+
+![1080p Desktop Portrait Screenshot](/documentation/responsive/24_1080p_portrait.png)
+
+</details>
+-
+<details>
+<summary>Click here to view 34" 1440p Ultra-Wide Monitor landscape screenshot – <strong>Works as expected</strong></summary>
+
+![1440p Landscape Ultrawide Screenshot](/documentation/responsive/34_1440p_landscape.png)
+
+</details>
+-
+<details>
+<summary>Click here to Google Pixel 8 Pro Mobile Device Landscape screenshot – <strong>Works as expected</strong></summary>
+
+![Google Pixel Landscape Screenshot](/documentation/responsive/pixel_landscape.png)
+
+</details>
+-
+<details>
+<summary>Click here to Google Pixel 8 Pro Mobile Device Landscape screenshot – <strong>Works as expected</strong></summary>
+
+![Google Pixel Portrait Screenshot](/documentation/responsive/pxiel_portrait.png)
 
 </details>
 
