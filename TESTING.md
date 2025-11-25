@@ -86,9 +86,9 @@ In addition to real device testing, 'Chrome DevTools’ responsive mode was used
 </details>
 -
 <details>
-<summary>Click here to Google Pixel 8 Pro Mobile Device Landscape screenshot – <strong>Works as expected</strong></summary>
+<summary>Click here to Google Pixel 8 Pro Mobile Device Portrait screenshot – <strong>Works as expected</strong></summary>
 
-![Google Pixel Portrait Screenshot](/documentation/responsive/pxiel_portrait.png)
+![Google Pixel Portrait Screenshot](/documentation/responsive/pixel_portrait.png)
 
 </details>
 
@@ -682,11 +682,11 @@ User is able to add out of stock items to basket.
 [See issue #56 for more details.](https://github.com/TheRealMcCall/happy_tails/issues/56)
 
 
-```md
+
 ### Known Issues
 
 At the time of final testing, no critical unresolved bugs were identified.
-```
+
 ---
 
 
