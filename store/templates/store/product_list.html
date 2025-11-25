@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="container my-4">
+    <!-- Page heading shows active category name  -->
     <h1 class="mb-4">
         {% if active_category %}{{ active_category.name }}{% else %}Products{% endif %}
     </h1>
 
+    <!-- Search form for filtering products by name/keywords -->
     <form method="get" class="row g-2 mb-3" role="search">
         <div class="col-9 col-md-10">
             <input type="search" name="q" class="form-control" placeholder="Search products" value="{{ q }}">
@@ -14,8 +16,10 @@
         </div>
     </form>
 
+    <!-- Category filter pills, preserving search term if present -->
     <div class="mb-3">
         <ul class="nav nav-pills flex-wrap gap-2">
+            <!-- "All" category resets category filter -->
             <li class="nav-item">
                 <a class="nav-link {% if not active_category %}active{% endif %}"
                     href="{% url 'store:product_list' %}{% if q %}?q={{ q|urlencode }}{% endif %}"
@@ -23,6 +27,7 @@
                     All
                 </a>
             </li>
+            <!-- Individual category links -->
             {% for c in categories %}
             <li class="nav-item">
                 <a class="nav-link {% if active_category and active_category.id == c.id %}active{% endif %}"
@@ -36,12 +41,14 @@
         </ul>
     </div>
 
+    <!-- Product cards grid -->
     <div class="row g-4">
         {% for p in products %}
         <div class="col-6 col-md-4 col-lg-3">
             <div class="card product-card h-100 shadow-sm">
                 {% with photo=p.get_product_image %}
                 {% if photo %}
+                <!-- Product thumbnail image (lazy loaded for performance) -->
                 <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.alt_text|default:p.name }}"
                     loading="lazy">
                 {% endif %}
@@ -49,12 +56,14 @@
                 <div class="card-body d-flex flex-column">
                     <h2 class="card-title text-center">{{ p.name }}</h2>
 
+                    <!-- Price range label based on product variants -->
                     {% if p.price_label %}
                     <p class="text-center mb-2 fw-semibold">
                         {{ p.price_label }}
                     </p>
                     {% endif %}
 
+                    <!-- Link to full product detail page -->
                     <a href="{{ p.get_absolute_url }}" class="btn btn-primary mt-auto"
                         aria-label="View details for {{ p.name }}">
                         View
@@ -63,6 +72,7 @@
             </div>
         </div>
         {% empty %}
+        <!-- Empty state when no products match filters -->
         {% if q %}
         <p>
             No products matching "<strong>{{ q }}</strong>" were found.

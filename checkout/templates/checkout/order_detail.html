@@ -2,6 +2,7 @@
 {% block content %}
 <section class="container my-4">
 
+    <!-- Order header with link back to My Account -->
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
         <h1 class="h4 mb-0">Order #{{ order.order_number }}</h1>
         <a href="{% url 'profiles:profile' %}" aria-label="Go back to my account page" class="btn btn-secondary">Return
@@ -9,6 +10,7 @@
     </div>
 
     <div class="row g-4">
+        <!-- Ordered items table -->
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">Items</div>
@@ -29,6 +31,7 @@
                                     <div class="d-flex align-items-center gap-3">
                                         {% with photo=item.variant.product.get_product_image %}
                                         {% if photo %}
+                                        <!-- Thumbnail for ordered product -->
                                         <img src="{{ photo.image.url }}" alt="{{ item.variant.product.name }}"
                                             class="rounded" style="width:56px;height:56px;object-fit:cover;">
                                         {% endif %}
@@ -41,6 +44,7 @@
                                         </div>
                                     </div>
                                 </td>
+                                <!-- Variant details (size / colour) -->
                                 <td class="text-nowrap">
                                     {% if item.variant.size %}{{ item.variant.size }}{% endif %}
                                     {% if item.variant.size and item.variant.colour %} / {% endif %}
@@ -51,12 +55,12 @@
                             </tr>
                             {% endfor %}
                         </tbody>
-
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Order totals summary -->
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">Summary</div>

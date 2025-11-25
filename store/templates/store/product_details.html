@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <section class="container my-4 product-section text">
+    <!-- Page title and link back to product list -->
     <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
         <h1 class="mb-0">Product details</h1>
         <a class="btn btn-outline-primary" href="{% url 'store:product_list' %}" aria-label="Back to store products">
@@ -10,6 +11,7 @@
     </div>
 
     {% with photo=product.get_product_image %}
+    <!-- Product details card -->
     <div class="card shadow-sm mt-3">
         <div class="card-body">
             <h2 class="h4 mb-3">{{ product.name }}</h2>
@@ -21,15 +23,19 @@
                     {% endif %}
                 </div>
 
+                <!-- Product description, variant selector, pricing and actions -->
                 <div class="col-12 col-md-7">
                     {% if product.description %}
                     <p class="product-desc">{{ product.description }}</p>
                     {% endif %}
 
+                    <!-- Panel containing variant selection, quantity, price and add to basket -->
                     <div class="product-panel d-flex flex-wrap align-items-end gap-3 mt-3">
+                        <!-- Add to basket form -->
                         <form action="{% url 'basket:add_to_basket' %}" method="post" class="product-form">
                             {% csrf_token %}
 
+                            <!-- Variant dropdown populated from product variants -->
                             <label for="variant" class="form-label">Choose a variant</label>
                             <select name="variant" id="variant" class="form-select" required>
                                 <option value="" selected disabled>Choose a variant</option>
@@ -51,8 +57,10 @@
                                 {% endfor %}
                             </select>
 
+                            <!-- Dynamic low stock / out of stock message updated via JS -->
                             <p id="stock-warning" class="text-danger small mt-1" aria-live="polite"></p>
 
+                            <!-- Quantity and dynamic price display with add to basket button -->
                             <div class="d-flex align-items-end gap-3 flex-wrap mt-2">
                                 <div class="d-flex align-items-end gap-2">
                                     <div>
@@ -60,6 +68,7 @@
                                         <input id="qty" name="qty" type="number" min="1" value="1"
                                             class="form-control product-qty">
                                     </div>
+                                    <!-- Price display updates based on selected variant and quantity -->
                                     <p id="price-display" class="fs-4 fw-semibold mb-0">
                                         {{ product.price_label }}
                                     </p>
@@ -71,19 +80,23 @@
                             </div>
                         </form>
 
+                        <!-- Wishlist toggle only available to authenticated users -->
                         {% if user.is_authenticated %}
                         <form method="post" action="{% url 'store:wishlist_toggle' product.id %}"
                             class="d-inline-flex align-items-center ms-1 mt-2 mt-md-0 flex-shrink-0">
                             {% csrf_token %}
+                            <!-- Return user to the same page after toggling -->
                             <input type="hidden" name="next" value="{{ request.get_full_path }}">
 
                             {% if user.wishlist and product in user.wishlist.products.all %}
+                            <!-- Product is already in wishlist -->
                             <button type="submit" class="btn btn-link p-0 align-baseline"
                                 aria-label="Remove from wishlist" aria-pressed="true">
                                 <i class="fa-solid fa-heart fa-xl text-danger"></i>
                                 <span class="visually-hidden">Remove from wishlist</span>
                             </button>
                             {% else %}
+                            <!-- Product is not in wishlist yet -->
                             <button type="submit" class="btn btn-link p-0 align-baseline" aria-label="Add to wishlist"
                                 aria-pressed="false">
                                 <i class="fa-regular fa-heart fa-xl"></i>
@@ -97,9 +110,9 @@
             </div>
         </div>
     </div>
-    </div>
     {% endwith %}
 
 </section>
+<!-- JavaScript to handle stock messages and price updates for selected variant -->
 <script src="{% static 'js/product_stock.js' %}"></script>
 {% endblock %}

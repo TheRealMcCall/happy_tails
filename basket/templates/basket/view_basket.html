@@ -3,6 +3,7 @@
 {% block content %}
 <section class="container my-4">
 
+    <!-- Basket heading and optional link back to product list -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="mb-0">Basket</h1>
         {% if items %}
@@ -13,6 +14,7 @@
     </div>
 
     {% if items %}
+    <!-- Basket table showing all items, quantities and totals -->
     <div class="bg-white rounded-3 p-3 shadow-sm">
         <table class="table table-sm align-middle mt-3">
             <thead>
@@ -26,6 +28,7 @@
             <tbody>
                 {% for i in items %}
                 <tr>
+                    <!-- Product name and thumbnail -->
                     <td class="w-80 text-break">
                         <div class="d-flex align-items-center gap-2">
                             {% if i.image_url %}
@@ -34,11 +37,13 @@
                             <span>{{ i.name }}</span>
                         </div>
                     </td>
+                    <!-- Quantity controls with +/- buttons and inline form -->
                     <td class="text-center">
                         <form method="post" action="{% url 'basket:update' %}" class="m-0 d-inline">
                             {% csrf_token %}
                             <input type="hidden" name="variant_id" value="{{ i.variant_id }}">
                             <div class="input-group input-group-sm justify-content-center basket-qty-group">
+                                <!-- Decrease quantity or remove item when at 1 -->
                                 <button class="btn btn-outline-secondary text-nowrap" type="button" data-qty-btn="dec"
                                     aria-label="{% if i.qty > 1 %}Decrease quantity for {{ i.name }}{% else %}Remove {{ i.name }} from basket{% endif %}">
                                     {% if i.qty > 1 %}
@@ -48,6 +53,7 @@
                                     {% endif %}
                                 </button>
 
+                                <!-- Current quantity input, updated via JavaScript or manual edit -->
                                 <label for="qty-{{ i.variant_id }}" class="visually-hidden">
                                     Current quantity for {{ i.name }}
                                 </label>
@@ -55,6 +61,7 @@
                                     class="form-control text-center qty-input"
                                     aria-label="New quantity for {{ i.name }}">
 
+                                <!-- Increase quantity button -->
                                 <button class="btn btn-outline-secondary text-nowrap" type="button" data-qty-btn="inc"
                                     aria-label="Increase quantity for {{ i.name }}">
                                     <i class="fa-solid fa-plus"></i>
@@ -62,9 +69,11 @@
                             </div>
                         </form>
                     </td>
+                    <!-- Unit price for the variant -->
                     <td class="text-center">
                         £{{ i.unit_price|default:i.unit }}
                     </td>
+                    <!-- Line total for this basket item -->
                     <td class="text-center">
                         £{{ i.line_total|default:i.line }}
                     </td>
@@ -72,6 +81,7 @@
                 {% endfor %}
             </tbody>
             <tfoot>
+                <!-- Overall basket total -->
                 <tr>
                     <th colspan="3" class="text-start">Total</th>
                     <th class="text-center">£{{ total }}</th>
@@ -80,7 +90,7 @@
         </table>
     </div>
 
-
+    <!-- Modal used to confirm emptying the entire basket -->
     <aside class="modal fade" id="emptyBasketModal" tabindex="-1" aria-labelledby="emptyBasketLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -105,6 +115,7 @@
         </div>
     </aside>
 
+    <!-- Basket actions: empty basket and proceed to checkout -->
     <div class="row mt-3 g-2 align-items-center">
         <div class="col-12 col-md-auto">
             <button type="button" class="btn btn-danger w-100 w-md-auto" data-bs-toggle="modal"
@@ -122,6 +133,7 @@
     </div>
 
     {% else %}
+    <!-- Empty state when there are no items in the basket -->
     <div class="text-center my-5">
         <p>Your basket is empty.</p>
         <a class="btn btn-primary" href="{% url 'store:home' %}"
@@ -130,6 +142,7 @@
     </div>
     {% endif %}
 
+    <!-- JavaScript to handle quantity buttons and basket interactions -->
     <script src="{% static 'js/basket.js' %}" defer></script>
 </section>
 {% endblock %}

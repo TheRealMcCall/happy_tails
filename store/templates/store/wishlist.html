@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="container my-4">
+    <!-- Wishlist heading with link back to store home -->
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="mb-0">My Wishlist</h1>
         <a class="btn btn-outline-primary" href="{% url 'store:home' %}" aria-label="Go back to store">
@@ -9,6 +10,7 @@
     </div>
 
     {% if products %}
+    <!-- Wishlist products table -->
     <div class="table-responsive mt-3">
         <table class="table align-middle">
             <thead>
@@ -21,10 +23,12 @@
                 {% for p in products %}
                 <tr>
                     <td>
+                        <!-- Link to product detail page -->
                         <a href="{% url 'store:product_detail' p.slug %}"
                             aria-label="View details for {{ p.name }}">{{ p.name }}</a>
                     </td>
                     <td class="text-end">
+                        <!-- Remove product from wishlist and return to this page -->
                         <form method="post" action="{% url 'store:wishlist_toggle' p.id %}" class="d-inline">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{% url 'store:wishlist' %}">
@@ -37,6 +41,7 @@
         </table>
     </div>
     {% else %}
+    <!-- Empty state when wishlist has no products -->
     <p class="mt-3">Your wishlist is empty.</p>
     <a class="btn btn-primary" href="{% url 'store:product_list' %}" aria-label="Browse products">
         Browse products

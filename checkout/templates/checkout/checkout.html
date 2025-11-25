@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="container my-4">
+    <!-- Checkout heading -->
     <h1>Checkout</h1>
 
     {% if items %}
+    <!-- Order summary table showing items, quantities and totals -->
     <table class="table align-middle mt-3">
         <thead>
             <tr>
@@ -24,16 +26,19 @@
             {% endfor %}
         </tbody>
         <tfoot>
+            <!-- Subtotal of all basket lines -->
             <tr>
                 <th colspan="3" class="text-end">Subtotal</th>
                 <th class="text-end">£{{ sub_total|default:total }}</th>
             </tr>
+            <!-- Delivery cost and free delivery flag -->
             <tr>
                 <th colspan="3" class="text-end">
                     Delivery{% if delivery == 0 and free_delivery_threshold %} (Free){% endif %}
                 </th>
                 <th class="text-end">£{{ delivery|default:"0.00" }}</th>
             </tr>
+            <!-- Final total including delivery -->
             <tr class="border-top">
                 <th colspan="3" class="text-end">Total</th>
                 <th class="text-end">£{{ total }}</th>
@@ -41,6 +46,7 @@
         </tfoot>
     </table>
 
+    <!-- Addresses section heading with info button -->
     <div class="d-flex justify-content-between align-items-center mt-4">
         <div class="d-flex align-items-center">
             <h2 class="mb-0 me-2">Addresses</h2>
@@ -52,8 +58,10 @@
     </div>
 
     {% if addresses %}
+    <!-- Checkout form with billing and delivery address selection -->
     <form method="post" action="{% url 'checkout:create' %}">{% csrf_token %}
         <div class="row g-3">
+            <!-- Billing address select, defaulting to user's billing_default if set -->
             <div class="col-md-6">
                 <label class="form-label">Billing address</label>
                 <select class="form-select" name="billing_address_id" required>
@@ -69,6 +77,7 @@
                     {% endfor %}
                 </select>
             </div>
+            <!-- Delivery address select, defaulting to user's delivery_default if set -->
             <div class="col-md-6">
                 <label class="form-label">Delivery address</label>
                 <select class="form-select" name="delivery_address_id" required>
@@ -86,6 +95,7 @@
             </div>
         </div>
 
+        <!-- Shortcut to add a new address in the profile section -->
         <div class="text-center mt-3">
             <a class="btn btn-primary btn-sm" href="{% url 'profiles:address_add' %}"
                 aria-label="Add a new address in My Account">
@@ -93,8 +103,9 @@
             </a>
         </div>
 
+        <!-- Navigation: back to basket or place order (creates Stripe session) -->
         <div class="d-flex justify-content-between mt-3">
-            <a class="btn btn-outline-secondary" href="{% url 'basket:view_basket' %}"
+            <a class="btn btn-secondary" href="{% url 'basket:view_basket' %}"
                 aria-label="Go back to your basket">
                 Back to Basket
             </a>
@@ -102,6 +113,7 @@
         </div>
     </form>
     {% else %}
+    <!-- Message shown when user has no saved addresses -->
     <div class="alert alert-info mt-3">
         You don’t have any saved addresses yet.
     </div>
@@ -116,9 +128,11 @@
     {% endif %}
 
     {% else %}
+    <!-- Fallback if checkout is visited with an empty basket -->
     <p>Your basket is empty.</p>
     {% endif %}
 
+    <!-- Info modal explaining billing vs delivery addresses -->
     <aside class="modal fade" id="addressInfoModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true"
         aria-labelledby="addressInfoModalLabel">
         <div class="modal-dialog modal-dialog-centered">

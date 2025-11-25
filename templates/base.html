@@ -6,29 +6,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- SEO metadata -->
     <meta name="description" content="Happy Tails Pet Supplies, providers of pet food & accessories to the uk">
     <meta name="keywords" content="happy tails pet supplies, happy tails, pet, pet supplies, pet toys, pet food">
     <meta name="author" content="Luke McCall">
 
+    <!-- Base Page title  -->
     <title>{% block title %}Happy Tails Pet Supplies{% endblock %}</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
+    <!-- Stylsheet CSS and favicon -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}">
 
+    <!-- Poppins Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+    <!-- Global site header and navigation -->
     {% include "includes/header.html" %}
 
     {% if not user.is_authenticated %}
+    <!-- Registration benefits bar shown only to guests -->
     <aside id="register-bar" class="bg-black text-white register-bar" aria-label="Registration benefits">
         <div class="container-fluid d-flex align-items-center gap-2 py-1">
+
+            <!-- Rotating carousel of registration benefits -->
             <div id="benefitsCarousel" class="carousel carousel-fade slide flex-grow-1" data-bs-ride="carousel"
                 data-bs-interval="2600">
                 <div class="carousel-inner small">
@@ -65,6 +74,7 @@
                     </div>
                 </div>
 
+                <!-- Carousel controls -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#benefitsCarousel"
                     data-bs-slide="prev" aria-label="Show previous benefit">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -75,12 +85,14 @@
                 </button>
             </div>
 
+            <!-- "More info" button on desktop -->
             <button class="btn btn-outline-light btn-sm d-none d-md-inline-flex" data-bs-toggle="modal"
                 data-bs-target="#registerMoreInfo" aria-label="Show more information about account benefits">
                 More info
             </button>
         </div>
 
+        <!-- "More info" button for small screens -->
         <div class="container-fluid d-md-none text-center py-1">
             <button class="btn btn-link btn-sm text-white text-decoration-underline p-0" data-bs-toggle="modal"
                 data-bs-target="#registerMoreInfo" aria-label="Show more information about account benefits">
@@ -90,6 +102,7 @@
     </aside>
     {% endif %}
 
+    <!-- Modal explaining benefits of creating an account -->
     <aside class="modal fade" id="registerMoreInfo" tabindex="-1" aria-hidden="true" aria-modal="true"
         aria-labelledby="registerMoreInfoTitle">
         <div class="modal-dialog modal-dialog-centered">
@@ -111,6 +124,7 @@
         </div>
     </aside>
 
+    <!-- Django messages area for status and error feedback -->
     <aside id="messages" class="position-fixed end-0 message-container" aria-live="polite" aria-atomic="true">
         {% if messages %}
         <div class="message-container">
@@ -128,15 +142,23 @@
         {% endif %}
     </aside>
 
+    <!-- Main page content completed by child templates -->
     <main class="flex-fill">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Global site footer -->
     {% include "includes/footer.html" %}
 
+    <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
     </script>
+
+    <!-- Base JavaScript -->
     <script src="{% static 'js/base.js' %}"></script>
+
+    <!-- Font Awesome integration -->
     <script src="https://kit.fontawesome.com/b09dac8112.js" crossorigin="anonymous"></script>
 </body>
 
