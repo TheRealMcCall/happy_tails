@@ -362,3 +362,9 @@ footer {
         text-align: center;
     }
 }
+
+.order-item-thumbnail {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+}
