@@ -40,6 +40,10 @@ main .form-container p a {
     color: #ffffff;
 }
 
+.nav-pills .nav-link:hover {
+    text-decoration: underline;
+}
+
 .navbar-menu {
     background-color: lightblue;
 }
