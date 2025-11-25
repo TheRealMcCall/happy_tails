@@ -390,8 +390,6 @@ Coverage was measured using the `coverage` package:
 - **Overall coverage:** 64%  
 - **Applications covered:** `store`, `basket`, `checkout`, `profiles`
 
-<details>
-<summary><strong>Click Here</strong> to view screenshots for the coverage reports</summary>
 
 **Terminal coverage summary**
 
@@ -400,7 +398,6 @@ Coverage was measured using the `coverage` package:
 **HTML coverage index**
 
 ![HTML Coverage Report](/documentation/testing/coverage_html.png)
-</details>
 
 ### Test Summary
 
