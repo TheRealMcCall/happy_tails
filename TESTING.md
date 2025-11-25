@@ -90,6 +90,8 @@ Nav Items were tested logged in as an admin and as a shopper account in order to
 | Products management link         | Click  | Navigates to the product management page  | Works as expected   |
 | Nav links hover state            | Hover  | contrast change and underline             | Works as expected   |
 
+---
+
 ### Global Navigation (Hamburger menu)
 
 | Feature                          | Action | Expected Result                           | Works?              |
@@ -105,6 +107,8 @@ Nav Items were tested logged in as an admin and as a shopper account in order to
 | Basket icon + badge              | Click  | Navigates to the basket page              | Works as expected   |
 | Products management link         | Click  | Navigates to the product management page  | Works as expected   |
 
+---
+
 ### Global Navigation (Footer)
 
 | Feature                             | Action    | Expected Result                      | Works?              |
@@ -115,30 +119,53 @@ Nav Items were tested logged in as an admin and as a shopper account in order to
 | Newsletter Subscription             | Subscribe | Confirms subscription (mailchimp)    | Works as expected   |
 | Icons and links hover state         | Hover     | contrast change and underline        | Works as expected   |
 
+---
 
 ### Home Page
 
-| Feature           | Action    | Expected Result                       | Works?              |
-|-------------------|-----------|---------------------------------------|---------------------|
-| Introduction Text | View      | Clear site intro                      | Works as expected   |
+| Feature                  | Action                       | Expected Result                                                                         | Works?              |
+|--------------------------|------------------------------|-----------------------------------------------------------------------------------------|---------------------|
+| Introduction text        | View                         | Clear explanation of site purpose and value                                             | Works as expected   |
+| “Shop now” buttons       | Click                        | Navigates to products list page                                                         | Works as expected   |
+| Auth CTAs (logged out)   | Click Create account / Login | Navigate to Allauth signup or login pages                                               | Works as expected   |
+| Auth CTAs (logged in)    | Click My account / My orders | Navigate to My Account page / My Orders page                                            | Works as expected   |
+| Register benefits bar    | View                         | Carousel rotates through key account benefits for anonymous users                       | Works as expected   |
+| Register “More info”     | Click                        | Modal opens with information about account benefits and can be closed with close button | Works as expected   |
+| Nav link / buttons       | Hover                        | Contrast change on hover                                                                | Works as expected   |        
+
+---
 
 ### Login Page
 
-| Feature         | Action              | Expected Result                                      | Works?             |
-|-----------------|---------------------|------------------------------------------------------|---------------------|
-| Login form      | View                | Form is visible with username/email and password fields | Works as expected   |
+| Feature           | Action                                | Expected Result                                                             | Works?              |
+|-------------------|---------------------------------------|-----------------------------------------------------------------------------|---------------------|
+| Login form view   | View                                  | Form shows email/username and password fields                               | Works as expected   |
+| Valid login       | Enter valid credentials + submit      | User is logged in and redirected to the appropriate page                    | Works as expected   |
+| Invalid login     | Enter wrong credentials + submit      | Error message is displayed; user remains on login form                      | Works as expected   |
+| Create account link| Click                                | Navigates to registration page                                              | Works as expected   |
+| Nav link / buttons| Hover                                 | Contrast change on hover                                                    | Works as expected   |     
+
+---
 
 ### Logout Page
 
-| Feature                    | Action     | Expected Result                                        | Works?              |
-|----------------------------|------------|--------------------------------------------------------|---------------------|
+| Feature           | Action          | Expected Result                                       | Works?              |
+|-------------------|-----------------|-------------------------------------------------------|---------------------|
+| Logout confirmation | Click Logout  | User is logged out and redirected (e.g. home page)    | Works as expected   |
+| Auth links        | View            | Login / Register links appear instead of My Account   | Works as expected   |
+
+---
 
 ### Register Page
 
-| Feature             | Action                  | Expected Result                                         | Works?             |
-|---------------------|-------------------------|---------------------------------------------------------|---------------------|
-| Register form       | View                    | Form with required fields (username, email, password) is visible | Works as expected   |
+| Feature             | Action                                | Expected Result                                                                 | Works?              |
+|---------------------|---------------------------------------|---------------------------------------------------------------------------------|---------------------|
+| Register form view  | View                                  | Form shows required fields (email, username if used, password, confirmation)   | Works as expected   |
+| Valid registration  | Enter valid data + submit             | Account is created and user is either logged in or prompted to verify email    | Works as expected   |
+| Missing data        | Submit with required fields empty     | Validation errors shown next to missing/invalid fields                          | Works as expected   |
+| “Already have an account?” link| Click                      | Navigates to login page                                                         | Works as expected   |
 
+---
 
 ### Products Page
 
