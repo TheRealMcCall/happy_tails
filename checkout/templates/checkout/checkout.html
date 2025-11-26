@@ -55,6 +55,10 @@
                 Info
             </button>
         </div>
+        <a class="btn btn-primary btn-sm" href="{% url 'profiles:address_add' %}"
+            aria-label="Add a new address in My Account">
+            Add a new address
+        </a>
     </div>
 
     {% if addresses %}
@@ -104,12 +108,8 @@
 
         <!-- Shortcut to add a new address in the profile section -->
         <div class="text-center mt-3">
-            <a class="btn btn-primary btn-sm" href="{% url 'profiles:address_add' %}"
-                aria-label="Add a new address in My Account">
-                Add a new address
-            </a>
-        </div>
 
+        </div>
         <!-- Navigation: back to basket or place order (creates Stripe session) -->
         <div class="d-flex justify-content-between mt-3">
             <a class="btn btn-secondary" href="{% url 'basket:view_basket' %}" aria-label="Go back to your basket">
